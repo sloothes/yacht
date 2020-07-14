@@ -210,13 +210,14 @@
 
 			})( renderer,camera,scene,cameraLight );
 
-			(function( scene,water ){
+			const watermirror = (function( scene,water ){
 				var material = water.material;
 				var geometry = new THREE.PlaneBufferGeometry(100000, 100000, 1000, 1000);
 				var mirror = new THREE.Mesh( geometry, material );
 				mirror.add(water);
 				mirror.rotation.x = - Math.PI * 0.5;
 				mirror.position.y = -0.01;
+				mirror.name = "water mirror";
 				scene.add(mirror);
 
 				var clock = new THREE.Clock();
@@ -227,13 +228,18 @@
 					water.render();
 				})();
 
+				return mirror;
+
 			})( scene, water );
 
 		</script>
 
 		<script>
 
+		//	editor.
 
+			entities.add(skydome);
+			entities.add(watermirror);
 
 
 
