@@ -32,7 +32,7 @@
 
 	function getTextureByEntityId( value ){
 
-		var entity_droplist = document.querySelector("select#texture-entities-droplist");
+		var entity_droplist = document.querySelector("select#textures-entities-droplist");
 
 		if ( arguments.length ) 
 			var id = parseInt( value );

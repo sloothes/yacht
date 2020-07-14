@@ -1,6 +1,6 @@
 
 //	Material Tab.
-
+/*
 	TabUI.add( "Material", "material-tab" );
 	TabUI.append("Material");
 
@@ -651,8 +651,6 @@
 
 	})( TabUI.Material.tab );
 
-//	===================================================================================================================  //
-
 	(function( tab ){
 
 	//	Material Type droplist.
@@ -752,7 +750,7 @@
 		tab.appendChild( row );
 
 	})( TabUI.Material.tab );
-
+*/
 
 	(function(){
 
