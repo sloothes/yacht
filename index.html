@@ -111,7 +111,6 @@
 		<script src="/three/Ocean_fft.js"></script>
 		<script src="/three/MirrorRenderer.js"></script>
 		<script src="/three/WaterMaterial.js"></script>
-
 		<script src="/ecs/engine/core/helpers.js"></script>
 		<script src="/ecs/engine/core/keyboard.js"></script>
 		<script src="/ecs/engine/core/enviroment.js"></script>
@@ -134,21 +133,48 @@
 
 		<script>
 
+		//	Background.
+
+			(function(scene){
+
+				if (!scene || Number(THREE.REVISION) < 78) return;
+
+				var urls = [
+					"https://i.imgur.com/v6bjQLb.jpg", // "posx.jpg",
+					"https://i.imgur.com/lwrlr6P.jpg", // "negx.jpg", 
+					"https://i.imgur.com/kKUKBJg.jpg", // "posy.jpg", 
+					"https://i.imgur.com/N0oZlJR.jpg", // "negy.jpg", 
+					"https://i.imgur.com/x9q8z0K.jpg", // "posz.jpg", 
+					"https://i.imgur.com/HYcK7Ii.jpg", // "negz.jpg"
+				];
+
+				var loader = new THREE.CubeTextureLoader();
+				loader.setCrossOrigin( "anonymous" );
+				loader.load( urls, function(texture){
+					scene.background = texture;
+					scene.background.needsUpdate = true;
+				});
+
+			})(scene);
+
+		</script>
+
+		<script>
+
 		//  Skydome.
 
-			(function(){
+			const skydome = (function(scene){
 				var loader = new THREE.TextureLoader();
-				skydomeGmt = new THREE.SphereGeometry( 2000, 64, 32 );
-				skydomeTxr = loader.load( "/tradecenter/textures/skydome-home.jpg" );
-				skydomeMtl = new THREE.MeshBasicMaterial({
-					map: skydomeTxr,
-					side: THREE.DoubleSide
-				});
-				skydome = new THREE.Mesh( skydomeGmt, skydomeMtl );
-				skydome.scale.y = 0.5;
-				skydome.name = "SKYDOME";
-				scene.add(skydome);
-			})();
+				loader.setCrossOrigin( "anonymous" );
+				var geometry = new THREE.SphereGeometry( 2000, 64, 32 );
+				var texture = loader.load( "/tradecenter/textures/skydome-home.jpg" );
+				var material = new THREE.MeshBasicMaterial({map:texture, side:2});
+				var dome = new THREE.Mesh( geometry, material );
+				dome.scale.y = 0.5;
+				dome.name = "SKYDOME";
+				scene.add(dome);
+				return dome;
+			})(scene);
 
 		</script>
 
@@ -156,46 +182,48 @@
 
 		//  Water.
 
-			(function(){
+			const water = (function(renderer,camera,scene,light){
+
 				var waterNormals = loadTexture("/tradecenter/textures/waternormals.jpg");
 				waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
-			//  Create the water effect.
-				water = new THREE.Water(renderer, camera, scene, {
-					textureWidth: 256,
-					textureHeight: 256,
-					waterNormals: waterNormals,
-					alpha: 1.0,
-					sunDirection: sunLight.position.normalize(),
-					sunColor: 0xffffff,
-					waterColor: 0x001e0f,
-					betaVersion: 0,
-					side: THREE.DoubleSide
+
+			//  the water effect.
+				return new THREE.Water(renderer, camera, scene, {
+					textureWidth:256,  textureHeight:256,
+					waterNormals:waterNormals, alpha:1.0,
+					sunDirection:light.position.normalize(),
+					sunColor:0xffffff,  waterColor:0x001e0f,
+					betaVersion:0, side:2,
 				});
 
-				mirror = new THREE.Mesh(
-					new THREE.PlaneBufferGeometry(100000, 100000, 1000, 1000), 
-					water.material
-				);
+				function loadTexture( url, mapping) {
+					var loader = new THREE.TextureLoader();
+					loader.setCrossOrigin( "anonymous" );
+					var texture = loader.load( url );
+					if ( mapping ) texture.mapping = mapping;
+					return texture;
+				}
 
+			})( renderer,camera,scene,cameraLight );
+
+			(function( scene,water ){
+				var material = water.material;
+				var geometry = new THREE.PlaneBufferGeometry(100000, 100000, 1000, 1000);
+				var mirror = new THREE.Mesh( geometry, material );
 				mirror.add(water);
 				mirror.rotation.x = - Math.PI * 0.5;
-				mirror.position.y = -2;
+				mirror.position.y = -0.01;
 				scene.add(mirror);
 
-			})();
+				var clock = new THREE.Clock();
+				(function render(){
+					var dt = clock.getDelta();
+					requestFrameID = requestAnimationFrame( render );
+					water.material.uniforms.time.value += Math.max(dt, 1/60);
+					water.render();
+				})();
 
-			function loadTexture( url, mapping, onLoad, onError ) {
-				//  console.warn( "THREE.ImageUtils.loadTexture has been deprecated. 
-				//  Use THREE.TextureLoader() instead." );
-				function onLoad(txr){}
-				function onProgress(xhr){}
-				function onError(err){}
-				var loader = new THREE.TextureLoader();
-				loader.setCrossOrigin( undefined );
-				var texture = loader.load( url, onLoad, onProgress, onError );
-				if ( mapping ) texture.mapping = mapping;
-				return texture;
-			}
+			})( scene, water );
 
 		</script>
 
