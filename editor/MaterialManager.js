@@ -66,7 +66,7 @@
 				var selector = "select#material-entities-droplist";
 				var material_droplist = document.querySelector(selector);
 
-				if ( !material_droplist ) return;
+				if ( !material_droplist ) return; // throw selector+" droplist not found!";
 
 			//	Add options.
 				while ( materials.length ) (function( material ){
@@ -104,7 +104,7 @@
 					material_droplist.appendChild( option );
 				})( materials.shift() );
 
-			} catch(err){ console.warn( selector, "did not found!" ); }
+			} catch(err){ console.warn( err ); }
 
 		})();
 
@@ -163,7 +163,7 @@
 				var selector = "select#material-entities-droplist";
 				var material_droplist = document.querySelector(selector);
 
-				if ( !material_droplist ) return;
+				if ( !material_droplist ) return; // throw selector+" droplist not found!";
 
 			//	Remove options.
 				while ( remove_ids.length ) (function( id ){
@@ -172,7 +172,7 @@
 					option && option.remove();
 				})( remove_ids.shift() );
 
-			} catch(err){ console.warn( selector, "did not found!" ); }
+			} catch(err){ console.warn( err ); }
 
 		})();
 
