@@ -128,10 +128,12 @@
 
 		<script>
 
-			localPlayer.controller.movementSpeed = 40;
-			groundHelper.visible = !groundHelper.visible;
 			TabUI.Editor.role.classList.add("active");
 			TabUI.Editor.tab.classList.add("in","active");
+
+			localPlayer.controller.movementSpeed = 40;
+			groundHelper.visible = !groundHelper.visible; 
+			entities.add(groundHelper);
 
 		</script>
 
@@ -244,7 +246,6 @@
 		<script>
 
 		//	entities.
-			entities.add(groundHelper);
 
 		</script>
 
