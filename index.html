@@ -139,7 +139,7 @@
 
 		//	Background.
 
-			(function(scene){
+			(function(scene,texture_entities){
 
 				if (!scene || Number(THREE.REVISION) < 78) return;
 
@@ -157,9 +157,10 @@
 				loader.load( urls, function(texture){
 					scene.background = texture;
 					scene.background.needsUpdate = true;
+					texture_entities && texture_entities.add(texture);
 				});
 
-			})(scene);
+			})( scene, texture_entities );
 
 		</script>
 
@@ -167,18 +168,22 @@
 
 		//  Skydome.
 
-			const skydome = (function(scene){
+			const skydome = (function(scene,entities,material_entities,texture_entities){
 				var loader = new THREE.TextureLoader();
 				loader.setCrossOrigin( "anonymous" );
 				var geometry = new THREE.SphereGeometry( 2000, 64, 32 );
 				var texture = loader.load( "https://i.imgur.com/xQsNP0X.jpg" );
+				texture_entities && texture_entities.add(texture);
 				var material = new THREE.MeshBasicMaterial({map:texture, side:2});
+				material_entities && material_entities.add(material);
 				var dome = new THREE.Mesh( geometry, material );
 				dome.scale.set(0.10,0.08,0.10);
+				entities && entities.add(dome);
 				dome.name = "SKYDOME";
 				scene.add(dome);
 				return dome;
-			})(scene);
+
+			})(scene, entities, material_entities, texture_entities);
 
 		</script>
 
@@ -186,10 +191,11 @@
 
 		//  Water.
 
-			const water = (function(renderer,camera,scene,light){
+			const water = (function(renderer,camera,scene,light,texture_entities){
 
 				var waterNormals = loadTexture("/tradecenter/textures/waternormals.jpg");
 				waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
+				texture_entities && texture_entities.add(waterNormals);
 
 			//  the water effect.
 				return new THREE.Water(renderer, camera, scene, {
@@ -208,16 +214,17 @@
 					return texture;
 				}
 
-			})( renderer,camera,scene,cameraLight );
+			})( renderer, camera, scene, cameraLight, texture_entities );
 
-			const watermirror = (function( scene,water ){
-				var material = water.material;
-				var geometry = new THREE.PlaneBufferGeometry(100000, 100000, 1000, 1000);
+			const watermirror = (function( scene,water,material_entities,entities ){
+
+				material_entities && material_entities.add(water.material);
+				var material = water.material; entities && entities.add(water); 
+				var geometry = new THREE.PlaneBufferGeometry(10000, 10000, 100, 100);
 				var mirror = new THREE.Mesh( geometry, material );
-				mirror.add(water);
-				mirror.rotation.x = - Math.PI * 0.5;
+				mirror.add(water); mirror.name = "water mirror";
+				mirror.rotation.x = -Math.PI/2;
 				mirror.position.y = -0.01;
-				mirror.name = "water mirror";
 				scene.add(mirror);
 
 				var clock = new THREE.Clock();
@@ -230,21 +237,14 @@
 
 				return mirror;
 
-			})( scene, water );
+			})( scene, water, material_entities, entities );
 
 		</script>
 
 		<script>
 
 		//	entities.
-			entities.add(water);
-			entities.add(skydome);
 			entities.add(groundHelper);
-			material_entities.add(water.material);
-			material_entities.add(skydome.material);
-			texture_entities.add(scene.background);
-			texture_entities.add(skydome.material.map);
-
 
 		</script>
 
