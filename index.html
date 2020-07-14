@@ -144,7 +144,7 @@
 
 		//	Background.
 
-			(function(scene,texture_entities){
+			(function(scene,textures_entities){
 
 				if (!scene || Number(THREE.REVISION) < 78) return;
 
@@ -162,10 +162,10 @@
 				loader.load( urls, function(texture){
 					scene.background = texture;
 					scene.background.needsUpdate = true;
-					texture_entities && texture_entities.add(texture);
+					textures_entities && textures_entities.add(texture);
 				});
 
-			})( scene, texture_entities );
+			})( scene, textures_entities );
 
 		</script>
 
@@ -173,7 +173,7 @@
 
 		//  Skydome.
 
-			const skydome = (function(scene,entities,material_entities,texture_entities){
+			const skydome = (function(scene,entities,material_entities,textures_entities){
 
 				var loader = new THREE.TextureLoader();
 				loader.setCrossOrigin( "anonymous" );
@@ -186,11 +186,11 @@
 				var dome = new THREE.Mesh( geometry, material );
 				dome.scale.set(0.10,0.08,0.10); dome.name = "SKYDOME";
 				scene.add(dome); entities && entities.add(dome);
-				texture_entities && texture_entities.add(texture);
+				textures_entities && textures_entities.add(texture);
 				material_entities && material_entities.add(material);
 				return dome;
 
-			})(scene, entities, material_entities, texture_entities);
+			})(scene, entities, material_entities, textures_entities);
 
 		</script>
 
@@ -198,11 +198,11 @@
 
 		//  Water.
 
-			const water = (function(renderer,camera,scene,light,texture_entities){
+			const water = (function(renderer,camera,scene,light,textures_entities){
 
 				var waterNormals = loadTexture("/tradecenter/textures/waternormals.jpg");
 				waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
-				texture_entities && texture_entities.add(waterNormals);
+				textures_entities && textures_entities.add(waterNormals);
 
 			//  the water effect.
 				return new THREE.Water(renderer, camera, scene, {
@@ -221,7 +221,7 @@
 					return texture;
 				}
 
-			})( renderer, camera, scene, cameraLight, texture_entities );
+			})( renderer, camera, scene, cameraLight, textures_entities );
 
 			const watermirror = (function( scene,water,material_entities,entities ){
 
