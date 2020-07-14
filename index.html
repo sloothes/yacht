@@ -128,7 +128,7 @@
 
 		<script>
 
-			localPlayer.controller.movementSpeed = 45;
+			localPlayer.controller.movementSpeed = 40;
 			groundHelper.visible = !groundHelper.visible;
 			TabUI.Editor.role.classList.add("active");
 			TabUI.Editor.tab.classList.add("in","active");
@@ -236,9 +236,15 @@
 
 		<script>
 
-		//	editor.
-
+		//	entities.
+			entities.add(water);
 			entities.add(skydome);
+			entities.add(groundHelper);
+			material_entities.add(water.material);
+			material_entities.add(skydome.material);
+			texture_entities.add(scene.background);
+			texture_entities.add(skydome.material.map);
+
 
 		</script>
 
