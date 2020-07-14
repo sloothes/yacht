@@ -712,7 +712,7 @@
 				helper.name = object.name + ":edgeshelper";
 
 				scene.add( helper );
-				entities.add( helper );
+			//	entities.add( helper );
 				edgeshelper = helper;
 			}
 
