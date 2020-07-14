@@ -261,14 +261,14 @@
 				var mesh = new THREE.Mesh(geometry, material);
 				mesh.name = "water path octree";
 				mesh.position.set(x,y,z);
-				octree.importThreeMesh( mesh );
 			//	var geometry = new THREE.EdgesGeometry( geometry );
 			//	var segments = new THREE.LineSegments( geometry, material );
 			//	segments.name = "water path edges";
 			//	segments.position.copy( mesh.position );
 				scene.add( mesh );
 				entities && entities.add( mesh )
-				cameraControls.rigidObjects.push( mesh );
+			//	octree.importThreeMesh( mesh );
+			//	cameraControls.rigidObjects.push( mesh );
 			//	return mesh;
 			})( scene, octree, cameraControls, entities );
 
@@ -286,14 +286,14 @@
 				var mesh = new THREE.Mesh(geometry, material);
 				mesh.name = "deck 0";
 				mesh.position.set(x,y,z);
-				octree.importThreeMesh( mesh );
 			//	var geometry = new THREE.EdgesGeometry( geometry );
 			//	var segments = new THREE.LineSegments( geometry, material );
 			//	segments.name = "water path edges";
 			//	segments.position.copy( mesh.position );
 				scene.add( mesh );
 				entities && entities.add( mesh )
-				cameraControls.rigidObjects.push( mesh );
+			//	octree.importThreeMesh( mesh );
+			//	cameraControls.rigidObjects.push( mesh );
 			//	return mesh;
 			})( scene, octree, cameraControls, entities );
 
@@ -305,14 +305,14 @@
 				var mesh = new THREE.Mesh(geometry, material);
 				mesh.name = "deck 0 floor";
 				mesh.position.set(x,y,z);
-				octree.importThreeMesh( mesh );
 			//	var geometry = new THREE.EdgesGeometry( geometry );
 			//	var segments = new THREE.LineSegments( geometry, material );
 			//	segments.name = "water path edges";
 			//	segments.position.copy( mesh.position );
 				scene.add( mesh );
 				entities && entities.add( mesh )
-				cameraControls.rigidObjects.push( mesh );
+			//	octree.importThreeMesh( mesh );
+			..	cameraControls.rigidObjects.push( mesh );
 			//	return mesh;
 			})( scene, octree, cameraControls, entities );
 
