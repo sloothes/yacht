@@ -1,4 +1,3 @@
-
 //	Material Tab.
 /*
 	TabUI.add( "Material", "material-tab" );

@@ -1,6 +1,5 @@
-
 //	Textures tab.
-
+/*
 	TabUI.add( "Texture", "texture-tab" );
 	TabUI.append( "Texture" );
 
@@ -534,7 +533,7 @@
 		tab.appendChild( row );
 
 	})( TabUI.Texture.tab );
-
+*/
 
 //  =====================================================================================  //
 

@@ -1,6 +1,5 @@
-
 //	Editor tab.
-
+/*
 	TabUI.add( "Editor", "editor-tab" );
 	TabUI.append("Editor");
 
@@ -321,71 +320,6 @@
 
 	})( TabUI.Editor.tab );
 
-//  =============================================================================== //
-/*
-	(function( tab ){
-
-	//	New plane geometry button.
-	//	Creates a mesh plane 1x1 (m2),
-	//	and switch to EditMode.
-	//	var tab = TabUI.Editor.tab;
-
-		var row = document.createElement("h3");
-		row.style.cssText = "height:40px;margin-bottom:20px;"
-
-		var button = document.createElement("div");
-		button.id = "new-plane-geometry";
-		button.textContent = "Create Plane Geometry";
-		button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
-		button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
-
-		row.appendChild( button );
-	//	tab.appendChild( row );
-
-	})( TabUI.Editor.tab );
-
-	(function( tab ){
-
-	//	New box geometry button.
-	//	Creates a mesh box 1x1 (m3),
-	//	and switch to EditMode.
-	//	var tab = TabUI.Editor.tab;
-
-		var row = document.createElement("h3");
-		row.style.cssText = "height:40px;margin-bottom:20px;"
-
-		var button = document.createElement("div");
-		button.id = "new-box-geometry";
-		button.textContent = "Create Box Geometry";
-		button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
-		button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
-
-		row.appendChild( button );
-	//	tab.appendChild( row );
-
-	})( TabUI.Editor.tab );
-
-	(function( tab ){
-
-	//	Add to world octree button.
-	//	var tab = TabUI.Editor.tab;
-
-		var row = document.createElement("h3");
-		row.style.cssText = "height:40px;margin-bottom:20px;"
-
-		var button = document.createElement("div");
-		button.id = "add-world-octree";
-		button.textContent = "Add to World Octree";
-		button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
-		button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
-
-		row.appendChild( button );
-	//	tab.appendChild( row );
-
-	})( TabUI.Editor.tab );
-*/
-//  =============================================================================== //
-
 	(function( tab ){
 
 	//	Create geometry button.
@@ -447,7 +381,7 @@
 		tab.appendChild( row );
 
 	})( TabUI.Editor.tab );
-
+*/
 //  =============================================================================== //
 
 //	object3DEditor.js
