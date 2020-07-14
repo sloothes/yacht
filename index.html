@@ -174,7 +174,7 @@
 				var texture = loader.load( "https://i.imgur.com/xQsNP0X.jpg" );
 				var material = new THREE.MeshBasicMaterial({map:texture, side:2});
 				var dome = new THREE.Mesh( geometry, material );
-				dome.scale.y = 0.7;
+				dome.scale.set(10,8,10);
 				dome.name = "SKYDOME";
 				scene.add(dome);
 				return dome;
