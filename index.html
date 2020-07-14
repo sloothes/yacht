@@ -136,7 +136,45 @@
 
 		<script>
 
+		//	camera-tab-ui.js
 
+			TabUI.add( "Camera", "camera-tab" );
+			TabUI.append( "Camera" );
+
+			(function( tab ){
+			//	Add to camera rigid objects.
+			//	var tab = TabUI.Geometry.tab;
+
+				var row = document.createElement("h3");
+				row.style.cssText = "height:40px;margin-bottom:20px;"
+				var button = document.createElement("div");
+				button.id = "camera-rigid-add-button";
+				button.textContent = "Add rigid object";
+				button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
+				button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
+				row.appendChild( button );
+				tab.appendChild( row );
+
+			})( TabUI.Geometry.tab );
+
+			(function( tab ){
+			//	Remove from camera rigid objects.
+			//	var tab = TabUI.MeshWorld.tab;
+				var row = document.createElement("h3");
+				row.style.cssText = "height:40px;margin-bottom:20px;"
+				var button = document.createElement("div");
+				button.id = "camera-rigid-remove-button";
+				button.textContent = "Remove rigid object";
+				button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
+				button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
+				row.appendChild( button );
+				tab.appendChild( row );
+
+			})( TabUI.Geometry.tab );
+
+		</script>
+
+		<script>
 
 
 
