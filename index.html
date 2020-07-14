@@ -247,7 +247,26 @@
 
 		<script>
 
-		//	entities.
+		//	Water path.
+
+			(function(scene,octree,cameraControls,entities){
+				var w=2.5, h=0.5, d=20, x = 100, y=h/2, z=0;
+				var geometry = new THREE.BoxGeometry(w,h,d);
+				geometry.translate(0, h/2, 0);
+				var material = new THREE.MeshLambertMaterial();
+				var mesh = new THREE.Mesh(geometry, material);
+				mesh.name = "water path octree";
+				mesh.position.set(x,y,z);
+				octree.importThreeMesh( mesh );
+			//	var geometry = new THREE.EdgesGeometry( geometry );
+			//	var segments = new THREE.LineSegments( geometry, material );
+			//	segments.name = "water path edges";
+			//	segments.position.copy( mesh.position );
+				scene.add( mesh );
+				entities && entities.add( mesh )
+				cameraControls.rigidObjects.push( mesh );
+			//	return mesh;
+			})( scene, octree, cameraControls, entities );
 
 		</script>
 
