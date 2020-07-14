@@ -120,21 +120,22 @@
 		<script src="/ecs/engine/core/keyInputControls.js"></script>
 		<script src="/ecs/engine/core/joystickControls.js"></script>
 		<script src="/ecs/engine/core/EntityManager.js"></script>
-		<script	src="/ecs/engine/core/MaterialManager.js"></script>
-		<script	src="/ecs/engine/core/TexturesManager.js"></script>
-		<script src="/ecs/engine/core/UndoArray.js"></script>
-		<script src="/ecs/engine/editor/helpers.js"></script>
 
-		<script src="/ecs/engine/editor/EditorTab.js"></script>
-		<script src="/ecs/engine/editor/MaterialTab.js"></script>
-		<script src="/ecs/engine/editor/TextureTab.js"></script>
+		<script src="/yatch/editor/MaterialManager.js"></script>
+		<script src="/yatch/editor/TexturesManager.js"></script>
+
+		<script src="/yatch/editor/helpers.js"></script>
+		<script src="/yatch/editor/UndoArray.js"></script>
+		<script src="/yatch/editor/EditorTab.js"></script>
+		<script src="/yatch/editor/MaterialTab.js"></script>
+		<script src="/yatch/editor/TexturesTab.js"></script>
 
 		<script>
 
 			TabUI.Editor.role.classList.add("active");
 			TabUI.Editor.tab.classList.add("in","active");
 
-			localPlayer.controller.movementSpeed = 40;
+			localPlayer.controller.movementSpeed = 30;
 			groundHelper.visible = !groundHelper.visible; 
 			entities.add(groundHelper);
 
