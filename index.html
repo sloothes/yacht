@@ -171,18 +171,19 @@
 		//  Skydome.
 
 			const skydome = (function(scene,entities,material_entities,texture_entities){
+
 				var loader = new THREE.TextureLoader();
 				loader.setCrossOrigin( "anonymous" );
 				var geometry = new THREE.SphereGeometry( 2000, 64, 32 );
 				var texture = loader.load( "https://i.imgur.com/xQsNP0X.jpg" );
-				texture_entities && texture_entities.add(texture);
-				var material = new THREE.MeshBasicMaterial({map:texture, side:2});
-				material_entities && material_entities.add(material);
+				var material = new THREE.MeshBasicMaterial({
+					map:texture,transparent:true,opacity:0.8,side:2,
+				});
 				var dome = new THREE.Mesh( geometry, material );
-				dome.scale.set(0.10,0.08,0.10);
-				entities && entities.add(dome);
-				dome.name = "SKYDOME";
-				scene.add(dome);
+				dome.scale.set(0.10,0.08,0.10); dome.name = "SKYDOME";
+				scene.add(dome); entities && entities.add(dome);
+				texture_entities && texture_entities.add(texture);
+				material_entities && material_entities.add(material);
 				return dome;
 
 			})(scene, entities, material_entities, texture_entities);
