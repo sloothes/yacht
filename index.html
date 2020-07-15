@@ -893,17 +893,16 @@
 				watch( remove_button, "onclick", function( prop, event, value ){
 
 					var object = getObjectByEntityId( value );
-					var rigidObjects = cameraControls.rigidObjects;
-					var index = rigidObjects.findIndex( 
+					var index = cameraControls.rigidObjects.findIndex( 
 						function( object ){
 							return object.id === parseInt( value );
 						});
 					if ( index < 0 ) return; // important!
-					rigidObjects.splice( index, 1 );
+					cameraControls.rigidObjects.splice( index, 1 );
 				});
 
 			})(
-				document.querySelector("div#rigid-add-button"), // clone_button,
+				document.querySelector("div#rigid-remove-button"), // clone_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
 				cameraControls // camera_controls.
 			);
