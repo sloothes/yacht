@@ -201,6 +201,11 @@
 
 		//	entity-droplist.js
 
+		//	CameraControls rigid objects,
+		//	keeps camera controls rigid objects on edit mode.
+
+			const rigidObjects = []; // cameraControls.rigidObjects;
+
 		//	Last editor entity droplist value.
 		//	keeps track of last entity droplist value.
 
@@ -225,10 +230,6 @@
 		//	Update object editor.
 
 			(function(editor,cameraControls,rigidObjects,localPlayer,keyInputControls,entity_droplist){
-
-			//	CameraControls rigid objects,
-			//	keeps camera controls rigid objects at edit mode.
-			//	const rigidObjects = []; // cameraControls.rigidObjects;
 
 			//	Exit from edit mode.
 
