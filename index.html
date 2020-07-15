@@ -199,12 +199,79 @@
 
 		<script>
 
-		//	entity-droplist.js
+		//	rigid-object-helpers.js
 
 		//	CameraControls rigid objects,
 		//	keeps camera controls rigid objects on edit mode.
+		//	TODO: extends from Array class.
 
-			const rigidObjects = []; // cameraControls.rigidObjects;
+			function RigidObjects(){
+				var array = new Array(0);
+				Object.setPrototypeOf( array, RigidObjects.prototype );
+				return array; // important!
+			}
+
+			RigidObjects.prototype = Object.create(Array.prototype);
+
+			RigidObjects.prototype.add = function( value ){
+
+				var object = getObjectByEntityId( value );
+
+				if ( object && this.findIndex( function( item ){ 
+					return item.id === object.id;
+				}) > -1 ) return; // already exists in rigidObjects.
+
+				object && object.isMesh && this.push( object );
+
+			};
+
+			RigidObjects.prototype.remove = function( value ){
+
+				var index = this.findIndex( 
+					function( object ){
+						return object.id === parseInt( value );
+					});
+
+				if ( index < 0 ) return; // not found!
+
+				this.splice( index, 1 );
+
+			};
+
+			const rigidObjects = new RigidObjects();
+
+		</script>
+
+		<script>
+/*
+			function addtoRigidObjects( value ){
+
+				var object = getObjectByEntityId( value );
+
+				if ( object && rigidObjects.findIndex( function( item ){ 
+					return item.id === object.id;
+				}) > -1 ) return; // already exists in rigidObjects.
+
+				object && object.isMesh && rigidObjects.push( object );
+			}
+
+			function removefromRigidObjects( value ){
+
+				var index = rigidObjects.findIndex( 
+					function( object ){
+						return object.id === parseInt( value );
+					});
+
+				if ( index < 0 ) return; // important (not found)!
+
+				rigidObjects.splice( index, 1 );
+			}
+*/
+		</script>
+
+		<script>
+
+		//	entity-droplist.js
 
 		//	Last editor entity droplist value.
 		//	keeps track of last entity droplist value.
@@ -436,34 +503,6 @@
 
 		<script>
 
-		//	rigid-object-helpers.js
-
-			const rigidObjects = []; // cameraControls.rigidObjects;
-
-			function addtoRigidObjects( value ){
-				var id = parseInt(value);
-				if ( !checkId( value ) ) return;
-				if ( localPlayer.getObjectById(id) ) return; // localPlayer child.
-				var object = getObjectByEntityId( value );
-				if ( object && rigidObjects.findIndex( function( item ){ 
-					return item.id === object.id;
-				}) > -1 ) return; // already exists in rigidObjects.
-				object && object.isMesh && rigidObjects.push( object );
-			}
-
-			function removefromRigidObjects( value ){
-				var index = rigidObjects.findIndex( 
-					function( object ){
-						return object.id === parseInt( value );
-					});
-				if ( index < 0 ) return; // important!
-				rigidObjects.splice( index, 1 );
-			}
-
-		</script>
-
-		<script>
-
 		//	octree-helpers.js
 
 			function getObjectsByGeometry( uuid ){
@@ -685,7 +724,7 @@
 
 		//	geometry-remove-button.js
 
-			(function(remove_button,entity_droplist,entity_manager,octree,scene){
+			(function(remove_button,entity_droplist,entity_manager,rigidObjects,octree,scene,exitEditMode){
 
 				var interval;
 
@@ -716,7 +755,8 @@
 					entity_manager && entity_manager.remove( value );
 
 				//	Remove from camera rigid objects.
-					removefromRigidObjects( Number(value) ); // id.
+					rigidObjects.remove( Number(value) ); // id.
+				//	removefromRigidObjects( Number(value) ); // id.
 
 				//	Exit edit mode.
 					exitEditMode( entity_droplist );
@@ -725,7 +765,8 @@
 			})(
 				document.querySelector("div#geometry-remove-button"), // remove_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				entities, octree, scene // entity_manager, scene.
+				entities, rigidObjects, octree, scene, // entity_manager, rigidObjects, scene,
+				exitEditMode // function.
 			);
 
 		</script>
@@ -734,7 +775,7 @@
 
 		//	octree-add-button.js
 
-			(function(add_button,entity_droplist,octree,scene){
+			(function(add_button,entity_droplist,localPlayer,octree,scene,exitEditMode){
 
 				var interval;
 
@@ -776,12 +817,12 @@
 			})(
 				document.querySelector("div#octree-add-button"), // clone_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				octree, scene // octree, scene.
+				localPlayer, octree, scene, exitEditMode // localPlayer, octree, scene, function.
 			);
 
 		//	octree-remove-button.js
 
-			(function(remove_button,entity_droplist,octree,scene){
+			(function(remove_button,entity_droplist,octree,scene,exitEditMode){
 
 				var interval;
 
@@ -819,7 +860,7 @@
 			})(
 				document.querySelector("div#octree-remove-button"), // clone_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				octree, scene //  octree, scene.
+				octree, scene, exitEditMode //  octree, scene, function.
 			);
 
 		</script>
@@ -828,20 +869,19 @@
 
 		//	exit-edit-mode.js
 
-			(function(exit_button,entity_droplist){
+			(function(exit_button,entity_droplist,exitEditMode){
 
 				var interval;
 
 				exit_button.addEventListener( "click", function(){
 					clearTimeout(interval);
-					interval = setTimeout(function(){
-						callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = "" ); // exit edit mode.
-					}, 250);
+					interval = setTimeout( exitEditMode, 250, entity_droplist );
 				});
 
 			})( 
 				document.querySelector("div#editor-exit-mode"), // exit_button,
-				document.querySelector("select#editor-entities-droplist") // entity_droplist.
+				document.querySelector("select#editor-entities-droplist"), // entity_droplist.
+				exitEditMode // function.
 			 ); 
 
 		</script>
@@ -850,7 +890,7 @@
 
 		//	camera-controls-add-button.js
 
-			(function(add_button,entity_droplist,rigidObjects){
+			(function(add_button,entity_droplist,rigidObjects,exitEditMode){
 
 				var interval;
 
@@ -877,12 +917,12 @@
 			})(
 				document.querySelector("div#rigid-add-button"), // clone_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				rigidObjects // rigidObjects.
+				rigidObjects, exitEditMode // rigidObjects, function.
 			);
 
 		//	camera-controls-remove-button.js
 
-			(function(remove_button,entity_droplist,rigidObjects){
+			(function(remove_button,entity_droplist,rigidObjects,exitEditMode){
 
 				var interval;
 
@@ -910,12 +950,15 @@
 			})(
 				document.querySelector("div#rigid-remove-button"), // clone_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				rigidObjects // rigidObjects.
+				rigidObjects, exitEditMode // rigidObjects, function.
 			);
 
 		</script>
 
 		<script>
+
+
+
 
 
 
@@ -1101,7 +1144,7 @@
 
 		//	key-inputs.js
 
-			(function(editor,keyboard,entity_droplist){
+			(function(editor,keyboard,camera,cameraControls,requestFrameID,entity_droplist){
 
 				var interval;
 				const RAD2DEG = 57.29577951308232;
@@ -1220,7 +1263,7 @@
 				})();
 
 			})( 
-				objectEditor, keyboard, // editor, keyboard,
+				objectEditor, keyboard, camera, cameraControls, requestFrameID, // editor, ...,
 				document.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
 
