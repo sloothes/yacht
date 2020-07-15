@@ -182,9 +182,8 @@
 
 			ObjectEditor.prototype.edit = function( value ){ 
 
-				var selector = "select#editor-entities-droplist";
-				var entity_droplist = document.querySelector(selector) ); if ( !entity_droplist ) return;
-				callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = value );
+				var entity_droplist = document.querySelector("select#editor-entities-droplist");
+				entity_droplist && callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = value );
 
 			};
 
@@ -369,13 +368,15 @@
 
 		//	editor-helpers.
 
-			function objectEditorEditMode( value ){
-				var selector = "select#editor-entities-droplist";
-				var entity_droplist =  document.querySelector(selector) ); if ( !entity_droplist ) return;
-				callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = value );
+			function objectEditorExitEditMode(){ 
+				var entity_droplist =  document.querySelector("select#editor-entities-droplist");
+				entity_droplist && callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = "" );
 			}
 
-			function objectEditorExitMode(){ objectEditorEditMode(""); }
+			function objectEditorEditMode( value ){
+				var entity_droplist =  document.querySelector("select#editor-entities-droplist");
+				entity_droplist && callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = value );
+			}
 
 		</script>
 
