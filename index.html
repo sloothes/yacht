@@ -134,33 +134,536 @@
 	<!-- script src="/yatch/editor/MaterialTab.js"></script -->
 	<!-- script src="/yatch/editor/TexturesTab.js"></script -->
 
+
 		<script>
 
+		//	entity-droplist.js
+
+		//	Last editor entity droplist value.
+		//	keeps track of last entity droplist value.
+			const latestEntityId = { value:"" };
+		//	keeps entity's droplist last value.
+			(function( latestEntityId,entity_droplist ){
+
+			//	when you call lastEntity watcher you can get the old value.
+				watch( latestEntityId, "value", function(property, action, newValue, oldValue ){
+					debugMode && console.log({item:latestEntityId,"new value":newValue,"old value":oldValue})
+				});
+
+			//	Update latest entity id value.
+				watch(entity_droplist, "onchange", function( property, event, value ){
+					latestEntityId.value = value;
+				});
+
+			})( latestEntityId, document.querySelector("select#editor-entities-droplist") ); // entity_droplist.
+
+		//	Update object editor.
+
+			(function(editor,last_entity,cameraControls,localPlayer,keyInputControls,entity_droplist){
+
+			//	CameraControls rigid objects,
+			//	keeps camera controls rigid objects at edit mode.
+				const rigidObjects = []; // cameraControls.rigidObjects;
+
+			//	Exit from edit mode.
+
+				function resetLatestEntityValue(){
+					entity_droplist.value = "";
+				}
+
+				function enableKeyInputControls(){
+					keyInputControls.isDisabled = false;
+				}
+
+				function disableKeyInputControls(){
+					keyInputControls.isDisabled = true;
+				}
+
+				function takeCameraControls( object, offset ){
+					cameraControls.trackObject = object;
+					cameraControls.offset.y = offset || 0;
+				}
+
+				function enableCameraRigidObjects(){
+					while (rigidObjects.length) {
+						var object = rigidObjects.shift();
+						object.isMesh && cameraControls.rigidObjects.push( object ); // cleanup.
+					}
+				}
+
+				function disableCameraRigidObjects(){
+					while (cameraControls.rigidObjects.length) {
+						var object = cameraControls.rigidObjects.shift()
+						object.isMesh && rigidObjects.push( object ); // cleanup.
+					}
+				}
+
+				function exitFromEditMode(){
+					editor.reset(); // important!
+					resetLatestEntityValue();
+					enableKeyInputControls();
+					enableCameraRigidObjects();
+					takeCameraControls( localPlayer );
+					return;
+				}
+
+			//
+
+				watch(entity_droplist, "onchange", function( property, event, value ){
+
+					if ( editor.update( value ) ) {
+
+					//	switchToEditMode.
+
+						var object = getObjectByEntityId( value );
+						if ( !object ) return exitFromEditMode();
+
+					//	camera controls offset.
+						if ( object.geometry && object.geometry.boundingSphere ) {
+							var offset = object.geometry.boundingSphere.center;
+							cameraControls.offset.copy( offset ); 
+							cameraControls.offset.y *= 0.5;
+						}
+
+					//	Disable camera rigid objects.
+						disableCameraRigidObjects();
+
+					//	editor take camera controls.
+						cameraControls.trackObject = editor; // or object?
+
+					//	Disable key input controls.
+						disableKeyInputControls(); // important!
+
+					} else {
+
+						exitFromEditMode();
+
+					}
+
+				});
+
+			})(
+				objectEditor, latestEntityId, cameraControls, localPlayer, keyInputControls, 
+				document.querySelector("select#editor-entities-droplist") // entity_droplist.
+			);
+
+		//	Call vector droplist watchers.
+
+			(function(vector_droplist,entity_droplist){
+
+				watch(entity_droplist, "onchange", function( property, event, value ){
+					try { callWatchers( vector_droplist, "onchange", "change", vector_droplist.value ); } 
+					catch(err){ console.error(err); }
+				});
+
+			})(
+				document.querySelector("select#editor-vector-droplist"), // vector_droplist.
+				document.querySelector("select#editor-entities-droplist") // entity_droplist.
+			);
+
+		//	Call material entity droplist.
+
+			(function(entity_droplist){
+
+				watch(entity_droplist, "onchange", function( property, event, value ){
+
+					try {
+
+					//	Get material entities droplist.
+						var selector = "select#material-entities-droplist";
+						var material_droplist = document.querySelector(selector); if (!material_droplist) return;
+
+					//	Get material id.
+						var object = getObjectByEntityId( value ); if ( !object ) {
+							return callWatchers( material_droplist, "onchange", "change", material_droplist.value = "" );
+						}
+
+						var material = object.material; if (!object.material) {
+							return callWatchers( material_droplist, "onchange", "change", material_droplist.value = "" );
+						}
+
+						material && callWatchers( material_droplist, "onchange", "change", material_droplist.value = String(material.id) );
+
+					} catch(err){ console.error(err); }
+				});
+
+			})( document.querySelector("select#editor-entities-droplist") ); // entity_droplist.
 
 
+		//	Call Watchers.
 
+			(function( entity_droplist ){
+				entity_droplist.addEventListener( "change", function(){
+					this.blur(); callWatchers(this, "onchange", "change", this.value ); // important!
+				});
+			})( document.querySelector("select#editor-entities-droplist") ); // entity_droplist.
 
+		</script>
 
+		<script>
 
+		//	rigid-object-helpers.js
 
+			const rigidObjects = []; // cameraControls.rigidObjects;
 
+			function addtoRigidObjects( value ){
+				var id = parseInt(value);
+				if ( !checkId( value ) ) return;
+				if ( localPlayer.getObjectById(id) ) return; // localPlayer child.
+				var object = getObjectByEntityId( value );
+				if ( object && rigidObjects.findIndex( function( item ){ 
+					return item.id === object.id;
+				}) > -1 ) return; // already exists in rigidObjects.
+				object && object.isMesh && rigidObjects.push( object );
+			}
 
+			function removefromRigidObjects( value ){
+				var index = rigidObjects.findIndex( 
+					function( object ){
+						return object.id === parseInt( value );
+					});
+				if ( index < 0 ) return; // important!
+				rigidObjects.splice( index, 1 );
+			}
 
+		</script>
 
+		<script>
 
+		//	octree-helpers.js
 
+			function addtoOctree( value ){
 
+			//	DevNote: You have to add all objects with the 
+			//	same geometry.uuid. 
+			//	READ explanation at removefromOctree comments.
 
+				var object = getObjectByEntityId( value );
 
+				if ( !object ) return;
+				if ( !object.isMesh ) return;
+				if ( !object.geometry ) return;
+				if ( !object.geometry.isGeometry ) return;
+				if ( localPlayer.getObjectById(object.id) ) return; // localPlayer child.
 
+			//	Import to octree.
+			//	octree.importThreeMesh( object );
+			//	Import all objects with same geometry to octree.
+			//	READ explanation at removefromOctree() comments.
+				var uuid = object.geometry.uuid;
+				var meshes = getObjectsByGeometry(uuid);
+				while ( meshes.length ) {
+					octree.importThreeMesh( meshes.shift() );
+				}
 
+				return object; // important!
+			}
 
+			function removefromOctree( value ){
+			//	Removes from octree all objects (geometry
+			//	faces) that have the same geometry.uuid.
+			//	DevNote: It would be better if was using
+			//	mesh.uuid and not geometry.uuid. (TODO).
 
+				var object = getObjectByEntityId( value );
 
+				if ( !object ) return;
+				if ( !object.isMesh ) return;
+				if ( !object.geometry ) return;
+				if ( !object.geometry.isGeometry ) return;
 
+			//	Remove from octree.
+			//	DevNote: removes all object's geometry 
+			//	faces that have same geometry.uuid.
+				var uuid = object.geometry.uuid;
+				uuid && octree.removeThreeMesh( uuid );
 
+				return object; // important!
+			}
 
+			function updateOctree( value ){
+				var object = removefromOctree( value );
 
+				if ( !object ) return;
+				if ( !object.isMesh ) return;
+				if ( !object.geometry ) return;
+				if ( !object.geometry.isGeometry ) return;
+				if ( localPlayer.getObjectById(object.id) ) return; // localPlayer child.
+
+			//	Import to octree. 
+			//	octree.importThreeMesh( object );
+			//	Use addtoOctree() to import to octree.
+			//	READ explanation at removefromOctree() comments.
+				addtoOctree( value ); 
+
+			}
+
+		//	renamed from "octreeIncluded" to "octreeIncludes".
+			function octreeIncludes( uuid ){
+				var result;
+				octree.nodes.forEach(function (nodeDepth) {
+					if ( result ) return;
+					nodeDepth.forEach(function (node) {
+						if ( result ) return;
+						node.trianglePool.forEach(function (face) {
+							if ( result ) return;
+							if (face.meshID === uuid) result = true;
+						});
+					});
+				});
+				return result;
+			}
+
+		</script>
+
+		<script>
+
+		//	geometry-create-button.js
+
+			(function(create_button,type_droplist,entity_droplist,material_manager,entity_manager,scene){
+
+				var interval;
+
+				create_button.addEventListener( "click", function(){
+					clearTimeout( interval );
+					interval = setTimeout(function(){
+						callWatchers( create_button, "onclick", "click", type_droplist.value );
+					}, 250);
+				});
+
+				watch( create_button, "onclick", function( prop, event, type ){
+
+				//	Get type.
+					if ( type === "" || type === undefined ) return;
+
+				//	Create geometry.
+					var geometry = new THREE[ type ]();
+					if ( geometry === undefined ) return;
+
+				//	Init params based on type.
+					switch (type) {
+						case "PlaneGeometry":
+							geometry.translate(0, 0.5, 0);
+						break;
+					//	case "BoxGeometry":
+					//	case "ConeGeometry":
+					//	case "TorusGeometry":
+					//	case "SphereGeometry":
+					//	case "CylinderGeometry":
+					//	case "OctahedronGeometry":
+					//	case "DodecahedronGeometry":
+					//	case "IcosahedronGeometry":
+					//	case "TetrahedronGeometry":
+					//	case "TorusKnotGeometry":
+					//	case "CircleGeometry":
+					//	case "RingGeometry":
+					//	break;
+					}
+
+				//	Create mesh.
+					var material = new THREE.MeshLambertMaterial({side:2});
+					var mesh = new THREE.Mesh(geometry, material);
+					mesh.name = type.replace("Geometry","");
+					scene.add( mesh );
+
+				//	Add entities.
+					entity_manager && entity_manager.add( mesh );
+					material_manager && material_manager.add( material );
+
+				//	Enter edit mode.
+					entity_droplist.value = String(mesh.id);
+				});
+
+			})(
+				document.querySelector("div#geometry-create-button"), // create_button,
+				document.querySelector("select#geometry-type-droplist"), // type_droplist,
+				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
+				material_entities, entities, scene  // material_manager, entity_manager, scene.
+			);
+
+		//	geometry-clone-button.js
+
+			(function(clone_button,entity_droplist,entity_manager,scene){
+
+				var interval;
+
+				clone_button.addEventListener( "click", function(){
+					clearTimeout( interval );
+					interval = setTimeout(function(){
+						callWatchers( clone_button, "onclick", "click", entity_droplist.value );
+					}, 250);
+				});
+
+				watch( clone_button, "onclick", function( prop, event, value ){
+
+					if ( value === undefined || value === "" ) return;
+
+				//	Get source.
+					var source = getObjectByEntityId( Number(value) ); // id.
+					if ( !(source && source.isMesh && source.geometry) ) return;
+
+				//	Clone source.
+					if ( source.isMesh && source.geometry ) {
+					//	clone.
+						var mesh = source.clone();
+					//	rename.
+						if ( source.name ) 
+							mesh.name = source.name.replace(/:clone/g,"") + ":clone";
+						else
+							mesh.name = mesh.type.replace(/Geometry/g,"") + ":clone";
+					//	translate.
+						mesh.position.y += 1; // (m)
+					//	add to scene.
+						scene.add( mesh );
+					//	add to entities.
+						entity_manager.add( mesh );
+					//	enter to edit mode.
+						entity_droplist.value = String(mesh.id);
+					}
+
+				});
+
+			})(
+				document.querySelector("div#geometry-clone-button"), // clone_button,
+				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
+				entities, scene // last_entity, entity_manager, scene.
+			);
+
+		//	geometry-remove-button.js
+
+			(function(remove_button,entity_droplist,entity_manager,octree,scene){
+
+				var interval;
+
+				remove_button.addEventListener( "click", function(){
+					clearTimeout( interval );
+					interval = setTimeout(function(){
+						callWatchers( remove_button, "onclick", "click", entity_droplist.value );
+					}, 250);
+				});
+
+				watch( remove_button, "onclick", function( prop, event, value ){
+
+					if ( value === undefined || value === "" ) return;
+
+					var object = getObjectByEntityId( Number(value) ); 
+					if ( !object ) return entity_droplist.value = "";
+
+				//	remove octree.
+					if ( object.isMesh && object.geometry ) (function(){
+						var uuid = object.geometry.uuid;
+						octreeIncludes( uuid ) && octree.removeThreeMesh( uuid );
+					})();
+
+				//	remove object.
+					object.parent && object.parent.remove( object );
+
+				//	remove entity and option.
+					entity_manager && entity_manager.remove( value );
+
+				//	Remove from camera rigid objects.
+					removefromRigidObjects( Number(value) ); // id.
+
+				//	Exit edit mode.
+					entity_droplist.value = "";
+
+				});
+
+			})(
+				document.querySelector("div#geometry-remove-button"), // remove_button,
+				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
+				entities, octree, scene // entity_manager, scene.
+			);
+
+		</script>
+
+		<script>
+
+		//	octree-add-button.js
+
+			(function(add_button,type_droplist,entity_droplist,material_manager,entity_manager,scene){
+
+				var interval;
+
+				add_button.addEventListener( "click", function(){
+					clearTimeout( interval );
+					interval = setTimeout(function(){
+						callWatchers( add_button, "onclick", "click", entity_droplist.value );
+					}, 250);
+				});
+
+				watch( add_button, "onclick", function( prop, event, value ){
+
+				//	DevNote: You have to add all objects with the 
+				//	same geometry.uuid. 
+				//	READ explanation at removefromOctree comments.
+
+					var object = getObjectByEntityId( value );
+
+					if ( !object ) return;
+					if ( !object.isMesh ) return;
+					if ( !object.geometry ) return;
+					if ( !object.geometry.isGeometry ) return;
+					if ( localPlayer.getObjectById(object.id) ) return; // localPlayer child.
+
+				//	Import to octree.
+				//	octree.importThreeMesh( object );
+				//	Import all objects with same geometry to octree.
+				//	READ explanation at removefromOctree() comments.
+					var uuid = object.geometry.uuid;
+					var meshes = getObjectsByGeometry(uuid);
+					while ( meshes.length ) {
+						octree.importThreeMesh( meshes.shift() );
+					}
+
+				});
+
+			})(
+				document.querySelector("div#octree-add-button"), // clone_button,
+				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
+				entities, scene // last_entity, entity_manager, scene.
+			);
+
+		//	octree-remove-button.js
+
+			(function(remove_button,entity_droplist,entity_manager,octree,scene){
+
+				var interval;
+
+				remove_button.addEventListener( "click", function(){
+					clearTimeout( interval );
+					interval = setTimeout(function(){
+						callWatchers( remove_button, "onclick", "click", entity_droplist.value );
+					}, 250);
+				});
+
+				watch( remove_button, "onclick", function( prop, event, value ){
+
+				//	Removes from octree all objects (geometry
+				//	faces) that have the same geometry.uuid.
+				//	DevNote: It would be better if was using
+				//	mesh.uuid and not geometry.uuid. (TODO).
+
+					var object = getObjectByEntityId( value );
+
+					if ( !object ) return;
+					if ( !object.isMesh ) return;
+					if ( !object.geometry ) return;
+					if ( !object.geometry.isGeometry ) return;
+
+				//	Remove from octree.
+				//	DevNote: removes all object's geometry 
+				//	faces that have same geometry.uuid.
+					var uuid = object.geometry.uuid;
+					uuid && octree.removeThreeMesh( uuid );
+
+				});
+
+			})(
+				document.querySelector("div#octree-remove-button"), // clone_button,
+				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
+				entities, scene // last_entity, entity_manager, scene.
+			);
 
 		</script>
 
