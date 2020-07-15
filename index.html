@@ -842,7 +842,7 @@
 
 		//	camera-controls-add-button.js
 
-			(function(add_button,entity_droplist,cameraControls){
+			(function(add_button,entity_droplist,rigidObjects){
 
 				var interval;
 
@@ -856,7 +856,6 @@
 				watch( add_button, "onclick", function( prop, event, value ){
 
 					var object = getObjectByEntityId( value );
-					var rigidObjects = cameraControls.rigidObjects;
 
 					if ( object && rigidObjects.findIndex( function( item ){ 
 						return item.id === object.id;
@@ -870,12 +869,12 @@
 			})(
 				document.querySelector("div#rigid-add-button"), // clone_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				cameraControls // camera_controls.
+				rigidObjects // rigidObjects.
 			);
 
 		//	camera-controls-remove-button.js
 
-			(function(remove_button,entity_droplist,cameraControls){
+			(function(remove_button,entity_droplist,rigidObjects){
 
 				var interval;
 
@@ -889,12 +888,12 @@
 				watch( remove_button, "onclick", function( prop, event, value ){
 
 					var object = getObjectByEntityId( value );
-					var index = cameraControls.rigidObjects.findIndex( 
+					var index = rigidObjects.findIndex( 
 						function( object ){
 							return object.id === parseInt( value );
 						});
 					if ( index < 0 ) return; // important!
-					cameraControls.rigidObjects.splice( index, 1 );
+					rigidObjects.splice( index, 1 );
 
 				//	exit edit mode.
 					callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = "" ); 
@@ -903,7 +902,7 @@
 			})(
 				document.querySelector("div#rigid-remove-button"), // clone_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				cameraControls // camera_controls.
+				rigidObjects // rigidObjects.
 			);
 
 		</script>
