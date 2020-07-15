@@ -581,7 +581,7 @@
 
 		//	octree-add-button.js
 
-			(function(add_button,type_droplist,entity_droplist,material_manager,entity_manager,scene){
+			(function(add_button,entity_droplist,octree,scene){
 
 				var interval;
 
@@ -621,12 +621,12 @@
 			})(
 				document.querySelector("div#octree-add-button"), // clone_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				entities, scene // last_entity, entity_manager, scene.
+				octree, scene // octree, scene.
 			);
 
 		//	octree-remove-button.js
 
-			(function(remove_button,entity_droplist,entity_manager,octree,scene){
+			(function(remove_button,entity_droplist,octree,scene){
 
 				var interval;
 
@@ -662,8 +662,90 @@
 			})(
 				document.querySelector("div#octree-remove-button"), // clone_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				entities, scene // last_entity, entity_manager, scene.
+				octree, scene //  octree, scene.
 			);
+
+		</script>
+
+		<script>
+
+		//	camera-controls-add-button.js
+
+			(function(add_button,entity_droplist,cameraControls){
+
+				var interval;
+
+				add_button.addEventListener( "click", function(){
+					clearTimeout( interval );
+					interval = setTimeout(function(){
+						callWatchers( add_button, "onclick", "click", entity_droplist.value );
+					}, 250);
+				});
+
+				watch( add_button, "onclick", function( prop, event, value ){
+
+					var object = getObjectByEntityId( value );
+					var rigidObjects = cameraControls.rigidObjects;
+
+					if ( object && rigidObjects.findIndex( function( item ){ 
+						return item.id === object.id;
+					}) > -1 ) return; // already exists in rigidObjects.
+					object && object.isMesh && rigidObjects.push( object );
+				});
+
+			})(
+				document.querySelector("div#rigid-add-button"), // clone_button,
+				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
+				cameraControls // camera_controls.
+			);
+
+		//	camera-controls-remove-button.js
+
+			(function(remove_button,entity_droplist,cameraControls){
+
+				var interval;
+
+				remove_button.addEventListener( "click", function(){
+					clearTimeout( interval );
+					interval = setTimeout(function(){
+						callWatchers( remove_button, "onclick", "click", entity_droplist.value );
+					}, 250);
+				});
+
+				watch( remove_button, "onclick", function( prop, event, value ){
+
+					var object = getObjectByEntityId( value );
+					var rigidObjects = cameraControls.rigidObjects;
+					var index = rigidObjects.findIndex( 
+						function( object ){
+							return object.id === parseInt( value );
+						});
+					if ( index < 0 ) return; // important!
+					rigidObjects.splice( index, 1 );
+				});
+
+			})(
+				document.querySelector("div#rigid-add-button"), // clone_button,
+				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
+				cameraControls // camera_controls.
+			);
+
+		</script>
+
+		<script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		</script>
 

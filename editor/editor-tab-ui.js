@@ -472,8 +472,8 @@
 		row.style.cssText = "height:40px;margin-bottom:20px;"
 
 		var button = document.createElement("div");
-		button.id = "add-rigid-object";
-		button.textContent = "Add rigid object";
+		button.id = "rigid-add-button";
+		button.textContent = "Add to Rigid Objects";
 		button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
 		button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
 
@@ -491,8 +491,8 @@
 		row.style.cssText = "height:40px;margin-bottom:20px;"
 
 		var button = document.createElement("div");
-		button.id = "remove-rigid-object";
-		button.textContent = "Remove rigid object";
+		button.id = "rigid-remove-button";
+		button.textContent = "Remove from Rigid Objects";
 		button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
 		button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
 
