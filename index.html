@@ -224,11 +224,11 @@
 
 		//	Update object editor.
 
-			(function(editor,last_entity,cameraControls,localPlayer,keyInputControls,entity_droplist){
+			(function(editor,cameraControls,rigidObjects,localPlayer,keyInputControls,entity_droplist){
 
 			//	CameraControls rigid objects,
 			//	keeps camera controls rigid objects at edit mode.
-				const rigidObjects = []; // cameraControls.rigidObjects;
+			//	const rigidObjects = []; // cameraControls.rigidObjects;
 
 			//	Exit from edit mode.
 
@@ -308,7 +308,7 @@
 				});
 
 			})(
-				objectEditor, latestEntityId, cameraControls, localPlayer, keyInputControls, 
+				objectEditor, cameraControls, rigidObjects, localPlayer, keyInputControls, 
 				document.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
 
