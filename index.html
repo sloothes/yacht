@@ -499,31 +499,31 @@
 				});
 
 				watch(increase_x, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
+					edgeshelper && edgeshelper.applyMatrix(editor.matrix);
 				});
 				watch(increase_y, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
+					edgeshelper && edgeshelper.applyMatrix(editor.matrix);
 				});
 				watch(increase_z, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
+					edgeshelper && edgeshelper.applyMatrix(editor.matrix);
 				});
 				watch(decrease_x, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
+					edgeshelper && edgeshelper.applyMatrix(editor.matrix);
 				});
 				watch(decrease_y, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
+					edgeshelper && edgeshelper.applyMatrix(editor.matrix);
 				});
 				watch(decrease_z, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
+					edgeshelper && edgeshelper.applyMatrix(editor.matrix);
 				});
 				watch(vector_x, "onChange", function( prop, event, value ){ 
-					edgeshelper && edgeshelper.copy(editor);
+					edgeshelper && edgeshelper.applyMatrix(editor.matrix);
 				});
 				watch(vector_y, "onChange", function( prop, event, value ){ 
-					edgeshelper && edgeshelper.copy(editor);
+					edgeshelper && edgeshelper.applyMatrix(editor.matrix);
 				});
 				watch(vector_z, "onChange", function( prop, event, value ){ 
-					edgeshelper && edgeshelper.copy(editor);
+					edgeshelper && edgeshelper.applyMatrix(editor.matrix);
 				});
 
 			})( objectEditor,                                                      // editor,
