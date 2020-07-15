@@ -368,14 +368,8 @@
 
 		//	editor-helpers.
 
-			function objectEditorExitEditMode(){ 
-				var entity_droplist =  document.querySelector("select#editor-entities-droplist");
+			function exitEditMode( entity_droplist ){
 				entity_droplist && callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = "" );
-			}
-
-			function objectEditorEditMode( value ){
-				var entity_droplist =  document.querySelector("select#editor-entities-droplist");
-				entity_droplist && callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = value );
 			}
 
 		</script>
@@ -717,8 +711,7 @@
 					removefromRigidObjects( Number(value) ); // id.
 
 				//	Exit edit mode.
-					callWatchers(entity_droplist, "onchange", "change", entity_droplist.value = "" );
-
+					exitEditMode( entity_droplist );
 				});
 
 			})(
@@ -769,7 +762,7 @@
 					}
 
 				//	Exit edit mode.
-					callWatchers(entity_droplist, "onchange", "change", entity_droplist.value = "" );
+					exitEditMode( entity_droplist );
 				});
 
 			})(
@@ -812,7 +805,7 @@
 					uuid && octree.removeThreeMesh( uuid );
 
 				//	Exit edit mode.
-					callWatchers(entity_droplist, "onchange", "change", entity_droplist.value = "" );
+					exitEditMode( entity_droplist );
 				});
 
 			})(
@@ -869,6 +862,9 @@
 						return item.id === object.id;
 					}) > -1 ) return; // already exists in rigidObjects.
 					object && object.isMesh && rigidObjects.push( object );
+
+				//	exit edit mode.
+					callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = "" ); 
 				});
 
 			})(
@@ -899,6 +895,9 @@
 						});
 					if ( index < 0 ) return; // important!
 					cameraControls.rigidObjects.splice( index, 1 );
+
+				//	exit edit mode.
+					callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = "" ); 
 				});
 
 			})(
