@@ -168,11 +168,11 @@
 
 			TabUI.Editor.role.classList.add("active");
 			TabUI.Editor.tab.classList.add("in","active");
+			groundHelper.visible = !groundHelper.visible; 
 
 			localPlayer.controller.movementSpeed = 30;
-			localPlayer.controller.center.set(-85,2,-2)
+			localPlayer.controller.center.set(-85,2,-2);
 
-			groundHelper.visible = !groundHelper.visible; 
 			entities.add(groundHelper);
 
 		</script>
