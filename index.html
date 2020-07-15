@@ -123,12 +123,12 @@
 		<script src="/yatch/editor/EntityManager.js"></script>
 		<script src="/yatch/editor/MaterialManager.js"></script>
 		<script src="/yatch/editor/TexturesManager.js"></script>
-		<script src="/yatch/editor/helpers.js"></script>
 		<script src="/yatch/editor/UndoArray.js"></script>
 		<script	src="/yatch/editor/editor-tab-ui.js"></script>
 		<script	src="/yatch/editor/geometry-tab-ui.js"></script>
 		<script	src="/yatch/editor/material-tab-ui.js"></script>
 		<script	src="/yatch/editor/textures-tab-ui.js"></script>
+		<script src="/yatch/editor/entity-manager-helpers.js"></script>
 
 	<!-- script src="/yatch/editor/EditorTab.js"></script -->
 	<!-- script src="/yatch/editor/MaterialTab.js"></script -->
@@ -439,6 +439,14 @@
 		<script>
 
 		//	octree-helpers.js
+
+			function getObjectsByGeometry( uuid ){
+				return scene.children.filter(function(child){
+					return child.geometry && child.geometry.uuid === uuid; // same geometry.
+				}).filter(function( object ){
+					return !localPlayer.getObjectById(object.id); // not localPlayer child.
+				})
+			}
 
 			function addtoOctree( value ){
 
