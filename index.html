@@ -180,6 +180,16 @@
 
 			};
 
+			ObjectEditor.prototype.edit = function( value ){ 
+
+				var selector = "select#editor-entities-droplist";
+				var entity_droplist = document.querySelector(selector) ); if ( !entity_droplist ) return;
+				callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = value );
+
+			};
+
+			ObjectEditor.prototype.exit = function(){ this.prototype.edit.call( this, "" ); });
+
 			const objectEditor = new ObjectEditor();
 		//	Note: When editor is not added in scene
 		//	doesn't update matrix/matrixWorld json.
@@ -194,7 +204,9 @@
 
 		//	Last editor entity droplist value.
 		//	keeps track of last entity droplist value.
+
 			const latestEntityId = { value:"" };
+
 		//	keeps entity's droplist last value.
 			(function( latestEntityId,entity_droplist ){
 
@@ -209,6 +221,7 @@
 				});
 
 			})( latestEntityId, document.querySelector("select#editor-entities-droplist") ); // entity_droplist.
+
 
 		//	Update object editor.
 
@@ -300,6 +313,7 @@
 				document.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
 
+
 		//	Call vector droplist watchers.
 
 			(function(vector_droplist,entity_droplist){
@@ -313,6 +327,7 @@
 				document.querySelector("select#editor-vector-droplist"), // vector_droplist.
 				document.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
+
 
 		//	Call material entity droplist.
 
@@ -342,6 +357,7 @@
 
 			})( document.querySelector("select#editor-entities-droplist") ); // entity_droplist.
 
+
 		//	Call Watchers.
 
 			(function( entity_droplist ){
@@ -349,6 +365,17 @@
 					this.blur(); callWatchers(this, "onchange", "change", this.value );
 				});
 			})( document.querySelector("select#editor-entities-droplist") ); // entity_droplist.
+
+
+		//	editor-helpers.
+
+			function objectEditorEditMode( value ){
+				var selector = "select#editor-entities-droplist";
+				var entity_droplist =  document.querySelector(selector) ); if ( !entity_droplist ) return;
+				callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = value );
+			}
+
+			function objectEditorExitEdit(){ objectEditorEditMode(""); }
 
 		</script>
 
@@ -783,6 +810,8 @@
 					var uuid = object.geometry.uuid;
 					uuid && octree.removeThreeMesh( uuid );
 
+				//	Exit edit mode.
+					callWatchers(entity_droplist, "onchange", "change", entity_droplist.value = "" );
 				});
 
 			})(
