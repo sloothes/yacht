@@ -375,7 +375,7 @@
 				callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = value );
 			}
 
-			function objectEditorExitEdit(){ objectEditorEditMode(""); }
+			function objectEditorExitMode(){ objectEditorEditMode(""); }
 
 		</script>
 
@@ -824,6 +824,28 @@
 
 		<script>
 
+		//	exit-edit-mode.js
+
+			(function(exit_button,entity_droplist){
+
+				var interval;
+
+				exit_button.addEventListener( "click", function(){
+					clearTimeout(interval);
+					interval = setTimeout(function(){
+						callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = "" ); // exit edit mode.
+					}, 250);
+				});
+
+			})( 
+				document.querySelector("div#editor-exit-mode"), // exit_button,
+				document.querySelector("select#editor-entities-droplist") // entity_droplist.
+			 ); 
+
+		</script>
+
+		<script>
+
 		//	camera-controls-add-button.js
 
 			(function(add_button,entity_droplist,cameraControls){
@@ -888,7 +910,6 @@
 		</script>
 
 		<script>
-
 
 
 
