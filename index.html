@@ -702,8 +702,8 @@
 				});
 
 			})(
-				TabUI.Editor.tab.querySelector("div#geometry-create-button"), // create_button,
-				TabUI.Editor.tab.querySelector("select#geometry-type-droplist"), // type_droplist,
+				TabUI.Geometry.tab.querySelector("div#geometry-create-button"),    // create_button,
+				TabUI.Geometry.tab.querySelector("select#geometry-type-droplist"), // type_droplist,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
 				material_entities, entities, scene  // material_manager, entity_manager, scene.
 			);
@@ -758,7 +758,7 @@
 				});
 
 			})(
-				TabUI.Editor.tab.querySelector("div#geometry-clone-button"), // clone_button,
+				TabUI.Geometry.tab.querySelector("div#geometry-clone-button"),     // clone_button,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
 				entities, scene // last_entity, entity_manager, scene.
 			);
@@ -805,7 +805,7 @@
 				});
 
 			})(
-				TabUI.Editor.tab.querySelector("div#geometry-remove-button"), // remove_button,
+				TabUI.Geometry.tab.querySelector("div#geometry-remove-button"),    // remove_button,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
 				entities, rigidObjects, octree, scene, // entity_manager, rigidObjects, scene,
 				octreeIncludes, exitEditMode // function, function.
@@ -857,7 +857,7 @@
 				});
 
 			})(
-				TabUI.Editor.tab.querySelector("div#octree-add-button"), // clone_button,
+				TabUI.Geometry.tab.querySelector("div#octree-add-button"),         // add_button,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
 				localPlayer, octree, scene, exitEditMode // localPlayer, octree, scene, function.
 			);
@@ -900,7 +900,7 @@
 				});
 
 			})(
-				TabUI.Editor.tab.querySelector("div#octree-remove-button"), // clone_button,
+				TabUI.Geometry.tab.querySelector("div#octree-remove-button"),      // remove_button,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
 				octree, scene, exitEditMode //  octree, scene, function.
 			);
