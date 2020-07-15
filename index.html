@@ -1144,7 +1144,7 @@
 
 		//	key-inputs.js
 
-			(function(editor,keyboard,camera,cameraControls,requestFrameID,entity_droplist){
+			(function(editor,keyboard,camera,cameraControls,entity_droplist){
 
 				var interval;
 				const RAD2DEG = 57.29577951308232;
@@ -1155,7 +1155,7 @@
 				const modifiers = keyboard.modifiers;
 				const LEFT=37, UP=38, RIGHT=39, DOWN=40;
 				const A=65, D=68, E=69, F=70, G=71, H=72, 
-					  Q=81, R=82, S=83, T=84, W=87;
+					  Q=81, R=82, S=83, T=84, W=87, Y=89;
 
 				function modifierIsDown(){
 					return modifiers.alt   || modifiers.meta
@@ -1166,7 +1166,7 @@
 
 				function EditorScalingSystem( dt ){
 
-					if ( keyCodes[H] ) {
+					if ( keyCodes[F] ) {
 						editor.scale.x += dt;
 						editor.scale.y += dt;
 						editor.scale.z += dt;
@@ -1194,7 +1194,7 @@
 
 				//	Reset rotation.
 					keyCodes[R] && editor.rotation.set(0,0,0);
-					keyCodes[F] && editor.setRotationFromQuaternion(camera.quaternion);
+					keyCodes[T] && editor.setRotationFromQuaternion(camera.quaternion);
 
 				}
 
@@ -1263,7 +1263,7 @@
 				})();
 
 			})( 
-				objectEditor, keyboard, camera, cameraControls, requestFrameID, // editor, ...,
+				objectEditor, keyboard, camera, cameraControls, // editor, ...,
 				document.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
 
