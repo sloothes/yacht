@@ -1159,7 +1159,7 @@
 
 		//	vector-w mouse input.
 
-			(function( editor,vector_w,increase_w,decrease_w,vector_droplist,entity_droplist,undo_button,destroyEdgesHelper,createEdgesHelper ){
+			(function( editor,vector_w,increase_w,decrease_w,vector_droplist,entity_droplist,undo_button ){
 
 				var state, interval, dt = 20;
 				var meta = {geometries:{},materials:{},textures:{},images:{},shapes:{}};
@@ -1275,8 +1275,7 @@
 				TabUI.Editor.tab.querySelector("li#editor-vector-w-decrease"),     // decrease_w,
 				TabUI.Editor.tab.querySelector("select#editor-vector-droplist"),   // vector_droplist,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				TabUI.Editor.tab.querySelector("div#editor-undo-button"),          // undo_button.
-				destroyEdgesHelper, createEdgesHelper // function, function.
+				TabUI.Editor.tab.querySelector("div#editor-undo-button")           // undo_button.
 			);
 
 		</script>
