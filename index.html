@@ -724,7 +724,7 @@
 
 		//	geometry-remove-button.js
 
-			(function(remove_button,entity_droplist,entity_manager,rigidObjects,octree,scene,exitEditMode){
+			(function(remove_button,entity_droplist,entity_manager,rigid_objects,octree,scene,octreeIncludes,exitEditMode){
 
 				var interval;
 
@@ -755,7 +755,7 @@
 					entity_manager && entity_manager.remove( value );
 
 				//	Remove from camera rigid objects.
-					rigidObjects.remove( Number(value) ); // id.
+					rigid_objects.remove( Number(value) ); // id.
 				//	removefromRigidObjects( Number(value) ); // id.
 
 				//	Exit edit mode.
@@ -766,7 +766,7 @@
 				document.querySelector("div#geometry-remove-button"), // remove_button,
 				document.querySelector("select#editor-entities-droplist"), // entity_droplist,
 				entities, rigidObjects, octree, scene, // entity_manager, rigidObjects, scene,
-				exitEditMode // function.
+				octreeIncludes, exitEditMode // function, function.
 			);
 
 		</script>
@@ -1011,7 +1011,7 @@
 						if ( key === "_x" ) vector_x.value = (RAD2DEG*value).toFixed(1);
 						if ( key === "_y" ) vector_y.value = (RAD2DEG*value).toFixed(1);
 						if ( key === "_z" ) vector_z.value = (RAD2DEG*value).toFixed(1);
-						vector_z.value = editor.rotation.order;
+						vector_w.value = editor.rotation.order;
 					}
 				});
 
