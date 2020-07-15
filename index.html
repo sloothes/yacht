@@ -588,6 +588,7 @@
 
 				//	Enter edit mode.
 					entity_droplist.value = String(mesh.id);
+					callWatchers(entity_droplist, "onchange", "change", entity_droplist.value );
 				});
 
 			})(
@@ -620,21 +621,28 @@
 
 				//	Clone source.
 					if ( source.isMesh && source.geometry ) {
+
 					//	clone.
 						var mesh = source.clone();
+
 					//	rename.
 						if ( source.name ) 
 							mesh.name = source.name.replace(/:clone/g,"") + ":clone";
 						else
 							mesh.name = mesh.type.replace(/Geometry/g,"") + ":clone";
+
 					//	translate.
 						mesh.position.y += 1; // (m)
+
 					//	add to scene.
 						scene.add( mesh );
+
 					//	add to entities.
 						entity_manager.add( mesh );
+
 					//	enter to edit mode.
 						entity_droplist.value = String(mesh.id);
+						callWatchers(entity_droplist, "onchange", "change", entity_droplist.value );
 					}
 
 				});
@@ -681,7 +689,7 @@
 					removefromRigidObjects( Number(value) ); // id.
 
 				//	Exit edit mode.
-					entity_droplist.value = "";
+					callWatchers(entity_droplist, "onchange", "change", entity_droplist.value = "" );
 
 				});
 
