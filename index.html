@@ -740,6 +740,7 @@
 					if ( value === undefined || value === "" ) return;
 
 					var object = getObjectByEntityId( Number(value) ); 
+					debugMode && console.log("remove object:", object);
 					if ( !object ) return entity_droplist.value = "";
 
 				//	remove octree.
