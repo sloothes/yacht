@@ -1483,7 +1483,6 @@
 						if ( key === "_x" ) vector_x.value = (RAD2DEG*value).toFixed(1);
 						if ( key === "_y" ) vector_y.value = (RAD2DEG*value).toFixed(1);
 						if ( key === "_z" ) vector_z.value = (RAD2DEG*value).toFixed(1);
-						vector_w.value = editor.rotation.order;
 					}
 				});
 
@@ -1638,13 +1637,13 @@
 
 				function EditorScalingSystem( dt ){
 
-					if ( keyCodes[F] ) {
+					if ( keyCodes[G] ) {
 						editor.scale.x += dt;
 						editor.scale.y += dt;
 						editor.scale.z += dt;
 					}
 
-					else if ( keyCodes[G] ) {
+					else if ( keyCodes[F] ) {
 						editor.scale.x -= dt;
 						editor.scale.y -= dt;
 						editor.scale.z -= dt;
