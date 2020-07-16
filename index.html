@@ -86,6 +86,7 @@
 	<body ontouchstart="">
 
 		<script src="/ecs/js/TabUI.js"></script>
+
 		<script>
 			const debugMode = true;
 			const Signal = signals.Signal;
@@ -277,37 +278,11 @@
 		</script>
 
 		<script>
-/*
-		//	select-change-watchers-call.js (last?)
-
-			(function(){
-
-				function onSelectChangeWatchersCall( select ){
-
-					watch( select, "onchange", function( prop, event, value ){ 
-						debugMode && console.log({item:select,event:event,value:value}); // debug.
-					});
-
-					select.addEventListener( "change", function(){
-						this.blur(); callWatchers( this, "onchange", "change", this.value );
-					});
-
-				}
-
-				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-key-droplist") );          // key_droplist,
-				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-vector-droplist") );       // vector_droplist,
-				onSelectChangeWatchersCall( TabUI.Geometry.tab.querySelector("select#geometry-type-droplist") );     // type_droplist,
-				onSelectChangeWatchersCall( TabUI.Material.tab.querySelector("select#material-entities-droplist") ); // entity_droplist,
-				onSelectChangeWatchersCall( TabUI.Texture.tab.querySelector("select#textures-entities-droplist") );  // entity_droplist,
-				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") );     // entity_droplist,
-
-			})();
-*/
-		</script>
-
-		<script>
 
 		//	ObjectEditor.js
+
+			const RAD2DEG = 57.29577951308232;
+			const DEG2RAD = 0.017453292519943295;
 
 			function ObjectEditor(){
 				var object = new THREE.Object3D();
@@ -410,33 +385,6 @@
 
 			const rigidObjects = new RigidObjects();
 
-		</script>
-
-		<script>
-/*
-			function addtoRigidObjects( value ){
-
-				var object = getObjectByEntityId( value );
-
-				if ( object && rigidObjects.findIndex( function( item ){ 
-					return item.id === object.id;
-				}) > -1 ) return; // already exists in rigidObjects.
-
-				object && object.isMesh && rigidObjects.push( object );
-			}
-
-			function removefromRigidObjects( value ){
-
-				var index = rigidObjects.findIndex( 
-					function( object ){
-						return object.id === parseInt( value );
-					});
-
-				if ( index < 0 ) return; // important (not found)!
-
-				rigidObjects.splice( index, 1 );
-			}
-*/
 		</script>
 
 		<script>
@@ -877,15 +825,6 @@
 
 			(function(create_button,type_droplist,entity_droplist,material_manager,entity_manager,scene){
 
-				var interval;
-
-				create_button.addEventListener( "click", function(){
-					clearTimeout( interval );
-					interval = setTimeout(function(){
-						callWatchers( create_button, "onclick", "click", type_droplist.value );
-					}, 250);
-				});
-
 				watch( create_button, "onclick", function( prop, event, type ){
 
 				//	Get type.
@@ -941,15 +880,6 @@
 
 			(function(clone_button,entity_droplist,entity_manager,scene){
 
-				var interval;
-
-				clone_button.addEventListener( "click", function(){
-					clearTimeout( interval );
-					interval = setTimeout(function(){
-						callWatchers( clone_button, "onclick", "click", entity_droplist.value );
-					}, 250);
-				});
-
 				watch( clone_button, "onclick", function( prop, event, value ){
 
 					if ( value === undefined || value === "" ) return;
@@ -996,15 +926,6 @@
 
 			(function(remove_button,entity_droplist,entity_manager,rigid_objects,octree,scene,octreeIncludes,exitEditMode){
 
-				var interval;
-
-				remove_button.addEventListener( "click", function(){
-					clearTimeout( interval );
-					interval = setTimeout(function(){
-						callWatchers( remove_button, "onclick", "click", entity_droplist.value );
-					}, 250);
-				});
-
 				watch( remove_button, "onclick", function( prop, event, value ){
 
 					if ( value === undefined || value === "" ) return;
@@ -1048,15 +969,6 @@
 
 			(function(add_button,entity_droplist,localPlayer,octree,scene,exitEditMode){
 
-				var interval;
-
-				add_button.addEventListener( "click", function(){
-					clearTimeout( interval );
-					interval = setTimeout(function(){
-						callWatchers( add_button, "onclick", "click", entity_droplist.value );
-					}, 250);
-				});
-
 				watch( add_button, "onclick", function( prop, event, value ){
 
 				//	DevNote: You have to add all objects with the 
@@ -1094,15 +1006,6 @@
 		//	octree-remove-button.js
 
 			(function(remove_button,entity_droplist,octree,scene,exitEditMode){
-
-				var interval;
-
-				remove_button.addEventListener( "click", function(){
-					clearTimeout( interval );
-					interval = setTimeout(function(){
-						callWatchers( remove_button, "onclick", "click", entity_droplist.value );
-					}, 250);
-				});
 
 				watch( remove_button, "onclick", function( prop, event, value ){
 
@@ -1142,11 +1045,9 @@
 
 			(function(exit_button,entity_droplist,exitEditMode){
 
-				var interval;
+				watch( exit_button, "onclick", function( prop, event, value ){
 
-				exit_button.addEventListener( "click", function(){
-					clearTimeout(interval);
-					interval = setTimeout( exitEditMode, 250, entity_droplist );
+					 exitEditMode( entity_droplist );
 				});
 
 			})( 
@@ -1163,8 +1064,6 @@
 
 			(function(add_button,entity_droplist,rigidObjects,exitEditMode){
 
-				var interval;
-
 				watch( add_button, "onclick", function( prop, event, value ){
 
 					var object = getObjectByEntityId( value );
@@ -1178,13 +1077,6 @@
 					exitEditMode( entity_droplist );
 				});
 
-				add_button.addEventListener( "click", function(){
-					clearTimeout( interval );
-					interval = setTimeout(function(){
-						callWatchers( add_button, "onclick", "click", entity_droplist.value );
-					}, 250);
-				});
-
 			})(
 				TabUI.Editor.tab.querySelector("div#rigid-add-button"), // clone_button,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
@@ -1194,8 +1086,6 @@
 		//	rigid-objects-remove-button.js
 
 			(function(remove_button,entity_droplist,rigidObjects,exitEditMode){
-
-				var interval;
 
 				watch( remove_button, "onclick", function( prop, event, value ){
 
@@ -1211,13 +1101,6 @@
 					exitEditMode( entity_droplist );
 				});
 
-				remove_button.addEventListener( "click", function(){
-					clearTimeout( interval );
-					interval = setTimeout(function(){
-						callWatchers( remove_button, "onclick", "click", entity_droplist.value );
-					}, 250);
-				});
-
 			})(
 				TabUI.Editor.tab.querySelector("div#rigid-remove-button"), // clone_button,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
@@ -1230,36 +1113,261 @@
 
 		//	key-inputs.js
 
-			(function( editor,text_input,value_input,vector_x,vector_y,vector_z,key_droplist,vector_droplist,entity_droplist,undo_button ){
+			(function( editor,text_input,value_input,key_droplist,entity_droplist,undo_button ){
+			//	var keys = "uuid,name,visible,castShadow,renderOrder,receiveShadow,frustumCulled,matrixAutoUpdate";
 
+				watch( text_input, "onchange", function( prop, event, value ){
 
+					var key = key_droplist.value;
 
+					switch( key ){
+						case "uuid":
+							return text_input.value = editor[key];
+						break;
+						case "name":
+							if ( !value ) return text_input.value = editor[key];
+							return editor[key] = value;
+						break;
+					}
+				});
 
+				watch( value_input, "onchange", function( prop, event, value ){
 
+					var key = key_droplist.value;
 
-
-
-
-
-
-
-
-
-
-
+					switch( key ){
+					//	number.
+						case "renderOrder":
+							return value_input.value = editor[key];
+						break;
+					//	boolean.
+						case "visible":
+						case "castShadow":
+						case "receiveShadow":
+						case "frustumCulled":
+						case "matrixAutoUpdate":
+							if ( value === "0") return editor[key] = false;
+							else if ( value === "1") return editor[key] = true;
+							else if ( value.toLowerCase() === "true") return editor[key] = true;
+							else if ( value.toLowerCase() === "false") return editor[key] = false;
+							return value_input.value = editor[key];
+						break;
+					}
+				});
 
 			})( objectEditor,                                                      // editor,
-				TabUI.Editor.tab.querySelector("input#editor-vector-x-input"),     // text_input,
-				TabUI.Editor.tab.querySelector("input#editor-vector-x-input"),     // value_input,
-				TabUI.Editor.tab.querySelector("input#editor-vector-x-input"),     // vector_x,
-				TabUI.Editor.tab.querySelector("input#editor-vector-y-input"),     // vector_y,
-				TabUI.Editor.tab.querySelector("input#editor-vector-z-input"),     // vector_z,
+				TabUI.Editor.tab.querySelector("input#editor-text-input"),         // text_input,
+				TabUI.Editor.tab.querySelector("input#editor-value-input"),        // value_input,
 				TabUI.Editor.tab.querySelector("select#editor-key-droplist"),      // key_droplist,
-				TabUI.Editor.tab.querySelector("select#editor-vector-droplist"),   // vector_droplist,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
 				TabUI.Editor.tab.querySelector("div#editor-undo-button")           // undo_button.
 			);
 
+		//	key-inputs.js
+
+			(function( editor,vector_x,vector_y,vector_z,vector_w,vector_droplist,undo_button ){
+
+				const RAD2DEG = 57.29577951308232;
+				const DEG2RAD = 0.017453292519943295;
+
+				var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
+
+				function onVectorKeyInput( editor,v,input,undo_button ){
+
+					watch( input, "onchange", function( prop, event, value ){
+
+						value = Number(value); // var key = vector_droplist.value; 
+						if ( value === "" ) return input.value = editor[key][v];
+						if ( isNaN(value) ) return input.value = editor[key][v];
+
+						switch ( key ) {
+							case: "position":
+								return editor[key][v] = value;
+							break;
+							case: "rotation":
+								return editor[key][v] = DEG2RAD*value;
+							break;
+							case: "scale":
+								if ( !value ) return input.value = editor[key][v].toFixed(3); // avoid 0.
+								return editor[key][v] = value;
+							break;
+							case: "quaternion":
+								return input.value = editor[key][v].toFixed(3);
+							break;
+						}
+
+					});
+				}
+
+			//	onVectorKeyInput( editor,"x",vector_x,vector_droplist,undo_button );
+			//	onVectorKeyInput( editor,"y",vector_y,vector_droplist,undo_button );
+			//	onVectorKeyInput( editor,"z",vector_z,vector_droplist,undo_button );
+
+				watch( vector_x, "onchange", function( prop, event, value ){
+
+					value = Number(value); // var key = vector_droplist.value; 
+					if ( value === "" ) return vector_x.value = editor[key].x; 
+					if ( isNaN(value) ) return vector_x.value = editor[key].x; 
+
+					switch ( key ) {
+						case: "position":
+							return editor[key].x = value;
+						break;
+						case: "rotation":
+							return editor[key].x = DEG2RAD*value;
+						break;
+						case: "scale":
+							if ( !value ) return vector_x.value = editor[key].x.toFixed(3); // avoid 0.
+							return editor[key].x = value;
+						break;
+						case: "quaternion":
+							return vector_x.value = editor[key].x.toFixed(3);
+						break;
+					}
+
+				});
+
+				watch( vector_y, "onchange", function( prop, event, value ){
+
+					value = Number(value); // var key = vector_droplist.value; 
+					if ( value === "" ) return vector_y.value = editor[key].y; 
+					if ( isNaN(value) ) return vector_y.value = editor[key].y; 
+
+					switch ( key ) {
+						case: "position":
+							return editor[key].y = value;
+						break;
+						case: "rotation":
+							return editor[key].y = DEG2RAD*value;
+						break;
+						case: "scale":
+							if ( !value ) return vector_y.value = editor[key].y.toFixed(3); // avoid 0.
+							return editor[key].y = value;
+						break;
+						case: "quaternion":
+							return vector_y.value = editor[key].y.toFixed(3);
+						break;
+					}
+
+				});
+
+				watch( vector_z, "onchange", function( prop, event, value ){
+
+					value = Number(value); // var key = vector_droplist.value; 
+					if ( value === "" ) return vector_z.value = editor[key].z; 
+					if ( isNaN(value) ) return vector_z.value = editor[key].z; 
+
+					switch ( key ) {
+						case: "position":
+							return editor[key].z = value;
+						break;
+						case: "rotation":
+							return editor[key].z = DEG2RAD*value;
+						break;
+						case: "scale":
+							if ( !value ) return vector_z.value = editor[key].z.toFixed(3); // avoid 0.
+							return editor[key].z = value;
+						break;
+						case: "quaternion":
+							return vector_z.value = editor[key].z.toFixed(3);
+						break;
+					}
+
+				});
+
+				watch( vector_w, "onchange", function( prop, event, value ){
+
+					value = Number(value); // var key = vector_droplist.value; 
+
+					switch ( key ) {
+						case: "position":
+							return vector_w.value = "";
+						break;
+						case: "rotation":
+							return vector_w.value = editor[key].order;
+						break;
+						case: "scale":
+							return vector_w.value = ((editor[key].x+editor[key].y+editor[key].z)/3).toFixed(3);
+						break;
+						case: "quaternion":
+							return vector_w.value = editor[key].w;
+						break;
+					}
+				});
+
+			})( objectEditor,                                                      // editor,
+				TabUI.Editor.tab.querySelector("input#editor-vector-x-input"),     // vector_x,
+				TabUI.Editor.tab.querySelector("input#editor-vector-y-input"),     // vector_y,
+				TabUI.Editor.tab.querySelector("input#editor-vector-z-input"),     // vector_z,
+				TabUI.Editor.tab.querySelector("input#editor-vector-w-input"),     // vector_w,
+				TabUI.Editor.tab.querySelector("select#editor-vector-droplist"),   // vector_droplist,
+				TabUI.Editor.tab.querySelector("div#editor-undo-button")           // undo_button.
+			);
+
+		</script>
+
+		<script>
+
+		//	click-inputs.js
+
+			(function( editor,increase,decrease,key_droplist,entity_droplist,undo_button ){
+
+				var key; watch( key_droplist, "onchange", function( prop, event, value ){ key = value; });
+
+				watch( increase, "onclick", function( prop, event, value ){
+
+				//	var key = key_droplist.value;
+
+					switch( key ){
+						case "uuid":
+							return editor[key] = THREE.Math.generateUUID()
+						break;
+					//	number.
+						case "renderOrder":
+							return editor[key] += 1;
+						break;
+					//	boolean.
+						case "visible":
+						case "castShadow":
+						case "receiveShadow":
+						case "frustumCulled":
+						case "matrixAutoUpdate":
+							return editor[key] = !editor[key];
+						break;
+					}
+				});
+
+				watch( decrease, "onclick", function( prop, event, value ){
+
+				//	var key = key_droplist.value;
+
+					switch( key ){
+						case "uuid":
+							return editor[key] = THREE.Math.generateUUID()
+						break;
+					//	number.
+						case "renderOrder":
+							return editor[key] -= 1;
+						break;
+					//	boolean.
+						case "visible":
+						case "castShadow":
+						case "receiveShadow":
+						case "frustumCulled":
+						case "matrixAutoUpdate":
+							return editor[key] = !editor[key];
+						break;
+					}
+				});
+
+
+			})( objectEditor,                                                      // editor,
+				TabUI.Editor.tab.querySelector("li#editor-value-increase"),        // increase,
+				TabUI.Editor.tab.querySelector("li#editor-value-decrease"),        // decrease,
+				TabUI.Editor.tab.querySelector("select#editor-key-droplist"),      // key_droplist,
+				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
+				TabUI.Editor.tab.querySelector("div#editor-undo-button")           // undo_button.
+			);
 
 		</script>
 
@@ -1631,7 +1739,7 @@
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
 
-			(function(editor,input,key_droplist,entity_droplist){
+			(function(editor,input,value_input,key_droplist,entity_droplist){
 
 				var object;
 
@@ -1643,12 +1751,14 @@
 
 				watch( editor, "name", function( key, action, value ){
 				//	var object = getObjectByEntityId(); debugMode && console.log(object);
+					value_input.value = "";
 					if (object) object[ key ] = editor[ key ];
 					if ( key_droplist.value === key ) input.value = editor[ key ];
 				});
 
 				watch( editor, "uuid", function( key, action, value ){
 				//	var object = getObjectByEntityId(); debugMode && console.log(object);
+					value_input.value = "";
 					if (object) object[ key ] = editor[ key ];
 					if ( key_droplist.value === key ) input.value = editor[ key ];
 				});
@@ -1656,11 +1766,12 @@
 			})(
 				objectEditor, // editor,
 				TabUI.Editor.tab.querySelector("input#editor-text-input"), // input,
+				TabUI.Editor.tab.querySelector("input#editor-value-input"), // value_input,
 				TabUI.Editor.tab.querySelector("select#editor-key-droplist"), // key_droplist,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
 
-			(function(editor,input,key_droplist,entity_droplist){
+			(function(editor,text_input,input,key_droplist,entity_droplist){
 
 				var object;
 
@@ -1672,42 +1783,49 @@
 
 				watch( editor, "visible", function( key, action, value ){
 				//	var object = getObjectByEntityId(); debugMode && console.log(object);
+					text_input.value = "";
 					if (object) object[ key ] = editor[ key ];
 					if ( key_droplist.value === key ) input.value = editor[ key ];
 				});
 
 				watch( editor, "castShadow", function( key, action, value ){
 				//	var object = getObjectByEntityId(); debugMode && console.log(object);
+					text_input.value = "";
 					if (object) object[ key ] = editor[ key ];
 					if ( key_droplist.value === key ) input.value = editor[ key ];
 				});
 
 				watch( editor, "renderOrder", function( key, action, value ){
 				//	var object = getObjectByEntityId(); debugMode && console.log(object);
+					text_input.value = "";
 					if (object) object[ key ] = editor[ key ];
 					if ( key_droplist.value === key ) input.value = editor[ key ];
 				});
 
 				watch( editor, "receiveShadow", function( key, action, value ){
 				//	var object = getObjectByEntityId(); debugMode && console.log(object);
+					text_input.value = "";
 					if (object) object[ key ] = editor[ key ];
 					if ( key_droplist.value === key ) input.value = editor[ key ];
 				});
 
 				watch( editor, "frustumCulled", function( key, action, value ){
 				//	var object = getObjectByEntityId(); debugMode && console.log(object);
+					text_input.value = "";
 					if (object) object[ key ] = editor[ key ];
 					if ( key_droplist.value === key ) input.value = editor[ key ];
 				});
 
 				watch( editor, "matrixAutoUpdate", function( key, action, value ){
 				//	var object = getObjectByEntityId(); debugMode && console.log(object);
+					text_input.value = "";
 					if (object) object[ key ] = editor[ key ];
 					if ( key_droplist.value === key ) input.value = editor[ key ];
 				});
 
 			})(
 				objectEditor, // editor,
+				TabUI.Editor.tab.querySelector("input#editor-text-input"), // text_input,
 				TabUI.Editor.tab.querySelector("input#editor-value-input"), // input,
 				TabUI.Editor.tab.querySelector("select#editor-key-droplist"), // key_droplist,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
@@ -2052,6 +2170,60 @@
 			//	return mesh;
 			})( scene, octree, cameraControls, entities );
 
+		</script>
+
+		<script>
+/*
+			function addtoRigidObjects( value ){
+
+				var object = getObjectByEntityId( value );
+
+				if ( object && rigidObjects.findIndex( function( item ){ 
+					return item.id === object.id;
+				}) > -1 ) return; // already exists in rigidObjects.
+
+				object && object.isMesh && rigidObjects.push( object );
+			}
+
+			function removefromRigidObjects( value ){
+
+				var index = rigidObjects.findIndex( 
+					function( object ){
+						return object.id === parseInt( value );
+					});
+
+				if ( index < 0 ) return; // important (not found)!
+
+				rigidObjects.splice( index, 1 );
+			}
+*/
+
+/*
+		//	select-change-watchers-call.js (last?)
+
+			(function(){
+
+				function onSelectChangeWatchersCall( select ){
+
+					watch( select, "onchange", function( prop, event, value ){ 
+						debugMode && console.log({item:select,event:event,value:value}); // debug.
+					});
+
+					select.addEventListener( "change", function(){
+						this.blur(); callWatchers( this, "onchange", "change", this.value );
+					});
+
+				}
+
+				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-key-droplist") );          // key_droplist,
+				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-vector-droplist") );       // vector_droplist,
+				onSelectChangeWatchersCall( TabUI.Geometry.tab.querySelector("select#geometry-type-droplist") );     // type_droplist,
+				onSelectChangeWatchersCall( TabUI.Material.tab.querySelector("select#material-entities-droplist") ); // entity_droplist,
+				onSelectChangeWatchersCall( TabUI.Texture.tab.querySelector("select#textures-entities-droplist") );  // entity_droplist,
+				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") );     // entity_droplist,
+
+			})();
+*/
 		</script>
 
 	</body>

@@ -120,8 +120,7 @@
 		+ "border:1px solid;border-radius:4px;padding:2px 4px 4px 4px;"
 		+ "font-size:20px;margin-left:10px;margin-right:15px;";
 
-		var keys = "";
-		keys += "uuid,name,visible,castShadow,renderOrder,receiveShadow,frustumCulled,matrixAutoUpdate";
+		var keys = "uuid,name,visible,castShadow,renderOrder,receiveShadow,frustumCulled,matrixAutoUpdate";
 
 		keys.split(",").forEach(function( name ){
 			var option = document.createElement("option");
