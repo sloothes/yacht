@@ -363,6 +363,89 @@
 
 		<script>
 
+		//	key-droplist.js
+
+			(function(editor,text_input,input,key_droplist,entity_droplist){
+
+				watch( key_droplist, "onchange", function( prop, event, key ){
+					switch ( key ) {
+						case "visible":
+						case "castShadow":
+						case "renderOrder":
+						case "receiveShadow":
+						case "frustumCulled":,
+						case "matrixAutoUpdate":
+							input.value = editor[ key ];
+						break;
+						default:
+							text_input.value = editor[ key ];
+						break;
+					}
+				});
+
+			})(
+				objectEditor, // editor,
+				TabUI.Editor.tab.querySelector("input#editor-text-input"), // text_input,
+				TabUI.Editor.tab.querySelector("input#editor-value-input"), // input,
+				TabUI.Editor.tab.querySelector("select#editor-key-droplist"), // key_droplist,
+				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
+			);
+
+		</script>
+
+		<script>
+
+		//	vector-droplist.js
+
+			(function(editor,vector_x,vector_y,vector_z,vector_w,vector_droplist,entity_droplist){
+
+				const RAD2DEG = 57.29577951308232;
+				const DEG2RAD = 0.017453292519943295;
+
+				watch( vector_droplist, "onchange", function( prop, event, key ){
+					switch ( key ) {
+						case "position":
+							vector_w.value = "";
+							vector_x.value = editor[key].x.toFixed(2);
+							vector_y.value = editor[key].y.toFixed(2);
+							vector_z.value = editor[key].z.toFixed(2);
+						break;
+						case "rotation":
+							vector_w.value = editor[key].order;
+							vector_x.value = RAD2DEG*editor[key].x.toFixed(1);
+							vector_y.value = RAD2DEG*editor[key].y.toFixed(1);
+							vector_z.value = RAD2DEG*editor[key].z.toFixed(1);
+						break;
+						case "scale":
+							vector_x.value = editor[key].x.toFixed(3);
+							vector_y.value = editor[key].y.toFixed(3);
+							vector_z.value = editor[key].z.toFixed(3);
+							vector_w.value = ((editor[key].x+editor[key].y+editor[key].z)/3).toFixed(3);
+						break;
+						case "quaternion":
+							vector_x.value = editor[key].x.toFixed(3);
+							vector_y.value = editor[key].y.toFixed(3);
+							vector_z.value = editor[key].z.toFixed(3);
+							vector_w.value = editor[key].w.toFixed(3);
+						break;
+					}
+
+				});
+
+			})(
+				objectEditor, // editor,
+				TabUI.Editor.tab.querySelector("input#editor-vector-x-input"),  // vector_x,
+				TabUI.Editor.tab.querySelector("input#editor-vector-y-input"),  // vector_y,
+				TabUI.Editor.tab.querySelector("input#editor-vector-z-input"),  // vector_z,
+				TabUI.Editor.tab.querySelector("input#editor-vector-w-input"),  // vector_w,
+				TabUI.Editor.tab.querySelector("select#editor-vector-droplist"), // vector_droplist,
+				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
+			);
+
+		</script>
+
+		<script>
+
 		//	entity-droplist.js
 
 		//	Last editor entity droplist value.
@@ -523,20 +606,14 @@
 		</script>
 
 		<script>
-
 /*
 		//	Call Watchers.
-
 			(function( entity_droplist ){
-
 				entity_droplist.addEventListener( "change", function(){
-
 					this.blur(); callWatchers(this, "onchange", "change", this.value );
 				});
-
 			})( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") ); // entity_droplist.
 */
-
 		</script>
 
 		<script>
@@ -625,97 +702,6 @@
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist")  // entity_droplist.
 			);
 
-		</script>
-
-		<script>
-/*
-			watch(increase_y, "onClick", function( prop, event ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-			watch(increase_z, "onClick", function( prop, event ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-			watch(increase_w, "onClick", function( prop, event ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-			watch(decrease_x, "onClick", function( prop, event ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-			watch(decrease_y, "onClick", function( prop, event ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-			watch(decrease_z, "onClick", function( prop, event ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-			watch(decrease_w, "onClick", function( prop, event ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-			watch(vector_x, "onChange", function( prop, event, value ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-			watch(vector_y, "onChange", function( prop, event, value ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-			watch(vector_z, "onChange", function( prop, event, value ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-			watch(vector_w, "onChange", function( prop, event, value ){ 
-				edgeshelper && edgeshelper.copy(editor);
-			});
-
-		//	Call watchers.
-
-			increase_x.addEventListener( "click", function(){
-				callWatchers( this, "onClick", "click" );
-			});
-			increase_y.addEventListener( "click", function(){
-				callWatchers( this, "onClick", "click" );
-			});
-			increase_z.addEventListener( "click", function(){
-				callWatchers( this, "onClick", "click" );
-			});
-			increase_w.addEventListener( "click", function(){
-				callWatchers( this, "onClick", "click" );
-			});
-			decrease_x.addEventListener( "click", function(){
-				callWatchers( this, "onClick", "click" );
-			});
-			decrease_y.addEventListener( "click", function(){
-				callWatchers( this, "onClick", "click" );
-			});
-			decrease_z.addEventListener( "click", function(){
-				callWatchers( this, "onClick", "click" );
-			});
-			decrease_w.addEventListener( "click", function(){
-				callWatchers( this, "onClick", "click" );
-			});
-			vector_x.addEventListener( "click", function(){
-				callWatchers( this, "onChange", "change", this.value );
-			});
-			vector_y.addEventListener( "click", function(){
-				callWatchers( this, "onChange", "change", this.value );
-			});
-			vector_z.addEventListener( "click", function(){
-				callWatchers( this, "onChange", "change", this.value );
-			});
-			vector_w.addEventListener( "click", function(){
-				callWatchers( this, "onChange", "change", this.value );
-			});
-
-			TabUI.Editor.tab.querySelector("input#editor-vector-x-input"),     // vector_x,
-			TabUI.Editor.tab.querySelector("input#editor-vector-y-input"),     // vector_y,
-			TabUI.Editor.tab.querySelector("input#editor-vector-z-input"),     // vector_z,
-			TabUI.Editor.tab.querySelector("input#editor-vector-w-input"),     // vector_w,
-			TabUI.Editor.tab.querySelector("li#editor-vector-x-increase"),     // increase_x,
-			TabUI.Editor.tab.querySelector("li#editor-vector-y-increase"),     // increase_y,
-			TabUI.Editor.tab.querySelector("li#editor-vector-z-increase"),     // increase_z,
-			TabUI.Editor.tab.querySelector("li#editor-vector-w-increase"),     // increase_w,
-			TabUI.Editor.tab.querySelector("li#editor-vector-x-decrease"),     // decrease_x,
-			TabUI.Editor.tab.querySelector("li#editor-vector-y-decrease"),     // decrease_y,
-			TabUI.Editor.tab.querySelector("li#editor-vector-z-decrease"),     // decrease_z,
-			TabUI.Editor.tab.querySelector("li#editor-vector-w-decrease"),     // decrease_w,
-			TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist.
-*/
 		</script>
 
 		<script>
@@ -1316,7 +1302,6 @@
 				onVectorMouseInput( editor,"x",vector_x,increase_x,decrease_x,vector_droplist,entity_droplist,undo_button );
 				onVectorMouseInput( editor,"y",vector_y,increase_y,decrease_y,vector_droplist,entity_droplist,undo_button );
 				onVectorMouseInput( editor,"z",vector_z,increase_z,decrease_z,vector_droplist,entity_droplist,undo_button );
-
 
 			})( objectEditor,                                                      // editor,
 				TabUI.Editor.tab.querySelector("input#editor-vector-x-input"),     // vector_x,
@@ -1963,18 +1948,6 @@
 			//	cameraControls.rigidObjects.push( mesh );
 			//	return mesh;
 			})( scene, octree, cameraControls, entities );
-
-
-
-
-
-
-
-
-
-
-
-
 
 		</script>
 
