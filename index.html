@@ -146,7 +146,7 @@
 						debugMode && console.log({item:select,event:event,value:value}); // debug.
 					});
 
-					input.addEventListener( "change", function(){
+					select.addEventListener( "change", function(){
 						select.blur(); callWatchers( select, "onChange", "change", select.value );
 					});
 
