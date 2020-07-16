@@ -497,7 +497,7 @@
 
 		//	Update object editor.
 
-			(function(editor,cameraControls,rigidObjects,localPlayer,keyInputControls,entity_droplist){
+			(function(editor,cameraControls,rigidObjects,localPlayer,keyInputControls,key_droplist,vector_droplist,entity_droplist){
 
 			//	Exit from edit mode.
 
@@ -574,13 +574,20 @@
 
 					}
 
+				//	Call droplist watchers anyway.
+					callWatchers( key_droplist, "onchange", "change", key_droplist.value );
+					callWatchers( vector_droplist, "onchange", "change", vector_droplist.value );
+
 				});
 
 			})(
 				objectEditor, cameraControls, rigidObjects, localPlayer, keyInputControls, 
+				TabUI.Editor.tab.querySelector("select#editor-key-droplist"),     // key_droplist,
+				TabUI.Editor.tab.querySelector("select#editor-vector-droplist"),  // vector_droplist,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
 
+/*
 		//	Call key droplist watchers.
 
 			(function(key_droplist,entity_droplist){
@@ -606,7 +613,7 @@
 				TabUI.Editor.tab.querySelector("select#editor-vector-droplist"),  // vector_droplist,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
-
+*/
 
 		//	Call material entity droplist.
 
@@ -619,16 +626,13 @@
 					var material_droplist = document.querySelector(selector); if (!material_droplist) return;
 
 				//	Get material id.
-					var object = getObjectByEntityId( value ); if ( !object ) {
+					var object = getObjectByEntityId( value ); if ( !object ) 
 						return callWatchers( material_droplist, "onchange", "change", material_droplist.value = "" );
-					}
 
-					var material = object.material; if (!object.material) {
+					var material = object.material; if ( !material ) 
 						return callWatchers( material_droplist, "onchange", "change", material_droplist.value = "" );
-					}
 
 					material && callWatchers( material_droplist, "onchange", "change", material_droplist.value = String(material.id) );
-
 				});
 
 			})( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") ); // entity_droplist.
