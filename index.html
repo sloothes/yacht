@@ -175,7 +175,7 @@
 						debugMode && console.log({item:input,event:event,value:value}); // debug.
 					});
 
-					this.addEventListener( "change", function(){
+					input.addEventListener( "change", function(){
 						this.blur(); callWatchers( this, "onChange", "change", this.value );
 					});
 
