@@ -581,6 +581,18 @@
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
 
+		//	Call key droplist watchers.
+
+			(function(key_droplist,entity_droplist){
+
+				watch( entity_droplist, "onchange", function( property, event, value ){
+					callWatchers( key_droplist, "onchange", "change", key_droplist.value );
+				});
+
+			})(
+				TabUI.Editor.tab.querySelector("select#editor-key-droplist"),     // key_droplist,
+				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
+			);
 
 		//	Call vector droplist watchers.
 
@@ -591,7 +603,7 @@
 				});
 
 			})(
-				TabUI.Editor.tab.querySelector("select#editor-vector-droplist"), // vector_droplist.
+				TabUI.Editor.tab.querySelector("select#editor-vector-droplist"),  // vector_droplist,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
 
