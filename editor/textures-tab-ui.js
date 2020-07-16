@@ -25,12 +25,6 @@
 			select.appendChild( option );
 		})();
 
-	//	Call watchers.
-		select.addEventListener( "change", function(){
-			this.blur(); // important!
-			callWatchers(this, "onchange", "change", this.value );
-		});
-
 		row.appendChild( select );
 		tab.appendChild( row );
 
@@ -104,16 +98,6 @@
 		input.style.cssText = "width:-webkit-fill-available;color:#000;display:inline;"
 		+ "margin:0px 5px;text-align:center;font-size:large;font-weigth:bold;background:none;";
 
-	//	Call watchers.
-		input.addEventListener( "change", function(){
-			this.blur(); // important!
-			callWatchers(this, "onchange", "change", this.value );
-		});
-
-	//	keyInputControls.
-		input.addEventListener( "blur", enableKeyInputControls );
-		input.addEventListener( "focus", disableKeyInputControls );
-
 		row.appendChild(input);
 		tab.appendChild( row );
 
@@ -144,12 +128,6 @@
 			option.text = name;
 			option.value = name;
 			select.appendChild( option );
-		});
-
-	//	Call watchers.
-		select.addEventListener( "change", function(){
-			this.blur(); // important!
-			callWatchers(this, "onchange", "change", this.value );
 		});
 
 		row.appendChild( select );
@@ -190,16 +168,6 @@
 		input.style.cssText = "color:#000;border:none;display:inline;width:80px;"
 		+ "margin:0px 5px;text-align:center;font-size:large;font-weigth:bold;background:none;";
 
-	//	Call watchers.
-		input.addEventListener( "change", function(){
-			this.blur(); // important!
-			callWatchers(this, "onchange", "change", this.value );
-		});
-
-	//	keyInputControls.
-		input.addEventListener( "blur", enableKeyInputControls );
-		input.addEventListener( "focus", disableKeyInputControls );
-
 		vect.appendChild(prev);
 		vect.appendChild(input);
 		vect.appendChild(next);
@@ -226,20 +194,13 @@
 		+ "border:1px solid;border-radius:4px;padding:2px 4px 4px 4px;"
 		+ "font-size:20px;margin-left:10px;margin-right:15px;";
 
-		var keys = "";
-		keys += "offset,repeat,center";
+		var keys = "offset,repeat,center";
 
 		keys.split(",").forEach(function( name ){
 			var option = document.createElement("option");
 			option.text = name;
 			option.value = name;
 			select.appendChild( option );
-		});
-
-	//	Call watchers.
-		select.addEventListener( "change", function(){
-			this.blur(); // important!
-			callWatchers(this, "onchange", "change", this.value );
 		});
 
 		row.appendChild( select );
@@ -278,17 +239,7 @@
 		input.setAttribute("placeholder", "x" );
 		input.classList.add("form-control","text-center");
 		input.style.cssText = "color:#000;border:none;display:inline;width:80px;"
-			+ "margin:0px 5px;text-align:center;font-size:large;font-weigth:bold;background:none;";
-
-	//	Call watchers.
-		input.addEventListener( "change", function(){
-			this.blur(); // important!
-			callWatchers(this, "onchange", "change", this.value );
-		});
-
-	//	keyInputControls.
-		input.addEventListener( "blur", enableKeyInputControls );
-		input.addEventListener( "focus", disableKeyInputControls );
+		+ "margin:0px 5px;text-align:center;font-size:large;font-weigth:bold;background:none;";
 
 		vect.appendChild(prev);
 		vect.appendChild(input);
@@ -329,17 +280,7 @@
 		input.setAttribute("placeholder", "y" );
 		input.classList.add("form-control","text-center");
 		input.style.cssText = "color:#000;border:none;display:inline;width:80px;"
-			+ "margin:0px 5px;text-align:center;font-size:large;font-weigth:bold;background:none;";
-
-	//	Call watchers.
-		input.addEventListener( "change", function(){
-			this.blur(); // important!
-			callWatchers(this, "onchange", "change", this.value );
-		});
-
-	//	keyInputControls.
-		input.addEventListener( "blur", enableKeyInputControls );
-		input.addEventListener( "focus", disableKeyInputControls );
+		+ "margin:0px 5px;text-align:center;font-size:large;font-weigth:bold;background:none;";
 
 		vect.appendChild(prev);
 		vect.appendChild(input);
@@ -413,15 +354,6 @@
 		input.style.cssText = "display:none;";
 		button.appendChild( input );
 
-		button.addEventListener( "click", function(){
-			input.files.length = 0; input.click();
-		});
-
-	//	Call watchers.
-		input.addEventListener( "change", function(){
-			callWatchers( this, "onchange", "change", this.files );
-		});
-
 		row.appendChild( button );
 		tab.appendChild( row );
 
@@ -469,15 +401,6 @@
 		input.id = "image-file-input";
 		input.style.cssText = "display:none;";
 		button.appendChild( input );
-
-		button.addEventListener( "click", function(){
-			input.files.length = 0; input.click();
-		});
-
-	//	Call watchers.
-		input.addEventListener( "change", function(){
-			callWatchers( this, "onchange", "change", this.files );
-		});
 
 		row.appendChild( button );
 		tab.appendChild( row );
