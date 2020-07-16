@@ -482,17 +482,18 @@
 		//	keeps entity's droplist last value.
 			(function( latestEntityId,entity_droplist ){
 
-			//	when you call lastEntity watcher you can get the old value.
-				watch( latestEntityId, "value", function(property, action, newValue, oldValue ){
-					debugMode && console.log({item:latestEntityId,"new value":newValue,"old value":oldValue})
-				});
-
 			//	Update latest entity id value.
 				watch(entity_droplist, "onchange", function( property, event, value ){
 					latestEntityId.value = value;
 				});
 
-			})( latestEntityId, TabUI.Editor.tab.querySelector("select#editor-entities-droplist") ); // entity_droplist.
+			//	when you change lastEntity.value you can get the old value.
+				watch( latestEntityId, "value", function(property, action, newValue, oldValue ){
+					debugMode && console.log({item:latestEntityId,"new value":newValue,"old value":oldValue});
+					latestEntityId.value = oldValue;
+				});
+
+			})( laterEntityId, TabUI.Editor.tab.querySelector("select#editor-entities-droplist") ); // entity_droplist.
 
 
 		//	Update object editor.
