@@ -702,8 +702,9 @@
 				function onInputChangeWatcher( input ){
 
 					watch( input, "onchange", function( prop, event, value ){ 
-						edgeshelper && edgeshelper.copy(editor);
-						edgeshelper && edgeshelper.visible = true; // important!
+						if  ( !edgeshelper ) return;
+						edgeshelper.copy( editor );
+						edgeshelper.visible = true;
 					});
 
 				}
@@ -713,8 +714,9 @@
 				function onMouseClickWatcher( button ){
 
 					watch( button, "onclick", function( prop, event ){ 
-						edgeshelper && edgeshelper.copy(editor);
-						edgeshelper && edgeshelper.visible = true; // important!
+						if  ( !edgeshelper ) return;
+						edgeshelper.copy( editor );
+						edgeshelper.visible = true;
 					});
 
 				}
