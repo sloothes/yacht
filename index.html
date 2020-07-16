@@ -703,6 +703,7 @@
 
 					watch( input, "onchange", function( prop, event, value ){ 
 						edgeshelper && edgeshelper.copy(editor);
+						edgeshelper && edgeshelper.visible = true; // important!
 					});
 
 				}
@@ -713,6 +714,7 @@
 
 					watch( button, "onclick", function( prop, event ){ 
 						edgeshelper && edgeshelper.copy(editor);
+						edgeshelper && edgeshelper.visible = true; // important!
 					});
 
 				}
