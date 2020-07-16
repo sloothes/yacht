@@ -428,15 +428,15 @@
 			}
 
 		//	Call Watchers.
-		//
-		//	(function( entity_droplist ){
-		//
-		//		entity_droplist.addEventListener( "change", function(){
-		//
-		//			this.blur(); callWatchers(this, "onchange", "change", this.value );
-		//		});
-		//
-		//	})( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") ); // entity_droplist.
+		
+			(function( entity_droplist ){
+		
+				entity_droplist.addEventListener( "change", function(){
+		
+					this.blur(); callWatchers(this, "onchange", "change", this.value );
+				});
+		
+			})( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") ); // entity_droplist.
 
 
 		</script>
@@ -1675,10 +1675,10 @@
 
 				}
 
-				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-x-input") ); // vector_x,
-				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-y-input") ); // vector_y,
-				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-z-input") ); // vector_z,
-				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-w-input") ); // vector_w,
+			//	onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-x-input") ); // vector_x,
+			//	onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-y-input") ); // vector_y,
+			//	onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-z-input") ); // vector_z,
+			//	onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-w-input") ); // vector_w,
 
 			})();
 
@@ -1708,14 +1708,14 @@
 					});
 				}
 
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-increase") ); // increase_x,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-increase") ); // increase_y,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-increase") ); // increase_z,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-increase") ); // increase_w,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-decrease") ); // decrease_x,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-decrease") ); // decrease_y,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-decrease") ); // decrease_z,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-decrease") ); // decrease_w,
+			//	onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-increase") ); // increase_x,
+			//	onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-increase") ); // increase_y,
+			//	onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-increase") ); // increase_z,
+			//	onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-increase") ); // increase_w,
+			//	onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-decrease") ); // decrease_x,
+			//	onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-decrease") ); // decrease_y,
+			//	onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-decrease") ); // decrease_z,
+			//	onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-decrease") ); // decrease_w,
 
 			})();
 
@@ -1739,13 +1739,12 @@
 
 				}
 
-				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-key-droplist") );          // key_droplist,
-				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-vector-droplist") );       // vector_droplist,
-
-				onSelectChangeWatchersCall( TabUI.Geometry.tab.querySelector("select#geometry-type-droplist") );     // type_droplist,
-				onSelectChangeWatchersCall( TabUI.Material.tab.querySelector("select#material-entities-droplist") ); // entity_droplist,
-				onSelectChangeWatchersCall( TabUI.Texture.tab.querySelector("select#textures-entities-droplist") );  // entity_droplist,
-				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") );     // entity_droplist, last?
+			//	onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-key-droplist") );          // key_droplist,
+			//	onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-vector-droplist") );       // vector_droplist,
+			//	onSelectChangeWatchersCall( TabUI.Geometry.tab.querySelector("select#geometry-type-droplist") );     // type_droplist,
+			//	onSelectChangeWatchersCall( TabUI.Material.tab.querySelector("select#material-entities-droplist") ); // entity_droplist,
+			//	onSelectChangeWatchersCall( TabUI.Texture.tab.querySelector("select#textures-entities-droplist") );  // entity_droplist,
+			//	onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") );     // entity_droplist,
 
 			})();
 
