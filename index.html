@@ -147,7 +147,7 @@
 					});
 
 					select.addEventListener( "change", function(){
-						select.blur(); callWatchers( select, "onChange", "change", select.value );
+						this.blur(); callWatchers( this, "onChange", "change", this.value );
 					});
 
 				}
@@ -175,8 +175,8 @@
 						debugMode && console.log({item:input,event:event,value:value}); // debug.
 					});
 
-					input.addEventListener( "change", function(){
-						input.blur(); callWatchers( input, "onChange", "change", input.value );
+					this.addEventListener( "change", function(){
+						this.blur(); callWatchers( this, "onChange", "change", this.value );
 					});
 
 				}
@@ -208,9 +208,9 @@
 
 					button.addEventListener( "click", function(){ 
 						clearTimeout( interval );
-						interval = setTimeout(function(){
+						interval = setTimeout(function(button){
 							callWatchers( button, "onClick", "click" );
-						}, 250); 
+						}, 250, this); 
 					});
 				}
 
