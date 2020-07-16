@@ -455,7 +455,6 @@
 						decrease_x,decrease_y,decrease_z,
 						entity_droplist,scene ){
 
-				var interval;
 				var edgeshelper;
 
 				function destroyEdgesHelper(){
@@ -499,50 +498,64 @@
 				});
 
 				watch(increase_x, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.scale.copy(editor.scale);
-					edgeshelper && edgeshelper.rotation.copy(editor.rotation);
-					edgeshelper && edgeshelper.position.copy(editor.position);
+					edgeshelper && edgeshelper.copy(editor);
 				});
 				watch(increase_y, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.scale.copy(editor.scale);
-					edgeshelper && edgeshelper.rotation.copy(editor.rotation);
-					edgeshelper && edgeshelper.position.copy(editor.position);
+					edgeshelper && edgeshelper.copy(editor);
 				});
 				watch(increase_z, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.scale.copy(editor.scale);
-					edgeshelper && edgeshelper.rotation.copy(editor.rotation);
-					edgeshelper && edgeshelper.position.copy(editor.position);
+					edgeshelper && edgeshelper.copy(editor);
 				});
 				watch(decrease_x, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.scale.copy(editor.scale);
-					edgeshelper && edgeshelper.rotation.copy(editor.rotation);
-					edgeshelper && edgeshelper.position.copy(editor.position);
+					edgeshelper && edgeshelper.copy(editor);
 				});
 				watch(decrease_y, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.scale.copy(editor.scale);
-					edgeshelper && edgeshelper.rotation.copy(editor.rotation);
-					edgeshelper && edgeshelper.position.copy(editor.position);
+					edgeshelper && edgeshelper.copy(editor);
 				});
 				watch(decrease_z, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.scale.copy(editor.scale);
-					edgeshelper && edgeshelper.rotation.copy(editor.rotation);
-					edgeshelper && edgeshelper.position.copy(editor.position);
+					edgeshelper && edgeshelper.copy(editor);
 				});
 				watch(vector_x, "onChange", function( prop, event, value ){ 
-					edgeshelper && edgeshelper.scale.copy(editor.scale);
-					edgeshelper && edgeshelper.rotation.copy(editor.rotation);
-					edgeshelper && edgeshelper.position.copy(editor.position);
+					edgeshelper && edgeshelper.copy(editor);
 				});
 				watch(vector_y, "onChange", function( prop, event, value ){ 
-					edgeshelper && edgeshelper.scale.copy(editor.scale);
-					edgeshelper && edgeshelper.rotation.copy(editor.rotation);
-					edgeshelper && edgeshelper.position.copy(editor.position);
+					edgeshelper && edgeshelper.copy(editor);
 				});
 				watch(vector_z, "onChange", function( prop, event, value ){ 
-					edgeshelper && edgeshelper.scale.copy(editor.scale);
-					edgeshelper && edgeshelper.rotation.copy(editor.rotation);
-					edgeshelper && edgeshelper.position.copy(editor.position);
+					edgeshelper && edgeshelper.copy(editor);
 				});
+
+			//	Call watchers.
+
+				increase_x.addEventListener( "click", function){
+					callWatchers( this, "onClick", "click" );
+				});
+				increase_y.addEventListener( "click", function){
+					callWatchers( this, "onClick", "click" );
+				});
+				increase_z.addEventListener( "click", function){
+					callWatchers( this, "onClick", "click" );
+				});
+				decrease_x.addEventListener( "click", function){
+					callWatchers( this, "onClick", "click" );
+				});
+				decrease_y.addEventListener( "click", function){
+					callWatchers( this, "onClick", "click" );
+				});
+				decrease_z.addEventListener( "click", function){
+					callWatchers( this, "onClick", "click" );
+				});
+
+				vector_x.addEventListener( "click", function){
+					callWatchers( this, "onChange", "change" this.value );
+				});
+				vector_y.addEventListener( "click", function){
+					callWatchers( this, "onChange", "change" this.value );
+				});
+				vector_z.addEventListener( "click", function){
+					callWatchers( this, "onChange", "change" this.value );
+				});
+
 
 			})( objectEditor,                                                      // editor,
 				TabUI.Editor.tab.querySelector("input#editor-vector-x-input"),     // vector_x,
