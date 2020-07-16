@@ -571,8 +571,10 @@
 					}
 
 				//	Call droplist watchers anyway.
-					callWatchers( key_droplist, "onchange", "change", key_droplist.value );
-					callWatchers( vector_droplist, "onchange", "change", vector_droplist.value );
+					setTimeout(function{}{
+						callWatchers( key_droplist, "onchange", "change", key_droplist.value );
+						callWatchers( vector_droplist, "onchange", "change", vector_droplist.value );
+					});
 
 				});
 
