@@ -296,8 +296,8 @@
 
 				var editor = this;
 				editor.copy( new THREE.Object3D() );
+				editor.uuid = THREE.Math.generateUUID();
 				editor.name = "object editor";
-
 			};
 
 			ObjectEditor.prototype.update = function( value ){ 
@@ -318,6 +318,10 @@
 
 			//	Update editor (copy).
 				object && editor.copy( object );
+
+			//	uuid.
+				if ( object ) editor.uuid = object.uuid; 
+				else editor.uuid = THREE.Math.generateUUID();
 
 			//	return boolean.
 			//	console.log("editor isEditing:", isEditing);
@@ -1334,7 +1338,7 @@
 
 					switch( key ){
 						case "uuid":
-							return editor[key] = THREE.Math.generateUUID()
+							return editor[key] = THREE.Math.generateUUID();
 						break;
 					//	number.
 						case "renderOrder":
@@ -1357,7 +1361,7 @@
 
 					switch( key ){
 						case "uuid":
-							return editor[key] = THREE.Math.generateUUID()
+							return editor[key] = THREE.Math.generateUUID();
 						break;
 					//	number.
 						case "renderOrder":
