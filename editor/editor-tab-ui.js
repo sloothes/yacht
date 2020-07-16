@@ -98,16 +98,6 @@
 		input.style.cssText = "width:-webkit-fill-available;color:#000;display:inline;"
 		+ "margin:0px 5px;text-align:center;font-size:large;font-weigth:bold;background:none;";
 
-	//	Call watchers.
-		input.addEventListener( "change", function(){
-			this.blur(); // important!
-			callWatchers(this, "onchange", "change", this.value );
-		});
-
-	//	keyInputControls.
-		input.addEventListener( "blur", enableKeyInputControls );
-		input.addEventListener( "focus", disableKeyInputControls );
-
 		row.appendChild(input);
 		tab.appendChild( row );
 
@@ -138,12 +128,6 @@
 			option.text = name;
 			option.value = name;
 			select.appendChild( option );
-		});
-
-	//	Call watchers.
-		select.addEventListener( "change", function(){
-			this.blur(); // important!
-			callWatchers(this, "onchange", "change", this.value );
 		});
 
 		row.appendChild( select );
@@ -183,16 +167,6 @@
 		input.classList.add("form-control","text-center");
 		input.style.cssText = "color:#000;border:none;display:inline;width:80px;"
 		+ "margin:0px 5px;text-align:center;font-size:large;font-weigth:bold;background:none;";
-
-	//	Call watchers.
-		input.addEventListener( "change", function(){
-			this.blur(); // important!
-			callWatchers(this, "onchange", "change", this.value );
-		});
-
-	//	keyInputControls.
-		input.addEventListener( "blur", enableKeyInputControls );
-		input.addEventListener( "focus", disableKeyInputControls );
 
 		vect.appendChild(prev);
 		vect.appendChild(input);
