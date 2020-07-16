@@ -1181,17 +1181,17 @@
 						if ( isNaN(value) ) return input.value = editor[key][v];
 
 						switch ( key ) {
-							case: "position":
+							case "position":
 								return editor[key][v] = value;
 							break;
-							case: "rotation":
+							case "rotation":
 								return editor[key][v] = DEG2RAD*value;
 							break;
-							case: "scale":
+							case "scale":
 								if ( !value ) return input.value = editor[key][v].toFixed(3); // avoid 0.
 								return editor[key][v] = value;
 							break;
-							case: "quaternion":
+							case "quaternion":
 								return input.value = editor[key][v].toFixed(3);
 							break;
 						}
@@ -1210,17 +1210,17 @@
 					if ( isNaN(value) ) return vector_x.value = editor[key].x; 
 
 					switch ( key ) {
-						case: "position":
+						case "position":
 							return editor[key].x = value;
 						break;
-						case: "rotation":
+						case "rotation":
 							return editor[key].x = DEG2RAD*value;
 						break;
-						case: "scale":
+						case "scale":
 							if ( !value ) return vector_x.value = editor[key].x.toFixed(3); // avoid 0.
 							return editor[key].x = value;
 						break;
-						case: "quaternion":
+						case "quaternion":
 							return vector_x.value = editor[key].x.toFixed(3);
 						break;
 					}
@@ -1234,17 +1234,17 @@
 					if ( isNaN(value) ) return vector_y.value = editor[key].y; 
 
 					switch ( key ) {
-						case: "position":
+						case "position":
 							return editor[key].y = value;
 						break;
-						case: "rotation":
+						case "rotation":
 							return editor[key].y = DEG2RAD*value;
 						break;
-						case: "scale":
+						case "scale":
 							if ( !value ) return vector_y.value = editor[key].y.toFixed(3); // avoid 0.
 							return editor[key].y = value;
 						break;
-						case: "quaternion":
+						case "quaternion":
 							return vector_y.value = editor[key].y.toFixed(3);
 						break;
 					}
@@ -1258,17 +1258,17 @@
 					if ( isNaN(value) ) return vector_z.value = editor[key].z; 
 
 					switch ( key ) {
-						case: "position":
+						case "position":
 							return editor[key].z = value;
 						break;
-						case: "rotation":
+						case "rotation":
 							return editor[key].z = DEG2RAD*value;
 						break;
-						case: "scale":
+						case "scale":
 							if ( !value ) return vector_z.value = editor[key].z.toFixed(3); // avoid 0.
 							return editor[key].z = value;
 						break;
-						case: "quaternion":
+						case "quaternion":
 							return vector_z.value = editor[key].z.toFixed(3);
 						break;
 					}
@@ -1280,16 +1280,16 @@
 					value = Number(value); // var key = vector_droplist.value; 
 
 					switch ( key ) {
-						case: "position":
+						case "position":
 							return vector_w.value = "";
 						break;
-						case: "rotation":
+						case "rotation":
 							return vector_w.value = editor[key].order;
 						break;
-						case: "scale":
+						case "scale":
 							return vector_w.value = ((editor[key].x+editor[key].y+editor[key].z)/3).toFixed(3);
 						break;
-						case: "quaternion":
+						case "quaternion":
 							return vector_w.value = editor[key].w;
 						break;
 					}
