@@ -459,7 +459,7 @@
 					});
 
 					input.addEventListener( "change", function(){
-						callWatchers( this, "onChange", "change", this.value );
+						input.blur(); callWatchers( input, "onChange", "change", input.value );
 					});
 
 				}
@@ -486,7 +486,7 @@
 					});
 
 				//	Call watchers.
-					button.addEventListener( "click", function(){ callWatchers( this, "onClick", "click" ); });
+					button.addEventListener( "click", function(){ callWatchers( button, "onClick", "click" ); });
 				}
 
 				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-increase") ); // increase_x,
