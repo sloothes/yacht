@@ -2105,6 +2105,31 @@
 
 		<script>
 
+		//	Water path.
+
+			(function(scene,octree,cameraControls,entities){
+				var w=2.5, h=0.5, d=200, x=-85, y=-h/2, z=100;
+				var geometry = new THREE.BoxGeometry(w,h,d);
+				geometry.translate(0, h/2, 0);
+				var material = new THREE.MeshLambertMaterial();
+				var mesh = new THREE.Mesh(geometry, material);
+				mesh.name = "water path";
+				mesh.position.set(x,y,z);
+				scene.add( mesh );
+			//	var geometry = new THREE.EdgesGeometry( geometry );
+			//	var segments = new THREE.LineSegments( geometry, material );
+			//	segments.name = "water path edges";
+			//	segments.position.copy( mesh.position );
+			//	octree.importThreeMesh( mesh );
+				entities && entities.add( mesh );
+			//	cameraControls.rigidObjects.push( mesh );
+			//	return mesh;
+			})( scene, octree, cameraControls, entities );
+
+		</script>
+
+		<script>
+
 		//	deck 0.
 
 			(function(scene,octree,cameraControls,entities){
@@ -2114,7 +2139,6 @@
 				var material = new THREE.MeshLambertMaterial();
 				var mesh = new THREE.Mesh(geometry, material);
 				mesh.name = "deck0";
-				mesh.visible = false;
 				mesh.position.set(x,y,z);
 				scene.add( mesh );
 			//	var geometry = new THREE.EdgesGeometry( geometry );
@@ -2133,8 +2157,7 @@
 				geometry.translate(0, h/2, 0);
 				var material = new THREE.MeshLambertMaterial();
 				var mesh = new THREE.Mesh(geometry, material);
-				mesh.name = "deck0_floor";
-				mesh.visible = false;
+				mesh.name = "deck0 floor";
 				mesh.position.set(x,y,z);
 				scene.add( mesh );
 			//	var geometry = new THREE.EdgesGeometry( geometry );
@@ -2150,29 +2173,57 @@
 		</script>
 
 		<script>
+/*
+			function addtoRigidObjects( value ){
 
-		//	Water path.
+				var object = getObjectByEntityId( value );
 
-			(function(scene,octree,cameraControls,entities){
-				var w=2.5, h=0.5, d=200, x=-85, y=-h/2, z=100;
-				var geometry = new THREE.BoxGeometry(w,h,d);
-				geometry.translate(0, h/2, 0);
-				var material = new THREE.MeshLambertMaterial();
-				var mesh = new THREE.Mesh(geometry, material);
-				mesh.name = "water path";
-				mesh.visible = false;
-				mesh.position.set(x,y,z);
-				scene.add( mesh );
-			//	var geometry = new THREE.EdgesGeometry( geometry );
-			//	var segments = new THREE.LineSegments( geometry, material );
-			//	segments.name = "water path edges";
-			//	segments.position.copy( mesh.position );
-			//	octree.importThreeMesh( mesh );
-				entities && entities.add( mesh );
-			//	cameraControls.rigidObjects.push( mesh );
-			//	return mesh;
-			})( scene, octree, cameraControls, entities );
+				if ( object && rigidObjects.findIndex( function( item ){ 
+					return item.id === object.id;
+				}) > -1 ) return; // already exists in rigidObjects.
 
+				object && object.isMesh && rigidObjects.push( object );
+			}
+
+			function removefromRigidObjects( value ){
+
+				var index = rigidObjects.findIndex( 
+					function( object ){
+						return object.id === parseInt( value );
+					});
+
+				if ( index < 0 ) return; // important (not found)!
+
+				rigidObjects.splice( index, 1 );
+			}
+*/
+
+/*
+		//	select-change-watchers-call.js (last?)
+
+			(function(){
+
+				function onSelectChangeWatchersCall( select ){
+
+					watch( select, "onchange", function( prop, event, value ){ 
+						debugMode && console.log({item:select,event:event,value:value}); // debug.
+					});
+
+					select.addEventListener( "change", function(){
+						this.blur(); callWatchers( this, "onchange", "change", this.value );
+					});
+
+				}
+
+				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-key-droplist") );          // key_droplist,
+				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-vector-droplist") );       // vector_droplist,
+				onSelectChangeWatchersCall( TabUI.Geometry.tab.querySelector("select#geometry-type-droplist") );     // type_droplist,
+				onSelectChangeWatchersCall( TabUI.Material.tab.querySelector("select#material-entities-droplist") ); // entity_droplist,
+				onSelectChangeWatchersCall( TabUI.Texture.tab.querySelector("select#textures-entities-droplist") );  // entity_droplist,
+				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") );     // entity_droplist,
+
+			})();
+*/
 		</script>
 
 	</body>
