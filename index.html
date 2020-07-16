@@ -474,26 +474,21 @@
 
 		//	entity-droplist.js
 
-		//	Last editor entity droplist value.
-		//	keeps track of last entity droplist value.
+		//	Keep last editor entity droplist value.
 
-			const latestEntityId = { value:"" };
+			var latestEntityId; // keeps track of last entity droplist value.
 
-		//	keeps entity's droplist last value.
-			(function( latestEntityId,entity_droplist ){
+			(function( entity_droplist ){
 
-			//	Update latest entity id value.
-				watch(entity_droplist, "onchange", function( property, event, value ){
-					latestEntityId.value = value;
-				});
+				const current = {value:""};
 
 			//	when you change lastEntity.value you can get the old value.
-				watch( latestEntityId, "value", function(property, action, newValue, oldValue ){
-					debugMode && console.log({item:latestEntityId,"new value":newValue,"old value":oldValue});
-					latestEntityId.value = oldValue;
-				});
+				watch( current, "value", function(property, action, newValue, oldValue ){ latestEntityId = oldValue; });
 
-			})( latestEntityId, TabUI.Editor.tab.querySelector("select#editor-entities-droplist") ); // entity_droplist.
+			//	Update current value.
+				watch( entity_droplist, "onchange", function( property, event, value ){ current.value = value; });
+
+			})( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") ); // entity_droplist.
 
 
 		//	Update object editor.
@@ -936,7 +931,7 @@
 			})(
 				TabUI.Geometry.tab.querySelector("div#geometry-clone-button"),     // clone_button,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
-				entities, scene // last_entity, entity_manager, scene.
+				entities, scene // entity_manager, scene.
 			);
 
 		//	geometry-remove-button.js
