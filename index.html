@@ -136,99 +136,6 @@
 
 		<script>
 
-		//	select-change-watchers-call.js
-
-			(function(){
-
-				function onSelectChangeWatchersCall( select ){
-
-					watch( select, "onChange", function( prop, event, value ){ 
-						debugMode && console.log({item:select,event:event,value:value}); // debug.
-					});
-
-					select.addEventListener( "change", function(){
-						this.blur(); callWatchers( this, "onChange", "change", this.value );
-					});
-
-				}
-
-				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-key-droplist") );          // key_droplist,
-				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-vector-droplist") );       // vector_droplist,
-				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") );     // entity_droplist,
-				onSelectChangeWatchersCall( TabUI.Geometry.tab.querySelector("select#geometry-type-droplist") );     // type_droplist,
-				onSelectChangeWatchersCall( TabUI.Material.tab.querySelector("select#material-entities-droplist") ); // entity_droplist,
-				onSelectChangeWatchersCall( TabUI.Texture.tab.querySelector("select#textures-entities-droplist") );  // entity_droplist,
-
-			})();
-
-		</script>
-
-		<script>
-
-		//	key-input-watchers-call.js
-
-			(function(){
-
-				function onInputChangeWatchersCall( input ){
-
-					watch( input, "onChange", function( prop, event, value ){ 
-						debugMode && console.log({item:input,event:event,value:value}); // debug.
-					});
-
-					input.addEventListener( "change", function(){
-						this.blur(); callWatchers( this, "onChange", "change", this.value );
-					});
-
-				}
-
-				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-x-input") ); // vector_x,
-				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-y-input") ); // vector_y,
-				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-z-input") ); // vector_z,
-				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-w-input") ); // vector_w,
-
-			})();
-
-		</script>
-
-		<script>
-
-		//	mouse-input-watchers-call.js
-
-			(function(){
-
-				function onMouseClickWatchersCall( button ){
-
-					var interval;
-
-					watch( button, "onClick", function( prop, event ){ 
-						debugMode && console.log({item:button,property:prop,event:event}); // debug.
-					});
-
-				//	Call watchers.
-
-					button.addEventListener( "click", function(){ 
-						clearTimeout( interval );
-						interval = setTimeout(function(button){
-							callWatchers( button, "onClick", "click" );
-						}, 250, this); 
-					});
-				}
-
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-increase") ); // increase_x,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-increase") ); // increase_y,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-increase") ); // increase_z,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-increase") ); // increase_w,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-decrease") ); // decrease_x,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-decrease") ); // decrease_y,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-decrease") ); // decrease_z,
-				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-decrease") ); // decrease_w,
-
-			})();
-
-		</script>
-
-		<script>
-
 		//	ObjectEditor.js
 
 			function ObjectEditor(){
@@ -1747,6 +1654,100 @@
 				objectEditor, keyboard, camera, cameraControls, // editor, ...,
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist.
 			);
+
+		</script>
+
+		<script>
+
+		//	key-input-watchers-call.js
+
+			(function(){
+
+				function onInputChangeWatchersCall( input ){
+
+					watch( input, "onChange", function( prop, event, value ){ 
+						debugMode && console.log({item:input,event:event,value:value}); // debug.
+					});
+
+					input.addEventListener( "change", function(){
+						this.blur(); callWatchers( this, "onChange", "change", this.value );
+					});
+
+				}
+
+				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-x-input") ); // vector_x,
+				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-y-input") ); // vector_y,
+				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-z-input") ); // vector_z,
+				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("input#editor-vector-w-input") ); // vector_w,
+
+			})();
+
+		</script>
+
+		<script>
+
+		//	mouse-input-watchers-call.js
+
+			(function(){
+
+				function onMouseClickWatchersCall( button ){
+
+					var interval;
+
+					watch( button, "onClick", function( prop, event ){ 
+						debugMode && console.log({item:button,property:prop,event:event}); // debug.
+					});
+
+				//	Call watchers.
+
+					button.addEventListener( "click", function(){ 
+						clearTimeout( interval );
+						interval = setTimeout(function(button){
+							callWatchers( button, "onClick", "click" );
+						}, 250, this); 
+					});
+				}
+
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-increase") ); // increase_x,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-increase") ); // increase_y,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-increase") ); // increase_z,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-increase") ); // increase_w,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-decrease") ); // decrease_x,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-decrease") ); // decrease_y,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-decrease") ); // decrease_z,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-decrease") ); // decrease_w,
+
+			})();
+
+		</script>
+
+		<script>
+
+		//	select-change-watchers-call.js (last?)
+
+			(function(){
+
+				function onSelectChangeWatchersCall( select ){
+
+					watch( select, "onChange", function( prop, event, value ){ 
+						debugMode && console.log({item:select,event:event,value:value}); // debug.
+					});
+
+					select.addEventListener( "change", function(){
+						this.blur(); callWatchers( this, "onChange", "change", this.value );
+					});
+
+				}
+
+				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-key-droplist") );          // key_droplist,
+				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-vector-droplist") );       // vector_droplist,
+
+				onSelectChangeWatchersCall( TabUI.Geometry.tab.querySelector("select#geometry-type-droplist") );     // type_droplist,
+				onSelectChangeWatchersCall( TabUI.Material.tab.querySelector("select#material-entities-droplist") ); // entity_droplist,
+				onSelectChangeWatchersCall( TabUI.Texture.tab.querySelector("select#textures-entities-droplist") );  // entity_droplist,
+				onSelectChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") );     // entity_droplist, last?
+
+			})();
 
 		</script>
 
