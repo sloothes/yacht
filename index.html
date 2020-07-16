@@ -448,12 +448,65 @@
 
 		<script>
 
-		//	edges-helper.js
+		//	key-input-watchers-call.js
 
-			(function( editor,vector_x,vector_y,vector_z,
-						increase_x,increase_y,increase_z,
-						decrease_x,decrease_y,decrease_z,
-						entity_droplist,scene ){
+			(function(){
+
+				function onInputChangeWatchersCall( input ){
+
+					watch(input, "onChange", function( prop, event, value ){ 
+						debugMode && console.log({item:input,event:event,value:value}); // debug.
+					});
+
+					input.addEventListener( "change", function(){
+						callWatchers( this, "onChange", "change", this.value );
+					});
+
+				}
+
+				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-input") ); // vector_x,
+				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-input") ); // vector_y,
+				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-input") ); // vector_z,
+				onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-input") ); // vector_w,
+
+			})();
+
+		</script>
+
+		<script>
+
+		//	mouse-input-watchers-call.js
+
+			(function(){
+
+				function onMouseClickWatchersCall( button ){
+
+					watch(button, "onClick", function( prop, event ){ 
+						debugMode && console.log({item:button,property:prop,event:event}); // debug.
+					});
+
+				//	Call watchers.
+					button.addEventListener( "click", function(){ callWatchers( this, "onClick", "click" ); });
+				}
+
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-increase") ); // increase_x,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-increase") ); // increase_y,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-increase") ); // increase_z,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-increase") ); // increase_w,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-decrease") ); // decrease_x,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-decrease") ); // decrease_y,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-decrease") ); // decrease_z,
+				onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-decrease") ); // decrease_w,
+
+			})();
+
+		</script>
+
+		<script>
+
+		//	edges-helper.js, (mouse input callers).
+
+			(function( editor,scene,tab,entity_droplist ){
 
 				var edgeshelper;
 
@@ -497,80 +550,134 @@
 					object && createEdgesHelper( object ); // add new helper.
 				});
 
-				watch(increase_x, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
-				});
-				watch(increase_y, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
-				});
-				watch(increase_z, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
-				});
-				watch(decrease_x, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
-				});
-				watch(decrease_y, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
-				});
-				watch(decrease_z, "onClick", function( prop, event ){ 
-					edgeshelper && edgeshelper.copy(editor);
-				});
-				watch(vector_x, "onChange", function( prop, event, value ){ 
-					edgeshelper && edgeshelper.copy(editor);
-				});
-				watch(vector_y, "onChange", function( prop, event, value ){ 
-					edgeshelper && edgeshelper.copy(editor);
-				});
-				watch(vector_z, "onChange", function( prop, event, value ){ 
-					edgeshelper && edgeshelper.copy(editor);
-				});
+			//	on input change.
 
-			//	Call watchers.
+				function onInputChangeWatcher( input ){
 
-				increase_x.addEventListener( "click", function(){
-					callWatchers( this, "onClick", "click" );
-				});
-				increase_y.addEventListener( "click", function(){
-					callWatchers( this, "onClick", "click" );
-				});
-				increase_z.addEventListener( "click", function(){
-					callWatchers( this, "onClick", "click" );
-				});
-				decrease_x.addEventListener( "click", function(){
-					callWatchers( this, "onClick", "click" );
-				});
-				decrease_y.addEventListener( "click", function(){
-					callWatchers( this, "onClick", "click" );
-				});
-				decrease_z.addEventListener( "click", function(){
-					callWatchers( this, "onClick", "click" );
-				});
+					watch(input, "onChange", function( prop, event, value ){ 
+						edgeshelper && edgeshelper.copy(editor);
+					});
 
-				vector_x.addEventListener( "click", function(){
-					callWatchers( this, "onChange", "change", this.value );
-				});
-				vector_y.addEventListener( "click", function(){
-					callWatchers( this, "onChange", "change", this.value );
-				});
-				vector_z.addEventListener( "click", function(){
-					callWatchers( this, "onChange", "change", this.value );
-				});
+				}
 
+			//	on mouse click.
 
-			})( objectEditor,                                                      // editor,
-				TabUI.Editor.tab.querySelector("input#editor-vector-x-input"),     // vector_x,
-				TabUI.Editor.tab.querySelector("input#editor-vector-y-input"),     // vector_y,
-				TabUI.Editor.tab.querySelector("input#editor-vector-z-input"),     // vector_z,
-				TabUI.Editor.tab.querySelector("li#editor-vector-x-increase"),     // increase_x,
-				TabUI.Editor.tab.querySelector("li#editor-vector-y-increase"),     // increase_y,
-				TabUI.Editor.tab.querySelector("li#editor-vector-z-increase"),     // increase_z,
-				TabUI.Editor.tab.querySelector("li#editor-vector-x-decrease"),     // decrease_x,
-				TabUI.Editor.tab.querySelector("li#editor-vector-y-decrease"),     // decrease_y,
-				TabUI.Editor.tab.querySelector("li#editor-vector-z-decrease"),     // decrease_z,
-				TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist.
-				scene // scene.
+				function onMouseClickWatcher( button ){
+
+					watch(button, "onClick", function( prop, event ){ 
+						edgeshelper && edgeshelper.copy(editor);
+					});
+				}
+
+				onInputChangeWatcher( tab.querySelector("li#editor-vector-x-input") ); // vector_x,
+				onInputChangeWatcher( tab.querySelector("li#editor-vector-y-input") ); // vector_y,
+				onInputChangeWatcher( tab.querySelector("li#editor-vector-z-input") ); // vector_z,
+				onInputChangeWatcher( tab.querySelector("li#editor-vector-w-input") ); // vector_w,
+
+				onMouseClickWatcher( tab.querySelector("li#editor-vector-x-increase") ); // increase_x,
+				onMouseClickWatcher( tab.querySelector("li#editor-vector-y-increase") ); // increase_y,
+				onMouseClickWatcher( tab.querySelector("li#editor-vector-z-increase") ); // increase_z,
+				onMouseClickWatcher( tab.querySelector("li#editor-vector-w-increase") ); // increase_w,
+				onMouseClickWatcher( tab.querySelector("li#editor-vector-x-decrease") ); // decrease_x,
+				onMouseClickWatcher( tab.querySelector("li#editor-vector-y-decrease") ); // decrease_y,
+				onMouseClickWatcher( tab.querySelector("li#editor-vector-z-decrease") ); // decrease_z,
+				onMouseClickWatcher( tab.querySelector("li#editor-vector-w-decrease") ); // decrease_w,
+
+			})( objectEditor, scene, TabUI.Editor.tab, // editor, scene, tab,
+				TabUI.Editor.tab.querySelector("select#editor-entities-droplist")  // entity_droplist.
 			);
 
+		</script>
+
+		<script>
+/*
+			watch(increase_y, "onClick", function( prop, event ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+			watch(increase_z, "onClick", function( prop, event ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+			watch(increase_w, "onClick", function( prop, event ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+			watch(decrease_x, "onClick", function( prop, event ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+			watch(decrease_y, "onClick", function( prop, event ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+			watch(decrease_z, "onClick", function( prop, event ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+			watch(decrease_w, "onClick", function( prop, event ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+			watch(vector_x, "onChange", function( prop, event, value ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+			watch(vector_y, "onChange", function( prop, event, value ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+			watch(vector_z, "onChange", function( prop, event, value ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+			watch(vector_w, "onChange", function( prop, event, value ){ 
+				edgeshelper && edgeshelper.copy(editor);
+			});
+
+		//	Call watchers.
+
+			increase_x.addEventListener( "click", function(){
+				callWatchers( this, "onClick", "click" );
+			});
+			increase_y.addEventListener( "click", function(){
+				callWatchers( this, "onClick", "click" );
+			});
+			increase_z.addEventListener( "click", function(){
+				callWatchers( this, "onClick", "click" );
+			});
+			increase_w.addEventListener( "click", function(){
+				callWatchers( this, "onClick", "click" );
+			});
+			decrease_x.addEventListener( "click", function(){
+				callWatchers( this, "onClick", "click" );
+			});
+			decrease_y.addEventListener( "click", function(){
+				callWatchers( this, "onClick", "click" );
+			});
+			decrease_z.addEventListener( "click", function(){
+				callWatchers( this, "onClick", "click" );
+			});
+			decrease_w.addEventListener( "click", function(){
+				callWatchers( this, "onClick", "click" );
+			});
+			vector_x.addEventListener( "click", function(){
+				callWatchers( this, "onChange", "change", this.value );
+			});
+			vector_y.addEventListener( "click", function(){
+				callWatchers( this, "onChange", "change", this.value );
+			});
+			vector_z.addEventListener( "click", function(){
+				callWatchers( this, "onChange", "change", this.value );
+			});
+			vector_w.addEventListener( "click", function(){
+				callWatchers( this, "onChange", "change", this.value );
+			});
+
+			TabUI.Editor.tab.querySelector("input#editor-vector-x-input"),     // vector_x,
+			TabUI.Editor.tab.querySelector("input#editor-vector-y-input"),     // vector_y,
+			TabUI.Editor.tab.querySelector("input#editor-vector-z-input"),     // vector_z,
+			TabUI.Editor.tab.querySelector("input#editor-vector-w-input"),     // vector_w,
+			TabUI.Editor.tab.querySelector("li#editor-vector-x-increase"),     // increase_x,
+			TabUI.Editor.tab.querySelector("li#editor-vector-y-increase"),     // increase_y,
+			TabUI.Editor.tab.querySelector("li#editor-vector-z-increase"),     // increase_z,
+			TabUI.Editor.tab.querySelector("li#editor-vector-w-increase"),     // increase_w,
+			TabUI.Editor.tab.querySelector("li#editor-vector-x-decrease"),     // decrease_x,
+			TabUI.Editor.tab.querySelector("li#editor-vector-y-decrease"),     // decrease_y,
+			TabUI.Editor.tab.querySelector("li#editor-vector-z-decrease"),     // decrease_z,
+			TabUI.Editor.tab.querySelector("li#editor-vector-w-decrease"),     // decrease_w,
+			TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist.
+*/
 		</script>
 
 		<script>
