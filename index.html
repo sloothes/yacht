@@ -392,7 +392,7 @@
 			//	color.
 
 				watch( editor, "color", function( key, action, value ){
-					var color = editor.color; debugMode && console.log(color);
+					var color = editor.color; //console.log("color:", color);
 					material && material.color && material.color.copy(color);
 					if ( color_droplist.value === "color" ) {
 						color_r.value = (255*color.r).toFixed(0);
@@ -404,7 +404,7 @@
 			//	emissive.
 
 				watch( editor, "emissive", function( key, action, value ){
-					var color = editor.emissive; debugMode && console.log(color);
+					var color = editor.emissive; //console.log("emissive:", color);
 					material && material.emissive && material.emissive.copy(color);
 					if ( color_droplist.value === "emissive" ) {
 						color_r.value = (255*color.r).toFixed(0);
@@ -416,7 +416,7 @@
 			//	specular.
 
 				watch( editor, "specular", function( key, action, value ){
-					var color = editor.specular; debugMode && console.log(color);
+					var color = editor.specular; //console.log("specular:", color);
 					material && material.specular && material.specular.copy(color);
 					if ( color_droplist.value === "specular" ) {
 						color_r.value = (255*color.r).toFixed(0);
