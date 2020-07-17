@@ -202,7 +202,6 @@
 			entities.add(groundHelper);
 			entities.add(localPlayer.getObjectByName("playerhelper"));
 
-			skydome.rotation.set(0.005235,0,-0.0349);
 			cameraControls.setLatLon(5.128, 270.675);
 			localPlayer.controller.movementSpeed = 30;
 			localPlayer.controller.center.set(-85,2,-2);
@@ -261,6 +260,8 @@
 				return dome;
 
 			})(scene, entities, material_entities, textures_entities);
+
+			skydome.rotation.set(0.005235,0,-0.0349);
 
 		</script>
 
