@@ -86,25 +86,17 @@
 
 		var object;
 
-	//	Add a watcher to update object only when entity droplist changes.
 		watch( entity_droplist, "onchange", function( property, event, value ){
-		//	debugMode && console.log({item:entity_droplist,event:event,value:value});
-			object = getObjectByEntityId( value ); // debugMode && console.log(object);
+			object = getObjectByEntityId( value );
 		});
 
-		watch( editor, "name", function( key, action, value ){
-		//	var object = getObjectByEntityId(); debugMode && console.log(object);
-			value_input.value = "";
-			if (object) object[ key ] = editor[ key ];
+		function update_object_value( key, action, value ){
+			if (object) object[key] = editor[key]; value_input.value = "";
 			if ( key_droplist.value === key ) input.value = editor[ key ];
-		});
+		}
 
-		watch( editor, "uuid", function( key, action, value ){
-		//	var object = getObjectByEntityId(); debugMode && console.log(object);
-			value_input.value = "";
-			if (object) object[ key ] = editor[ key ];
-			if ( key_droplist.value === key ) input.value = editor[ key ];
-		});
+		watch( editor, "name", update_object_value );
+		watch( editor, "uuid", update_object_value );
 
 	})(
 		objectEditor, // editor,
@@ -118,53 +110,21 @@
 
 		var object;
 
-	//	Add a watcher to update object only when entity droplist changes.
 		watch( entity_droplist, "onchange", function( property, event, value ){
-		//	debugMode && console.log({item:entity_droplist,event:event,value:value});
-			object = getObjectByEntityId( value ); // debugMode && console.log(object);
+			object = getObjectByEntityId( value );
 		});
 
-		watch( editor, "visible", function( key, action, value ){
-		//	var object = getObjectByEntityId(); debugMode && console.log(object);
-			text_input.value = "";
-			if (object) object[ key ] = editor[ key ];
+		function update_object_value( key, action, value ){
+			if (object) object[key] = editor[key]; text_input.value = "";
 			if ( key_droplist.value === key ) input.value = editor[ key ];
-		});
+		}
 
-		watch( editor, "castShadow", function( key, action, value ){
-		//	var object = getObjectByEntityId(); debugMode && console.log(object);
-			text_input.value = "";
-			if (object) object[ key ] = editor[ key ];
-			if ( key_droplist.value === key ) input.value = editor[ key ];
-		});
-
-		watch( editor, "renderOrder", function( key, action, value ){
-		//	var object = getObjectByEntityId(); debugMode && console.log(object);
-			text_input.value = "";
-			if (object) object[ key ] = editor[ key ];
-			if ( key_droplist.value === key ) input.value = editor[ key ];
-		});
-
-		watch( editor, "receiveShadow", function( key, action, value ){
-		//	var object = getObjectByEntityId(); debugMode && console.log(object);
-			text_input.value = "";
-			if (object) object[ key ] = editor[ key ];
-			if ( key_droplist.value === key ) input.value = editor[ key ];
-		});
-
-		watch( editor, "frustumCulled", function( key, action, value ){
-		//	var object = getObjectByEntityId(); debugMode && console.log(object);
-			text_input.value = "";
-			if (object) object[ key ] = editor[ key ];
-			if ( key_droplist.value === key ) input.value = editor[ key ];
-		});
-
-		watch( editor, "matrixAutoUpdate", function( key, action, value ){
-		//	var object = getObjectByEntityId(); debugMode && console.log(object);
-			text_input.value = "";
-			if (object) object[ key ] = editor[ key ];
-			if ( key_droplist.value === key ) input.value = editor[ key ];
-		});
+		watch( editor, "visible", update_object_value );
+		watch( editor, "castShadow", update_object_value );
+		watch( editor, "renderOrder", update_object_value );
+		watch( editor, "receiveShadow", update_object_value );
+		watch( editor, "frustumCulled", update_object_value );
+		watch( editor, "matrixAutoUpdate", update_object_value );
 
 	})(
 		objectEditor, // editor,
