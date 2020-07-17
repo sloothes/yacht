@@ -18,15 +18,15 @@
 					if ( !value ) return text_input.value = editor[key];
 
 				//	rename option.
-					setTimeout( function( type, name, id ){
-						var str="",dot=".",col=":";
-						var selector = "option[value='" + id + "']";
-						var option = entity_droplist.querySelector(selector); 
-					//	debugMode && console.log({params:{id:id,name:name,type:type,option:option}});
+					setTimeout( function( option, type, name, id ){
 						if ( !option ) return;
-					//	switch ( type ) {...}
+						var str="",dot=".",col=":";
 						option.text = str+id+dot+type+col+name; // +id;
-					}, null, getObjectByEntityId().type, value, entity_droplist.value );
+					}, null, 
+						entity_droplist.selectedOptions[0], 
+						getObjectByEntityId().type, value, 
+						entity_droplist.value 
+					);
 
 				//	Update editor.
 					return editor[key] = value;
