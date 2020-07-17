@@ -203,44 +203,35 @@
 
 				watch( key_droplist, "onchange", function( property, event, key ){
 
-					if ( key !== "" && editor[key] !== undefined ) {
+					switch ( typeof editor[key] ) {
 
-						switch ( typeof editor[key] ) {
+						case "string":
+							return text_input.value = editor[key];
+						break;
 
-							case "string":
-								[text_input.value, value_input.value] = [ editor[key], "" ];
-							break;
-						//
-							case "number":
+						case "boolean":
+							return value_input.value = editor[key];
+						break;
 
-								if ( key === "rotation" ) {
-									[value_input.value, text_input.value] = [ (RAD2DEG*editor[key]).toFixed(1), "" ]; break;
-								}
+						case "number":
 
-								else if ( ("displacementScale,polygonOffsetUnits,polygonOffsetFactor,opacity,"
-								+ "alphaTest,reflectivity,refractionRatio,bumpScale,metalness,roughness,displacementBias,"
-								+ "aoMapIntensity,envMapIntensity,emissiveIntensity,lightMapIntensity,wireframeLinewidth,"
-								+ "linewidth,size,scale,gapSize,dashSize,shininess").split(",").includes(key) ) {
+							if ( key === "rotation" ) 
 
-									[value_input.value, text_input.value] = [ editor[key].toFixed(2), "" ]; break;
-								}
+								return value_input.value = (RAD2DEG*editor[key]).toFixed(1);
 
-								else [value_input.value, text_input.value] = [ editor[key].toFixed(0), "" ];
+							else if ( ("displacementScale,polygonOffsetUnits,polygonOffsetFactor,opacity,"
+							+ "alphaTest,reflectivity,refractionRatio,bumpScale,metalness,roughness,displacementBias,"
+							+ "aoMapIntensity,envMapIntensity,emissiveIntensity,lightMapIntensity,wireframeLinewidth,"
+							+ "linewidth,size,scale,gapSize,dashSize,shininess").split(",").includes(key) ) 
 
-							break;
-						//
-							case "boolean":
-								[text_input.value, value_input.value] = [ "", editor[key] ];
-							break;
-						//
-							default:
-								[ value_input.value, text_input.value ] = ["",""];
-							break;
-						}
+								return value_input.value = editor[key].toFixed(2);
 
-					} 
+							else 
 
-					else [ value_input.value, text_input.value ] = ["",""];
+								return value_input.value = editor[key].toFixed(0);
+
+						break;
+					}
 
 				});
 
