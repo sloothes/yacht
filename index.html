@@ -364,7 +364,7 @@
 
 			//	normalScale.
 
-				watch( editor,normalScale, ["x","y"], function( key, action, value ){
+				watch( editor.normalScale,  function( key, action, value ){
 				//	var material = getMaterialByEntityId(); // console.log(material);
 				//	debugMode && console.log({property:"color",key:key,value:value});
 					if (material && material.normalScale) material.normalScale[key] = Number(value);
@@ -393,7 +393,7 @@
 
 			//	color.
 
-				watch( editor.color, ["r","g","b"], function( key, action, value ){
+				watch( editor.color, function( key, action, value ){
 					if (material && material.color) material.color[key] = Number(value);
 					debugMode && console.log({color:color,key:key, value:value});
 					if ( key && color_droplist.value === "color" ) color[key].value = (255*value).toFixed(0);
@@ -401,14 +401,14 @@
 
 			//	emissive.
 
-				watch( editor.emissive, ["r","g","b"], function( key, action, value ){
+				watch( editor.emissive, function( key, action, value ){
 					if (material && material.emissive) material.emissive[key] = Number(value);
 					if ( key && color_droplist.value === "emissive" ) color[key].value = (255*value).toFixed(0);
 				});
 
 			//	specular.
 
-				watch( editor.specular, ["r","g","b"], function( key, action, value ){
+				watch( editor.specular, function( key, action, value ){
 					if (material && material.specular) material.specular[key] = Number(value);
 					if ( key && color_droplist.value === "specular" ) color[key].value = (255*value).toFixed(0);
 				});
