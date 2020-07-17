@@ -853,8 +853,8 @@
 
 					var key = color_droplist.value;
 
-					value = Number(value); 
-					if ( isNaN(value) ) value = editor[key].r;
+					value = Number(value)/255; 
+					if ( isNaN(value) ) return color_r.value = 255*editor[key].r;
 
 					editor[key].r = THREE.Math.clamp(value, 0, 1);
 				});
@@ -863,8 +863,8 @@
 
 					var key = color_droplist.value;
 
-					value = Number(value); 
-					if ( isNaN(value) ) value = editor[key].g;
+					value = Number(value)/255; 
+					if ( isNaN(value) ) return color_g.value = 255*editor[key].g;
 
 					editor[key].g = THREE.Math.clamp(value, 0, 1);
 				});
@@ -873,8 +873,8 @@
 
 					var key = color_droplist.value;
 
-					value = Number(value); 
-					if ( isNaN(value) ) value = editor[key].b;
+					value = Number(value)/255; 
+					if ( isNaN(value) ) return color_b.value = 255*editor[key].b;
 
 					editor[key].b = THREE.Math.clamp(value, 0, 1);
 				});
