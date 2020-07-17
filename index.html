@@ -364,7 +364,7 @@
 
 			//	normalScale.
 
-				watch( editor, "normalScale", function( key, action, value ){
+				watch( editor,normalScale, ["x","y"], function( key, action, value ){
 				//	var material = getMaterialByEntityId(); // console.log(material);
 				//	debugMode && console.log({property:"color",key:key,value:value});
 					if (material && material.normalScale) material.normalScale[key] = Number(value);
