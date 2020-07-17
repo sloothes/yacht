@@ -73,6 +73,7 @@
 		onInputChangeWatcher( tab.querySelector("input#editor-vector-z-input") ); // vector_z,
 		onInputChangeWatcher( tab.querySelector("input#editor-vector-w-input") ); // vector_w,
 
+		onMouseClickWatcher( tab.querySelector("div#matrix-needs-update") );   // world_matrix,
 		onMouseClickWatcher( tab.querySelector("li#editor-vector-x-increase") ); // increase_x,
 		onMouseClickWatcher( tab.querySelector("li#editor-vector-y-increase") ); // increase_y,
 		onMouseClickWatcher( tab.querySelector("li#editor-vector-z-increase") ); // increase_z,
