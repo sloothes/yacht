@@ -26,7 +26,7 @@
 						if ( !option ) return;
 					//	switch ( type ) {...}
 						option.text = str+id+dot+type+col+name; // +id;
-					}, null, editor.type, value, entity_droplist.value );
+					}, null, getObjectByEntityId().type, value, entity_droplist.value );
 
 				//	Update editor.
 					return editor[key] = value;
