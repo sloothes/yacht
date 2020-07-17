@@ -683,6 +683,7 @@
 				TabUI.Material.tab.querySelector("div#material-undo-button") // undo_button,
 			);
 
+		//	value input.
 
 			(function(editor,text_input,value_input,key_droplist,entity_droplist,undo_button){
 
@@ -799,6 +800,93 @@
 				TabUI.Material.tab.querySelector("select#material-keys-droplist"), // key_droplist
 				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
 				TabUI.Material.tab.querySelector("div#material-undo-button") // undo_button,
+			);
+
+		//	vector inputs.
+
+			(function(editor,vector_x,vector_y,vector_droplist,entity_droplist,undo_button){
+
+				watch( vector_x, "onchange", function(property, event, value){
+
+					var key = vector_droplist.value;
+
+					value = Number(value); if ( isNaN(value) ) value = editor[key].x;
+
+					switch ( key ) {
+
+						case "normalScale":
+							editor[key].x; = THREE.Math.clamp( value, -100, 100 ); // number.
+						break;
+					}
+
+				});
+
+				watch( vector_y, "onchange", function(property, event, value){
+
+					var key = vector_droplist.value;
+
+					value = Number(value); if ( isNaN(value) ) value = editor[key].y;
+
+					switch ( key ) {
+
+						case "normalScale":
+							editor[key].y; = THREE.Math.clamp( value, -100, 100 ); // number.
+						break;
+					}
+
+				});
+
+			})(
+				materialEditor, // editor,
+				document.querySelector("input#material-vector-x-input"), // vector_x,
+				TabUI.Material.tab.querySelector("input#material-vector-y-input"), // vector_y,
+				TabUI.Material.tab.querySelector("select#material-vector-droplist"), // vector_droplist,
+				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
+				TabUI.Material.tab.querySelector("div#material-undo-button") // undo_button,			);
+			);
+
+		//	color inputs.
+
+			(function(editor,color_r,color_g,color_b,color_droplist,entity_droplist,undo_button){
+
+				watch( color_r, "onchange", function(property, event, value){
+
+					var key = color_droplist.value;
+
+					value = Number(value); 
+					if ( isNaN(value) ) value = editor[key].r;
+
+					editor[key].r = THREE.Math.clamp(value, 0, 1);
+				});
+
+				watch( color_g, "onchange", function(property, event, value){
+
+					var key = color_droplist.value;
+
+					value = Number(value); 
+					if ( isNaN(value) ) value = editor[key].g;
+
+					editor[key].g = THREE.Math.clamp(value, 0, 1);
+				});
+
+				watch( color_b, "onchange", function(property, event, value){
+
+					var key = color_droplist.value;
+
+					value = Number(value); 
+					if ( isNaN(value) ) value = editor[key].b;
+
+					editor[key].b = THREE.Math.clamp(value, 0, 1);
+				});
+
+			})(
+				materialEditor, // editor,
+				document.querySelector("input#material-color-r-input"), // color_r,
+				document.querySelector("input#material-color-g-input"), // color_g,
+				document.querySelector("input#material-color-b-input"), // color_b,
+				document.querySelector("select#material-color-droplist"), // color_droplist,
+				document.querySelector("select#material-entities-droplist"), // entity_droplist.
+				document.querySelector("div#material-undo-button"), // undo_button,
 			);
 
 		</script>
