@@ -810,14 +810,10 @@
 
 					var key = vector_droplist.value;
 
-					value = Number(value); if ( isNaN(value) ) value = editor[key].x;
-
-					switch ( key ) {
-
-						case "normalScale":
-							editor[key].x = THREE.Math.clamp( value, -100, 100 ); // number.
-						break;
-					}
+					value = THREE.Math.clamp( Number(value), -100, 100 )
+					if ( isNaN(value) ) return vector_x.value = editor[key].x.toFixed(2);
+					editor[key].x = value; vector_x.value = value.toFixed(2);
+							
 
 				});
 
@@ -825,14 +821,9 @@
 
 					var key = vector_droplist.value;
 
-					value = Number(value); if ( isNaN(value) ) value = editor[key].y;
-
-					switch ( key ) {
-
-						case "normalScale":
-							editor[key].y = THREE.Math.clamp( value, -100, 100 ); // number.
-						break;
-					}
+					value = THREE.Math.clamp( Number(value), -100, 100 )
+					if ( isNaN(value) ) return vector_y.value = editor[key].y.toFixed(2);
+					editor[key].y = value; vector_y.value = value.toFixed(2);
 
 				});
 
