@@ -157,6 +157,38 @@
 
 		<script>
 
+		//	exit-edit-mode.js
+
+			(function(exit_button,entity_droplist,exitEditMode){
+
+				watch( exit_button, "onclick", function( prop, event, value ){
+
+					 exitEditMode( entity_droplist );
+				});
+
+			})( 
+				TabUI.Material.tab.querySelector("div#material-exit-mode"), // exit_button,
+				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
+				exitEditMode // function.
+			 ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</script>
+
+		<script>
+
 			TabUI.Editor.role.classList.add("active");
 			TabUI.Editor.tab.classList.add("in","active");
 			groundHelper.visible = !groundHelper.visible; 
