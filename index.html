@@ -393,7 +393,7 @@
 
 				watch( editor, ["color", "emissive", "specular"], function( key, action, values ){
 					debugMode && console.log({key:key,values:values}); // debug!
-					material && material[key] & material[key].copy(values); // THREE.Color.
+					material && material[key] && material[key].copy(values); // THREE.Color.
 					if ( color_droplist.value === key ){
 							color_r.value = (255*values.r).toFixed(0);
 							color_g.value = (255*values.g).toFixed(0);
