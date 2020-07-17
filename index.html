@@ -853,40 +853,40 @@
 
 					var key = color_droplist.value;
 
-					value = Number(value)/255; 
+					value = THREE.Math.clamp(Number(value),0,255);
 					if ( isNaN(value) ) return color_r.value = 255*editor[key].r;
+					editor[key].r = value/255; color_r.value = value.toFixed(0);
 
-					editor[key].r = THREE.Math.clamp(value, 0, 1);
 				});
 
 				watch( color_g, "onchange", function(property, event, value){
 
 					var key = color_droplist.value;
 
-					value = Number(value)/255; 
+					value = THREE.Math.clamp(Number(value),0,255);
 					if ( isNaN(value) ) return color_g.value = 255*editor[key].g;
+					editor[key].g = value/255; color_g.value = value.toFixed(0);
 
-					editor[key].g = THREE.Math.clamp(value, 0, 1);
 				});
 
 				watch( color_b, "onchange", function(property, event, value){
 
 					var key = color_droplist.value;
 
-					value = Number(value)/255; 
+					value = THREE.Math.clamp(Number(value),0,255);
 					if ( isNaN(value) ) return color_b.value = 255*editor[key].b;
+					editor[key].b = value/255; color_b.value = value.toFixed(0);
 
-					editor[key].b = THREE.Math.clamp(value, 0, 1);
 				});
 
 			})(
 				materialEditor, // editor,
-				document.querySelector("input#material-color-r-input"), // color_r,
-				document.querySelector("input#material-color-g-input"), // color_g,
-				document.querySelector("input#material-color-b-input"), // color_b,
-				document.querySelector("select#material-color-droplist"), // color_droplist,
-				document.querySelector("select#material-entities-droplist"), // entity_droplist.
-				document.querySelector("div#material-undo-button"), // undo_button,
+				TabUI.Material.tab.querySelector("input#material-color-r-input"), // color_r,
+				TabUI.Material.tab.querySelector("input#material-color-g-input"), // color_g,
+				TabUI.Material.tab.querySelector("input#material-color-b-input"), // color_b,
+				TabUI.Material.tab.querySelector("select#material-color-droplist"), // color_droplist,
+				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
+				TabUI.Material.tab.querySelector("div#material-undo-button"), // undo_button,
 			);
 
 		</script>
