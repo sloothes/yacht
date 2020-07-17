@@ -1,3 +1,18 @@
+
+//	matrix-needs-update.js
+
+	(function( editor,matrix_button ){
+
+		watch( matrix_button, "onclick", function( property, event, key ){
+
+			editor.matrixWorldNeedsUpdate = true;
+		});
+
+	})(
+		objectEditor, // editor,
+		TabUI.Editor.querySelector("div#matrix-needs-update"), // matrix_button,
+	);
+
 //	exit-edit-mode.js
 
 	(function(exit_button,entity_droplist,exitEditMode){
@@ -18,7 +33,6 @@
 	(function( editor,reset_button,vector_w,vector_droplist ){
 
 		watch( reset_button, "onclick", function( property, event, key ){
-			debugMode && console.log({item:reset_button,event:event,key:key});
 
 			switch ( key ) {
 				case "position":
