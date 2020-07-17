@@ -1,8 +1,5 @@
 //	ObjectEditor.js
 
-	const RAD2DEG = 57.29577951308232;
-	const DEG2RAD = 0.017453292519943295;
-
 	function ObjectEditor(){
 		var object = new THREE.Object3D();
 		Object.setPrototypeOf( object, ObjectEditor.prototype );

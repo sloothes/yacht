@@ -55,7 +55,7 @@
 
 //	mouse-watchers-call.js
 
-	(function(entity_droplist,geometry_type,material_type,textures_droplist,material_droplist){
+	(function(entity_droplist,vector_droplist,geometry_type,material_type,textures_droplist,material_droplist){
 
 		function onMouseClickWatchersCall( button, droplist ){
 
@@ -78,7 +78,7 @@
 	//	editor-tab.
 		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("div#rigid-add-button"), entity_droplist );         // rigid_add,
 		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("div#editor-exit-mode"), entity_droplist );         // exit_mode,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("div#editor-reset-button"), entity_droplist );      // vector_reset,
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("div#editor-reset-button"), vector_droplist );      // vector_reset,
 		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("div#matrix-needs-update"), entity_droplist );      // needs_update,
 		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("div#rigid-remove-button"), entity_droplist );      // rigid_remove,
 		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-value-increase"), material_droplist );   // increase,
@@ -131,6 +131,7 @@
 
 	})( 
 		TabUI.Editor.tab.querySelector("select#editor-entities-droplist"),    // entity_droplist,
+		TabUI.Editor.tab.querySelector("select#editor-vector-droplist"),      // vector_droplist,
 		TabUI.Geometry.tab.querySelector("select#geometry-type-droplist"),    // geometry_type,
 		TabUI.Material.tab.querySelector("select#material-type-droplist"),    // material_type,
 		TabUI.Texture.tab.querySelector("select#textures-entities-droplist"), // textures_droplist,
