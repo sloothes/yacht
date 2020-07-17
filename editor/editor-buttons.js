@@ -9,7 +9,7 @@
 		});
 
 	})(
-		objectEditor, TabUI.Editor.tab.querySelector("div#matrix-needs-update"), // matrix_button,
+		objectEditor, TabUI.Editor.tab.querySelector("div#matrix-needs-update") // matrix_button,
 	);
 
 //	exit-edit-mode.js
