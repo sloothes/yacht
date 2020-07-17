@@ -389,16 +389,18 @@
 					material = getMaterialByEntityId( value );
 				});
 
-				var color = { r:color_r, g:color_g, b:color_b };
+			//	var color = { r:color_r, g:color_g, b:color_b };
 
-			//	color.
-
-				watch( editor, "color", function( key, action, value ){
-					if (material && material.color) material.color[key] = Number(value);
-					debugMode && console.log({color:color,key:key, value:value}); // debug!
-					if ( key && color_droplist.value === "color" ) color[key].value = (255*value).toFixed(0);
+				watch( editor, ["color", "emissive", "specular"], function( key, action, values ){
+					debugMode && console.log({key:key,values:values}); // debug!
+					material && material[key] & material[key].copy(values); // THREE.Color.
+					if ( color_droplist.value === key ){
+							color_r.value = (255*values.r).toFixed(0);
+							color_g.value = (255*values.g).toFixed(0);
+							color_b.value = (255*values.b).toFixed(0);
+					}
 				});
-
+		/*
 			//	emissive.
 
 				watch( editor, "emissive", function( key, action, value ){
@@ -414,7 +416,7 @@
 					debugMode && console.log({color:color,key:key, value:value}); // debug!
 					if ( key && color_droplist.value === "specular" ) color[key].value = (255*value).toFixed(0);
 				});
-
+		*/
 			})( 
 				materialEditor, // editor,
 				TabUI.Material.tab.querySelector("input#material-color-r-input"),     // color_r,
