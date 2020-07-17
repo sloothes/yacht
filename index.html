@@ -624,6 +624,78 @@
 
 		<script>
 
+		//	material-key-inputs.js
+
+			(function(editor,text_input,value_input,key_droplist,entity_droplist,undo_button){
+
+				watch( text_input, "onchange", function(property, event, value){
+
+					var key = key_droplist.value;
+
+					switch ( key ){
+
+						case "uuid":
+						case "type":
+						case "linecap":
+						case "linejoin":
+						case "wireframeLinecap":
+							return text_input.value = editor[key];
+						break;
+
+						case "name":
+
+							if ( !value ) return text_input.value = editor[key];
+
+						//	rename option.
+							setTimeout( function( type, name, id ){
+								var str="",dot=".",col=":";
+								var selector = "option[value='" + id + "']";
+								var option = entity_droplist.querySelector(selector); 
+							//	debugMode && console.log({params:{id:id,name:name,type:type,option:option}});
+								if ( !option ) return;
+								switch ( type ) {
+									case "MeshToonMaterial":
+									case "MeshBasicMaterial":
+									case "MeshPhongMaterial":
+									case "MeshDepthMaterial":
+									case "MeshNormalMaterial":
+									case "MeshLambertMaterial":
+									case "MeshStandardMaterial":
+									case "MeshPhysicalMaterial":
+										type = type.replace("Mesh","");
+									break;
+									case "LineBasicMaterial":
+									case "LineDashedMaterial":
+									case "RawShaderMaterial":
+										type = type.replace("Material","");
+									break;
+								}
+								option.text = str+id+dot+type+col+name; // +id;
+							}, null, editor.type, value, entity_droplist.value );
+
+						//	Update editor.
+							return editor[key] = value;
+
+						break;
+					}
+
+				});
+
+			})(
+				materialEditor, // editor,
+				TabUI.Material.tab.querySelector("input#material-text-input"), // text_input,
+				TabUI.Material.tab.querySelector("input#material-value-input"), // value_input,
+				TabUI.Material.tab.querySelector("select#material-keys-droplist"), // key_droplist
+				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
+				TabUI.Material.tab.querySelector("div#material-undo-button") // undo_button,
+			);
+
+
+
+		</script>
+
+		<script>
+
 			TabUI.Editor.role.classList.add("active");
 			TabUI.Editor.tab.classList.add("in","active");
 			groundHelper.visible = !groundHelper.visible; 

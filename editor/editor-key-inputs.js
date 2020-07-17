@@ -8,14 +8,32 @@
 			var key = key_droplist.value;
 
 			switch( key ){
+
 				case "uuid":
 					return text_input.value = editor[key];
 				break;
+
 				case "name":
+
 					if ( !value ) return text_input.value = editor[key];
+
+				//	rename option.
+					setTimeout( function( type, name, id ){
+						var str="",dot=".",col=":";
+						var selector = "option[value='" + id + "']";
+						var option = entity_droplist.querySelector(selector); 
+					//	debugMode && console.log({params:{id:id,name:name,type:type,option:option}});
+						if ( !option ) return;
+					//	switch ( type ) {...}
+						option.text = str+id+dot+type+col+name; // +id;
+					}, null, editor.type, value, entity_droplist.value );
+
+				//	Update editor.
 					return editor[key] = value;
+
 				break;
 			}
+
 		});
 
 		watch( value_input, "onchange", function( prop, event, value ){
