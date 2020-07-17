@@ -395,6 +395,7 @@
 
 				watch( editor, "color", function( key, action, value ){
 					if (material && material.color) material.color[key] = Number(value);
+					debugMode && console.log({color:color,key:key, value:value});
 					if ( key && color_droplist.value === "color" ) color[key].value = (255*value).toFixed(0);
 				});
 
