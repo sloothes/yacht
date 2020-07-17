@@ -1,6 +1,6 @@
-//	entity-manager-helpers.js
+//	entities-helpers.js
 
-	function getObjectByEntityId( value ){
+	const getObjectByEntityId = function( value ){
 
 		var entity_droplist = document.querySelector("select#editor-entities-droplist");
 
@@ -14,7 +14,7 @@
 		return scene.getObjectById( id );
 	}
 
-	function getMaterialByEntityId( value ){
+	const getMaterialByEntityId = function( value ){
 
 		var entity_droplist = document.querySelector("select#material-entities-droplist");
 
@@ -30,7 +30,7 @@
 		});
 	}
 
-	function getTextureByEntityId( value ){
+	const getTextureByEntityId = function( value ){
 
 		var entity_droplist = document.querySelector("select#textures-entities-droplist");
 
@@ -46,7 +46,7 @@
 		});
 	}
 
-	function getObjectsByGeometry( uuid ){
+	const getObjectsByGeometry = function( uuid ){
 
 		return scene.children.filter(function(child){
 			return child.geometry && child.geometry.uuid === uuid; // same geometry.

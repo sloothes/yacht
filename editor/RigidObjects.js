@@ -1,4 +1,3 @@
-
 //	RigidObjects.js
 
 //	CameraControls rigid objects,

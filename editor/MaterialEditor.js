@@ -137,22 +137,17 @@
 		if ( json.wireframeLinewidth !== undefined ) editor.wireframeLinewidth = json.wireframeLinewidth;
 		if ( json.wireframeLinecap !== undefined ) editor.wireframeLinecap = json.wireframeLinecap;
 		if ( json.wireframeLinejoin !== undefined ) editor.wireframeLinejoin = json.wireframeLinejoin;
-
 		if ( json.rotation !== undefined ) editor.rotation = json.rotation;
-
 		if ( json.scale !== undefined ) editor.scale = json.scale;
 		if ( json.linewidth !== 1 ) editor.linewidth = json.linewidth;
 		if ( json.gapSize !== undefined ) editor.gapSize = json.gapSize;
 		if ( json.dashSize !== undefined ) editor.dashSize = json.dashSize;
-
 		if ( json.polygonOffset !== undefined ) editor.polygonOffset = json.polygonOffset;
 		if ( json.polygonOffsetUnits !== undefined ) editor.polygonOffsetUnits = json.polygonOffsetUnits;
 		if ( json.polygonOffsetFactor !== undefined ) editor.polygonOffsetFactor = json.polygonOffsetFactor;
-
 		if ( json.skinning !== undefined ) editor.skinning = json.skinning;
 		if ( json.dithering !== undefined ) editor.dithering = json.dithering;
 		if ( json.morphTargets !== undefined ) editor.morphTargets = json.morphTargets;
-
 		if ( json.visible !== undefined ) editor.visible = json.visible;
 		if ( json.userData !== undefined ) editor.userData = json.userData;
 
@@ -219,11 +214,9 @@
 		if ( json.displacementMap !== undefined ) editor.displacementMap = getTexture( json.displacementMap );
 		if ( json.displacementBias !== undefined ) editor.displacementBias = json.displacementBias;
 		if ( json.displacementScale !== undefined ) editor.displacementScale = json.displacementScale;
-
 		if ( json.reflectivity !== undefined ) editor.reflectivity = json.reflectivity;
 		if ( json.lightMap !== undefined ) editor.lightMap = getTexture( json.lightMap );
 		if ( json.lightMapIntensity !== undefined ) editor.lightMapIntensity = json.lightMapIntensity;
-
 		if ( json.aoMap !== undefined ) editor.aoMap = getTexture( json.aoMap );
 		if ( json.envMap !== undefined ) editor.envMap = getTexture( json.envMap );
 		if ( json.aoMapIntensity !== undefined ) editor.aoMapIntensity = json.aoMapIntensity;

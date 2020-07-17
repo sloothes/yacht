@@ -1,14 +1,14 @@
-//	ObjectEditor.js
+//	Object3DEditor.js
 
-	function ObjectEditor(){
+	function Object3DEditor(){
 		var object = new THREE.Object3D();
-		Object.setPrototypeOf( object, ObjectEditor.prototype );
+		Object.setPrototypeOf( object, Object3DEditor.prototype );
 		return object; // important!
 	}
 
-	ObjectEditor.prototype = Object.create(THREE.Object3D.prototype); // important!
+	Object3DEditor.prototype = Object.create(THREE.Object3D.prototype); // important!
 
-	ObjectEditor.prototype.reset = function(){ 
+	Object3DEditor.prototype.reset = function(){ 
 
 		var editor = this;
 		editor.copy( new THREE.Object3D() );
@@ -16,7 +16,7 @@
 		editor.name = "object editor";
 	};
 
-	ObjectEditor.prototype.update = function( value ){ 
+	Object3DEditor.prototype.update = function( value ){ 
 
 	//	Copies the values of the target object3D of
 	//	scene. Does not updates the target object3D.
@@ -45,18 +45,19 @@
 
 	};
 
-	ObjectEditor.prototype.edit = function( value ){ 
+	Object3DEditor.prototype.edit = function( value ){ 
 
 		var entity_droplist = document.querySelector("select#editor-entities-droplist");
 		entity_droplist && callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = value );
 
 	};
 
-	ObjectEditor.prototype.exit = function(){ this.prototype.edit.call( this, "" ); };
+	Object3DEditor.prototype.exit = function(){ this.prototype.edit.call( this, "" ); };
 
-	const objectEditor = new ObjectEditor();
 //	Note: When editor is not added in scene
 //	doesn't update matrix/matrixWorld json.
 //	When is added in scene updates matrixes.
+
+	const objectEditor = new Object3DEditor();
 	scene.add( objectEditor ); // important!
 
