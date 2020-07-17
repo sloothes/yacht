@@ -160,7 +160,10 @@
 			TabUI.Editor.role.classList.add("active");
 			TabUI.Editor.tab.classList.add("in","active");
 			groundHelper.visible = !groundHelper.visible; 
+
+			entities.add(ground);
 			entities.add(groundHelper);
+			entities.add(localPlayer.getObjectByName("playerhelper"));
 
 			cameraControls.setLatLon(5.128, 270.675);
 			localPlayer.controller.movementSpeed = 30;
