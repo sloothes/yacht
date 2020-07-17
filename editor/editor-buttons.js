@@ -9,8 +9,7 @@
 		});
 
 	})(
-		objectEditor, // editor,
-		TabUI.Editor.querySelector("div#matrix-needs-update"), // matrix_button,
+		objectEditor, TabUI.Editor.tab.querySelector("div#matrix-needs-update"), // matrix_button,
 	);
 
 //	exit-edit-mode.js
@@ -53,10 +52,10 @@
 
 	})(
 		objectEditor, // editor,
-		TabUI.Editor.querySelector("div#editor-reset-button"), // reset_button,
-	//	TabUI.Editor.querySelector("input#editor-vector-x-input"), // vector_x,
-	//	TabUI.Editor.querySelector("input#editor-vector-y-input"), // vector_y,
-	//	TabUI.Editor.querySelector("input#editor-vector-z-input"), // vector_z,
-	//	TabUI.Editor.querySelector("input#editor-vector-w-input"), // vector_w,
-		TabUI.Editor.querySelector("select#editor-vector-droplist") // vector_droplist.
+		TabUI.Editor.tab.querySelector("div#editor-reset-button"), // reset_button,
+	//	TabUI.Editor.tab.querySelector("input#editor-vector-x-input"), // vector_x,
+	//	TabUI.Editor.tab.querySelector("input#editor-vector-y-input"), // vector_y,
+	//	TabUI.Editor.tab.querySelector("input#editor-vector-z-input"), // vector_z,
+	//	TabUI.Editor.tab.querySelector("input#editor-vector-w-input"), // vector_w,
+		TabUI.Editor.tab.querySelector("select#editor-vector-droplist") // vector_droplist.
 	);
