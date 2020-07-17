@@ -1,12 +1,4 @@
 
-//	editors-helper.
-
-	const exitEditMode = function( entity_droplist ){
-
-		entity_droplist && callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = "" );
-	}
-
-
 //	editor-key-droplist.js
 
 	(function(editor,text_input,input,key_droplist,entity_droplist){
@@ -219,4 +211,12 @@
 		});
 
 	})( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") ); // entity_droplist.
+
+
+//	editors-helper.
+
+	const exitEditMode = function( entity_droplist ){
+
+		entity_droplist && callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = "" );
+	}
 
