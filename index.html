@@ -275,9 +275,9 @@
 					else if ( !editor[key].isColor )      [color_r.value, color_g.value, color_b.value] = ["","",""];
 
 					else [ color_r.value, color_g.value, color_b.value ] = [ 
-						parseInt( 255*editor[ key ].r ).toFixed(0),
-						parseInt( 255*editor[ key ].g ).toFixed(0),
-						parseInt( 255*editor[ key ].b ).toFixed(0)
+						( 255*editor[ key ].r ).toFixed(0),
+						( 255*editor[ key ].g ).toFixed(0),
+						( 255*editor[ key ].b ).toFixed(0)
 					];
 
 				});
@@ -382,7 +382,7 @@
 
 			//	color.
 
-				watch( editor, "color", function( key, action, value ){
+				watch( editor, "color", function( key ){
 					var color = editor.color; //console.log("color:", color);
 					material && material.color && material.color.copy(color);
 					if ( color_droplist.value === "color" ) {
@@ -394,7 +394,7 @@
 
 			//	emissive.
 
-				watch( editor, "emissive", function( key, action, value ){
+				watch( editor, "emissive", function( key ){
 					var color = editor.emissive; //console.log("emissive:", color);
 					material && material.emissive && material.emissive.copy(color);
 					if ( color_droplist.value === "emissive" ) {
@@ -406,7 +406,7 @@
 
 			//	specular.
 
-				watch( editor, "specular", function( key, action, value ){
+				watch( editor, "specular", function( key ){
 					var color = editor.specular; //console.log("specular:", color);
 					material && material.specular && material.specular.copy(color);
 					if ( color_droplist.value === "specular" ) {
@@ -436,8 +436,8 @@
 				});
 
 				function update_material_value( key, action, value ){
-					if ( material ) material[key] = String(value); value_input.value = "";
-					if ( key_droplist.value === key ) text_input.value = value; // display.
+					if ( material ) material[key] = String(value);
+					if ( key_droplist.value === key ) text_input.value = value;
 				}
 
 				watch( editor, "name", update_material_value );
@@ -468,7 +468,7 @@
 				});
 
 				function update_material_value( key, action, value ){
-					if ( material ) material[key] = Boolean(value); text_input.value = "";
+					if ( material ) material[key] = Boolean(value);
 					if ( key_droplist.value === key ) value_input.value = value; // display.
 				}
 
@@ -513,19 +513,19 @@
 				});
 
 				function update_material_value( key, action, value ){
-					if ( material ) material[key] = Number(value); text_input.value = "";
+					if ( material ) material[key] = Number(value);
 					if ( key_droplist.value === key ) value_input.value = value.toFixed(2);
 				}
 
 				function update_material_constant( key, action, value ){
-					if ( material ) material[key] = Number(value); text_input.value = "";
+					if ( material ) material[key] = Number(value);
 					if ( key_droplist.value === key ) value_input.value = value.toFixed(0);
 				}
 
 			//	Rad.
 
 				watch( editor, "rotation", function( key, action, value ){
-					if ( material ) material[key] = Number(value); text_input.value = "";
+					if ( material ) material[key] = Number(value);
 					if ( key_droplist.value === key ) value_input.value = (RAD2DEG*value).toFixed(1);
 				});
 
@@ -682,8 +682,138 @@
 			);
 
 
+			(function(editor,text_input,value_input,key_droplist,entity_droplist,undo_button){
+
+				const RAD2DEG = 57.29577951308232;
+				const DEG2RAD = 0.017453292519943295;
+
+				watch( value_input, "onchange", function(property, event, value){
+
+					var key = key_droplist.value;
+
+					switch ( key ){
+
+					//	typeof editor[key] === "boolean" || typeof editor[key] === "undefined"
+
+						case "fog":
+						case "lights":
+						case "flatShading":
+						case "transparent":
+						case "depthTest":
+						case "depthWrite":
+						case "clipIntersection":
+						case "clipShadows":
+						case "colorWrite":
+						case "polygonOffset":
+						case "dithering":
+						case "premultipliedAlpha":
+						case "visible":
+						case "wireframe":
+						case "skinning":
+						case "morphTargets":
+						case "morphNormals":
+							if ( value === "0" ) return editor[key] = false;                        // accept "0", string.
+							else if ( value === "1" ) return editor[key] = true;                    // accept "1", string.
+							else if ( value.toLowerCase() === "true" ) return editor[key] = true;   // accept "true" string.
+							else if ( value.toLowerCase() === "false" ) return editor[key] = false; // accept "false" string.
+							else return value_input.value = editor[key];
+						break;
+
+					//	typeof editor[key] === "number" || typeof editor[key] === "undefined"
+
+						case "displacementScale":
+						case "polygonOffsetUnits":
+						case "polygonOffsetFactor":
+							return editor[key] = THREE.Math.clamp(Number(value), -100, 100); // number.
+						break;
+						case "opacity":
+						case "overdraw":
+						case "alphaTest":
+						case "reflectivity":
+							return editor[key] = THREE.Math.clamp(Number(value), 0, 1); // number.
+						break;
+						case "refractionRatio":
+							return editor[key] = THREE.Math.clamp(Number(value), -1, 1); // number.
+						break;
+						case "bumpScale":
+						case "metalness":
+						case "roughness":
+						case "displacementBias":
+						case "aoMapIntensity":
+						case "envMapIntensity":
+						case "emissiveIntensity":
+						case "lightMapIntensity":
+						case "wireframeLinewidth":
+							return editor[key] = THREE.Math.clamp(Number(value), -10, 10); // number.
+						break;
+						case "linewidth":
+							return editor[key] = THREE.Math.clamp(Number(value), 0, 100); // number.
+						break;
+						case "size":
+						case "scale":
+						case "gapSize":
+						case "dashSize":
+						case "shininess":
+							return editor[key] = THREE.Math.clamp(Number(value), 0, 1000); // number.
+						break;
+						case "rotation":
+							return editor[key] = DEG2RAD*THREE.Math.clamp(Number(value), -180, 180); // number.
+						break;
+						case "blending":
+							if ( "0,1,2,3,4,5".split(",").includes(value) ) return editor[key] = Number(value); 
+						break;
+						case "side":
+							if ( "0,1,2".split(",").includes(value) ) return editor[key] = Number(value); 
+						break;
+						case "vertexColors":
+							if ( "0,1,2".split(",").includes(value) ) return editor[key] = Number(value); 
+						break;
+						case "blendDst":
+						case "blendSrc":
+							if ( "200,201,202,203,204,205,206,207,208,209,210".split(",").includes(value) ) return editor[key] = Number(value); 
+						break;
+						case "blendEquation":
+							if ( "100,101,102,103,104".split(",").includes(value) ) return editor[key] = Number(value); 
+						break;
+						case "depthFunc":
+							if ( "0,1,2,3,4,5,6,7".split(",").includes(value) ) return editor[key] = Number(value); 
+						break;
+						case "normalMapType":
+							if ( "0,1".includes(value) ) return editor[key] = Number(value); 
+						break;
+						case "combine":
+							if ( "0,1,2".includes(value) ) return editor[key] = Number(value); 
+						break;
+					}
+
+				});
+
+			})(
+				materialEditor, // editor,
+				TabUI.Material.tab.querySelector("input#material-text-input"), // text_input,
+				TabUI.Material.tab.querySelector("input#material-value-input"), // value_input,
+				TabUI.Material.tab.querySelector("select#material-keys-droplist"), // key_droplist
+				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
+				TabUI.Material.tab.querySelector("div#material-undo-button") // undo_button,
+			);
 
 		</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		<script>
 
