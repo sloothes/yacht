@@ -1,13 +1,5 @@
 //	octree-helpers.js
 
-	function getObjectsByGeometry( uuid ){
-		return scene.children.filter(function(child){
-			return child.geometry && child.geometry.uuid === uuid; // same geometry.
-		}).filter(function( object ){
-			return !localPlayer.getObjectById(object.id); // not localPlayer child.
-		});
-	}
-
 	function addtoOctree( value ){
 
 	//	DevNote: You have to add all objects with the 
@@ -60,6 +52,7 @@
 	}
 
 	function updateOctree( value ){
+
 		var object = removefromOctree( value );
 
 		if ( !object ) return;
@@ -94,3 +87,10 @@
 		return result;
 	}
 
+//	function getObjectsByGeometry( uuid ){
+//		return scene.children.filter(function(child){
+//			return child.geometry && child.geometry.uuid === uuid; // same geometry.
+//		}).filter(function( object ){
+//			return !localPlayer.getObjectById(object.id); // not localPlayer child.
+//		});
+//	}
