@@ -813,7 +813,7 @@
 					value = THREE.Math.clamp( Number(value), -100, 100 )
 					if ( isNaN(value) ) return vector_x.value = editor[key].x.toFixed(2);
 					editor[key].x = value; vector_x.value = value.toFixed(2);
-							
+
 
 				});
 
@@ -879,6 +879,216 @@
 				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
 				TabUI.Material.tab.querySelector("div#material-undo-button"), // undo_button,
 			);
+
+		</script>
+
+		<script>
+
+		//	material-mouse-inputs.js
+
+		//	on mouse click.
+
+			(function( editor,increase,decrease,text_input,value_input,key_droplist,entity_droplist,undo_button ){
+
+				var key; watch( key_droplist, "onchange", function( prop, event, value ){ key = value; });
+
+				function updateFloatRotationValue(button, min, max, step){
+					var step = 0.1 * Math.PI/180; // 0.1 deg.
+					var min = -Math.PI, max = Math.PI;
+					var value = Number(editor[ key ]); // get value from editor, rad.
+					if ( isNaN(value) ) return value_input.value = ""; // avoid to pass NaN editor[key] value.
+					if ( button === increase ) value = THREE.Math.clamp( value+step, min, max ); // rad.
+					if ( button === decrease ) value = THREE.Math.clamp( value-step, min, max ); // rad.
+					editor[ key ] = Number(value); // material manager updates input value, rad.
+				//	value_input.value = (RAD2DEG*editor[key]).toFixed(1); // display.
+				}
+
+				function updateFloatNumberValue(button, min, max, step){
+					var value = Number(editor[ key ]); // get value from editor.
+					if ( isNaN(value) ) return value_input.value = ""; // avoid to pass NaN editor[key] value.
+					if ( button === increase ) value = THREE.Math.clamp( value+step, min, max );
+					if ( button === decrease ) value = THREE.Math.clamp( value-step, min, max );
+					editor[ key ] = Number(value); // material manager updates input value.
+				//	value_input.value = editor[key].toFixed(2); // display.
+				}
+
+				function updateIntegerNumberValue(button, min, max){
+					var value = parseInt(editor[ key ]); // get value from editor.
+					if ( isNaN(value) ) return value_input.value = ""; // avoid to pass NaN editor[key] value.
+					if ( button === increase ) value = THREE.Math.clamp( ++value, min, max );
+					if ( button === decrease ) value = THREE.Math.clamp( --value, min, max );
+					editor[ key ] = parseInt(value); // editor watcher updates value input.
+				}
+
+				function updateConstantStringValue( button, values ){
+					var min = 0, max = values.length;
+					var value = editor[ key ]; // string.
+					var index = values.findIndex(function( item ){ return item === value; });
+					if ( button === increase ) value = values[ ( ++index % max + max ) % max ]; // mod();
+					if ( button === decrease ) value = values[ ( --index % max + max ) % max ]; // mod();
+					editor[ key ] = String(value); // material manager updates input value.
+				}
+
+				function updateConstantNumberValue( button, values ){
+					var min = 0, max = values.length;
+					var value = Number(editor[ key ]); // get value from editor.
+					var index = values.findIndex(function( item ){ return item === value; });
+					if ( button === increase ) value = values[ ( ++index % max + max ) % max ]; // mod();
+					if ( button === decrease ) value = values[ ( --index % max + max ) % max ]; // mod();
+					editor[ key ] = Number(value); // material manager updates input value.
+				}
+
+				function update_material_value(button){
+
+					watch( button, "onclick", function( prop, event, value ){
+
+						switch( key ){
+
+						//	string types:
+
+							case "uuid": 
+								return editor[ key ] = value; // material manager updates input value.
+							break;
+							case "linecap":
+							case "wireframeLinecap":
+								return updateConstantStringValue(button, ["butt","round","square"]);
+							break;
+							case "linejoin":
+								return updateConstantStringValue(button, ["bevel","round","miter"]);
+							break;
+							case "precision":
+								return updateConstantStringValue(button, ["highp","mediump","lowp"]);
+							break;
+
+						//	boolean types:
+
+							case "fog":
+							case "lights":
+							case "flatShading":
+							case "transparent":
+							case "depthTest":
+							case "depthWrite":
+							case "clipIntersection":
+							case "clipShadows":
+							case "colorWrite":
+							case "polygonOffset":
+							case "dithering":
+							case "premultipliedAlpha":
+							case "visible":
+							case "wireframe":
+							case "skinning":
+							case "morphTargets":
+							case "morphNormals":
+						//	case "needsUpdate":
+							case "sizeAttenuation":
+								return editor[key] = !editor[key]; // material manager updates input value.
+							break;
+
+						//	number types:
+
+							case "blending":
+								return updateConstantNumberValue(button, [
+									THREE.NoBlending,THREE.NormalBlending,THREE.AdditiveBlending,
+									THREE.SubtractiveBlending,THREE.MultiplyBlending,THREE.CustomBlending
+								]);
+							break;
+							case "side":
+								return updateConstantNumberValue(button, [THREE.FrontSide,THREE.BackSide,THREE.DoubleSide]);
+							break;
+							case "vertexColors":
+								return updateConstantNumberValue(button, [THREE.NoColors,THREE.FaceColors,THREE.VertexColors]);
+							break;
+							case "blendDst":
+							case "blendSrc":
+								return updateConstantNumberValue(button, [
+									THREE.ZeroFactor,THREE.OneFactor,THREE.SrcColorFactor,THREE.OneMinusSrcColorFactor,
+									THREE.SrcAlphaFactor,THREE.OneMinusSrcAlphaFactor,THREE.DstAlphaFactor,THREE.OneMinusDstAlphaFactor,
+									THREE.DstColorFactor,THREE.OneMinusDstColorFactor,THREE.SrcAlphaSaturateFactor
+								]);
+							break;
+							case "blendEquation":
+								return updateConstantNumberValue(button, [
+									THREE.AddEquation,THREE.SubtractEquation,
+									THREE.ReverseSubtractEquation,THREE.MinEquation,THREE.MaxEquation
+								]);
+							break;
+							case "depthFunc":
+								return updateConstantNumberValue(button, [
+									THREE.NeverDepth,THREE.AlwaysDepth,THREE.LessDepth,THREE.LessEqualDepth,
+									THREE.GreaterEqualDepth,THREE.GreaterDepth,THREE.NotEqualDepth
+								]);
+							break;
+							case "normalMapType":
+								return updateConstantNumberValue(button, [THREE.TangentSpaceNormalMap,THREE.ObjectSpaceNormalMap]);
+							break;
+							case "combine":
+								return updateConstantNumberValue(button, [THREE.MultiplyOperation,THREE.MixOperation,THREE.AddOperation]);
+							break;
+						//
+							case "polygonOffsetUnits":
+							case "polygonOffsetFactor":
+								return updateIntegerNumberValue(button, -100, 100);
+							break;
+							case "displacementScale":
+								return updateFloatNumberValue(button, -100, 100, 1/100);
+							break;
+							case "bumpScale":
+							case "metalness":
+							case "roughness":
+							case "displacementBias":
+								return updateFloatNumberValue(button, -10, 10, 1/100);
+							break;
+							case "refractionRatio":
+								return updateFloatNumberValue(button, -1, 1, 1/100);
+							break;
+							case "opacity":
+							case "overdraw":
+							case "alphaTest":
+							case "reflectivity":
+							case "wireframeLinewidth":
+								return updateFloatNumberValue(button, 0, 1, 1/100);
+							break;
+							case "linewidth":
+							case "aoMapIntensity":
+							case "envMapIntensity":
+							case "emissiveIntensity":
+							case "lightMapIntensity":
+								return updateFloatNumberValue(button, 0, 100, 1/100);
+							break;
+							case "depthPacking": 
+								// ???
+							break;
+							case "size":
+							case "scale":
+							case "gapSize":
+							case "dashSize":
+							case "shininess":
+								return updateFloatNumberValue(button, 0, 1000, 1/100);
+							break;
+							case "rotation":
+								return updateFloatRotationValue(button);
+							break;
+
+						}
+					});
+
+				}
+
+				watch( increase, "onclick", update_material_value( increase );
+				watch( decrease, "onclick", update_material_value( decrease );
+
+			})(
+				materialEditor, // editor,
+				TabUI.Material.tab.querySelector("li#material-value-increase"),        // increase,
+				TabUI.Material.tab.querySelector("li#material-value-decrease"),        // decrease,
+				TabUI.Material.tab.querySelector("input#material-text-input"),         // text_input,
+				TabUI.Material.tab.querySelector("input#material-value-input"),        //value_input,
+				TabUI.Material.tab.querySelector("select#material-keys-droplist"),     // key_droplist
+				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
+				TabUI.Material.tab.querySelector("div#material-undo-button") // undo_button,
+			);
+
+
 
 		</script>
 
