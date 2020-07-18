@@ -1154,13 +1154,12 @@
 
 					function onfirstDown(){
 						debugMode && console.log("first mouse down!");
-					//	this.removeEventListener( "mousedown", onfirstDown ); // important!
+						this.removeEventListener( "mousedown", onfirstDown ); // important!
 					};
 
 					function onMouseDown(){
 						clearTimeout( interval ); // important!
 						interval = setTimeout( update_material, 500, this);
-						this.removeEventListener( "mousedown", onfirstDown ); // important!
 					}
 
 					function onClick(){
