@@ -1550,8 +1550,8 @@
 
 				watch( needs_update, "onclick", function( prop, event, value ){
 
-					var material = getMaterialByEntityId();
-					if ( material ) material.needsUpdate = true;
+					var texture = getTextureByEntityId(value);
+					if ( texture ) texture.needsUpdate = true;
 
 				});
 
@@ -1647,11 +1647,7 @@
 
 				button.addEventListener( "click", function(){ 
 					input.value = ""; input.click();
-				//	input.files.length = 0;
-				//	clearTimeout( interval );
-				//	interval = setTimeout( function(){ input.value = ""; input.click(); }, 250); 
 				});
-
 
 			})(
 				null, // textureViewer,
