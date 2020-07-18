@@ -1648,7 +1648,7 @@
 				button.addEventListener( "click", function(){ 
 					input.files.length = 0;
 					clearTimeout( interval );
-					interval = setTimeout( this.click, 250 ); 
+					interval = setTimeout( function(){ input.click(); }, 250); 
 				});
 
 				input.addEventListener( "change", onReplaceImage );
