@@ -1603,11 +1603,9 @@
 
 				var interval;
 
-			//	Add watcher.
+				function onFileInputChange(e){
 
-				watch( input, "onchange", function(property, action, files){
-
-					if ( files.length === 0 ) return;
+					if ( input.files.length === 0 ) return;
 
 					var file = input.files[0];
 
@@ -1645,9 +1643,7 @@
 
 					reader.readAsDataURL(file);
 
-				});
-
-			//	Call input.
+				}
 
 				button.addEventListener( "click", function(){ 
 					clearTimeout( interval );
@@ -1656,11 +1652,7 @@
 					}, 250); 
 				});
 
-			//	Call watcher.
-
-				input.addEventListener( "change", function(){ 
-					callWatchers( input, "onchange", "change", input.files );
-				});
+				input.addEventListener( "change", onFileInputChange );
 
 			})(
 				null, // textureViewer,
