@@ -1249,12 +1249,96 @@
 
 		//	colors.
 
+			(function( editor,color_r,color_g,color_b,increase_r,increase_g,increase_b,decrease_r,decrease_g,decrease_b,color_droplist,entity_droplist,undo_button ){
 
+				var interval;
 
+				var key; watch( color_droplist, "onchange", function( prop, event, value ){ key = value; });
+				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
+				function onMouseClickInputValue(button){ 
 
+					function updateMaterialColorValue(button){
 
+						var min = 0, max = 255;
 
+						if ( button === increase_r ) editor[key].r = THREE.Math.clamp( ++(255*editor[key].r), min, max )/255;
+						if ( button === increase_g ) editor[key].g = THREE.Math.clamp( ++(255*editor[key].g), min, max )/255;
+						if ( button === increase_b ) editor[key].b = THREE.Math.clamp( ++(255*editor[key].b), min, max )/255;
+						if ( button === decrease_r ) editor[key].r = THREE.Math.clamp( --(255*editor[key].r), min, max )/255;
+						if ( button === decrease_g ) editor[key].g = THREE.Math.clamp( --(255*editor[key].g), min, max )/255;
+						if ( button === decrease_b ) editor[key].b = THREE.Math.clamp( --(255*editor[key].b), min, max )/255;
+
+					}
+
+					watch( button, "onclick", function( prop, event ){
+					//	debugMode && console.log({item:button,property:prop,event:event,value:editor[key]});
+
+						switch ( key ) {
+							case "color":
+								return updateMaterialColorValue(button);
+							break;
+							case "emissive":
+								return updateMaterialColorValue(button);
+							break;
+							case "specular":
+								return updateMaterialColorValue(button);
+							break;
+						}
+
+					});
+
+					button.addEventListener( "mousedown", function(){
+						clearTimeout( interval ); // important!
+						interval = setTimeout( function update_material( button ){
+						//	debugMode && console.log({button:button,value:editor[key]});
+							switch ( key ) {
+								case "color":
+									interval = setTimeout( update_material, 20, button );
+									return updateMaterialColorValue(button);
+								break;
+								case "emissive":
+									interval = setTimeout( update_material, 20, button );
+									return updateMaterialColorValue(button);
+								break;
+								case "specular":
+									interval = setTimeout( update_material, 20, button );
+									return updateMaterialColorValue(button);
+								break;
+
+							}
+						}, 500, this);
+					});
+
+					button.addEventListener( "click", function(){
+						clearTimeout( interval );
+						callWatchers(this, "onclick", "click"); 
+					});
+
+				}
+
+				onMouseClickInputValue(increase_r);
+				onMouseClickInputValue(increase_g);
+				onMouseClickInputValue(increase_b);
+				onMouseClickInputValue(decrease_r);
+				onMouseClickInputValue(decrease_g);
+				onMouseClickInputValue(decrease_b);
+
+			})(
+				materialEditor, // editor,
+				TabUI.Material.tab.querySelector("input#material-color-r-input"),      // color_r,
+				TabUI.Material.tab.querySelector("input#material-color-g-input"),      // color_g,
+				TabUI.Material.tab.querySelector("input#material-color-b-input"),      // color_b,
+				TabUI.Material.tab.querySelector("li#material-color-r-increase"),      // increase_r,
+				TabUI.Material.tab.querySelector("li#material-color-g-increase"),      // increase_g,
+				TabUI.Material.tab.querySelector("li#material-color-b-increase"),      // increase_b,
+				TabUI.Material.tab.querySelector("li#material-color-r-decrease"),      // decrease_r,
+				TabUI.Material.tab.querySelector("li#material-color-g-decrease"),      // decrease_g,
+				TabUI.Material.tab.querySelector("li#material-color-b-decrease"),      // decrease_b,
+				TabUI.Material.tab.querySelector("select#material-color-droplist"),    // color_droplist
+				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
+				TabUI.Material.tab.querySelector("div#material-undo-button")           // undo_button,
+			);
 
 		</script>
 
