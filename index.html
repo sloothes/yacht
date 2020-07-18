@@ -1407,8 +1407,8 @@
 					var repeat = editor.repeat; //console.log("repeat:", repeat);
 					texture && texture.repeat && texture.repeat.copy(repeat);
 					if ( vector_droplist.value === "repeat" ) {
-						vector_x.value = repeat.x.toFixed(2);
-						vector_y.value = repeat.y.toFixed(2);
+						vector_x.value = repeat.x.toFixed(3);
+						vector_y.value = repeat.y.toFixed(3);
 					}
 				});
 
@@ -1418,8 +1418,8 @@
 					var center = editor.center; //console.log("center:", center);
 					texture && texture.center && texture.center.copy(center);
 					if ( vector_droplist.value === "center" ) {
-						vector_x.value = center.x.toFixed(2);
-						vector_y.value = center.y.toFixed(2);
+						vector_x.value = center.x.toFixed(3);
+						vector_y.value = center.y.toFixed(3);
 					}
 				});
 
@@ -1765,8 +1765,8 @@
 					var key = vector_droplist.value;
 
 					value = THREE.Math.clamp( Number(value), -100, 100 )
-					if ( isNaN(value) ) return vector_x.value = editor[key].x.toFixed(2);
-					editor[key].x = value; vector_x.value = value.toFixed(2);
+					if ( isNaN(value) ) return vector_x.value = editor[key].x.toFixed(3);
+					editor[key].x = value; vector_x.value = value.toFixed(3);
 
 
 				});
@@ -1776,8 +1776,8 @@
 					var key = vector_droplist.value;
 
 					value = THREE.Math.clamp( Number(value), -100, 100 )
-					if ( isNaN(value) ) return vector_y.value = editor[key].y.toFixed(2);
-					editor[key].y = value; vector_y.value = value.toFixed(2);
+					if ( isNaN(value) ) return vector_y.value = editor[key].y.toFixed(3);
+					editor[key].y = value; vector_y.value = value.toFixed(3);
 
 				});
 
@@ -1868,8 +1868,8 @@
 
 							case "format":
 								return updateConstantNumberValue(button, [
-									THREE.AlphaFormat,THREE.RGBFormat,THREE.RGBAFormat,THREE.LuminanceFormat,
-									THREE.LuminanceAlphaFormat, THREE.DepthFormat, THREE.DepthStencilFormat 
+									THREE.AlphaFormat,THREE.RGBFormat,THREE.RGBAFormat,
+									THREE.LuminanceFormat,THREE.LuminanceAlphaFormat
 								]);
 							break;
 
@@ -1962,10 +1962,10 @@
 
 					function updateVectorValues( button, min,max,step ){
 						if ( !editor[key] ) return;
-						if ( button === increase_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x+step, min, max ), 3);
-						if ( button === decrease_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x-step, min, max ), 3);
-						if ( button === increase_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y+step, min, max ), 3);
-						if ( button === decrease_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y-step, min, max ), 3);
+						if ( button === increase_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x+step, min, max ), 6);
+						if ( button === decrease_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x-step, min, max ), 6);
+						if ( button === increase_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y+step, min, max ), 6);
+						if ( button === decrease_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y-step, min, max ), 6);
 					}
 
 					button.addEventListener( "mousedown", function(){
@@ -1981,8 +1981,8 @@
 									return updateVectorValues( button,-100,100,1/1000 );
 								break;
 								case "repeat":
-									interval = setTimeout( update_texture, 20, button );
-									return updateVectorValues( button, -100,100,1/100 );
+									interval = setTimeout( update_texture, 10, button );
+									return updateVectorValues( button, -100,100,1/1000 );
 								break;
 							}
 						}, 500, this);
@@ -1998,7 +1998,7 @@
 								return updateVectorValues( button, -100,100,1/1000 );
 							break;
 							case "repeat":
-								return updateVectorValues( button, -100,100,1/100 );
+								return updateVectorValues( button, -100,100,1/1000 );
 							break;
 						}
 					});
