@@ -1,12 +1,12 @@
 //	MaterialEditor.js
 
 	function MaterialEditor(){
-		var material = new THREE.Material();
+		var material = new THREE.MeshBasicMaterial();
 		Object.setPrototypeOf( material, MaterialEditor.prototype );
 		return material; // important!
 	}
 
-	MaterialEditor.prototype = Object.create(THREE.Material.prototype); // important!
+	MaterialEditor.prototype = Object.create(THREE.MeshBasicMaterial.prototype); // important!
 
 	MaterialEditor.prototype.copy = function( source ){ 
 		THREE[ source.type ].prototype.copy.call( this, source ); // important!
