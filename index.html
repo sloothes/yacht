@@ -1396,8 +1396,8 @@
 					var offset = editor.offset; //console.log("offset:", offset);
 					texture && texture.offset && texture.offset.copy(offset);
 					if ( vector_droplist.value === "offset" ) {
-						vector_x.value = offset.x.toFixed(2);
-						vector_y.value = offset.y.toFixed(2);
+						vector_x.value = offset.x.toFixed(3);
+						vector_y.value = offset.y.toFixed(3);
 					}
 				});
 
