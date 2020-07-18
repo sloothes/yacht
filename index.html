@@ -1603,7 +1603,7 @@
 
 				var interval;
 
-				function onReplaceImage(e){
+				input.addEventListener( "change", function(e){
 
 					if ( input.files.length === 0 ) return;
 
@@ -1643,15 +1643,15 @@
 
 					reader.readAsDataURL(file);
 
-				}
-
-				button.addEventListener( "click", function(){ 
-					input.files.length = 0;
-					clearTimeout( interval );
-					interval = setTimeout( function(){ input.click(); }, 250); 
 				});
 
-				input.addEventListener( "change", onReplaceImage );
+				button.addEventListener( "click", function(){ 
+					input.value = ""; input.click();
+				//	input.files.length = 0;
+				//	clearTimeout( interval );
+				//	interval = setTimeout( function(){ input.value = ""; input.click(); }, 250); 
+				});
+
 
 			})(
 				null, // textureViewer,
