@@ -1463,16 +1463,19 @@
 
 			(function( editor,text_input,value_input,key_droplist,entity_droplist ){
 
-				var texture;
+				var interval, texture;
 
 				watch( entity_droplist, "onchange", function( property, event, value ){
 					texture = getTextureByEntityId( value );
 				});
 
 				function update_texture_value( key, action, value ){
+					clearTimeout( interval );
 					if ( texture ) texture[key] = Boolean(value);
-					if ( texture ) texture.needsUpdate = true; // important!
 					if ( key_droplist.value === key ) value_input.value = value; // display.
+					interval = setTimeout(function(){
+						if ( texture ) texture.needsUpdate = true; // important!
+					}, 250);
 				}
 
 				watch( editor, "flipY", update_texture_value );
@@ -1504,13 +1507,11 @@
 
 				function update_texture_value( key, action, value ){
 					if ( texture ) texture[key] = Number(value);
-				//	if ( texture ) texture.needsUpdate = true;
 					if ( key_droplist.value === key ) value_input.value = value.toFixed(2);
 				}
 
 				function update_texture_constant( key, action, value ){
 					if ( texture ) texture[key] = Number(value);
-				//	if ( texture ) texture.needsUpdate = true;
 					if ( key_droplist.value === key ) value_input.value = value.toFixed(0);
 				}
 
