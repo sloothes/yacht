@@ -1300,12 +1300,29 @@
 				const DEG2RAD = 0.017453292519943295;
 
 				watch( key_droplist, "onchange", function( property, event, key ){
-					debugMode && console.log({item:key_droplist,event:event,key:key});
 
 					switch ( key ) {
+					//	string types:
 						case "name":
 						case "uuid":
 							text_input.value = editor[key];
+						break;
+					//	boolean types:
+						case "flipY":
+						case "premultiplyAlpha":
+						case "matrixAutoUpdate":
+						case "generateMipmaps":
+							value_input.value = editor[key];
+						break;
+					//	number types:
+						case "type":
+						case "wrapS":
+						case "wrapT":
+						case "format":
+						case "mapping":
+						case "minFilter":
+						case "magFilter":
+							value_input.value = editor[key].toFixed(0);
 						break;
 						case "anisotropy":
 							value_input.value = editor[key].toFixed(2);
