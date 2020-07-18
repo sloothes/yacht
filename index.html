@@ -1095,7 +1095,7 @@
 					}
 
 					function update_material(button){
-						debugMode && console.log({button:button,value:editor[key]}); // debug.
+					//	debugMode && console.log({button:button,value:editor[key]}); // debug.
 
 						switch ( key ){
 
@@ -1152,25 +1152,24 @@
 
 					}
 
-					function onfirstMouseDown(){
-						this.removeEventListener( "mousedown", onfirstMouseDown ); // important!
-					}
+					function onfirstDown(){
+						debugMode && console.log("first mouse down!");
+					//	this.removeEventListener( "mousedown", onfirstDown ); // important!
+					};
 
 					function onMouseDown(){
 						clearTimeout( interval ); // important!
 						interval = setTimeout( update_material, 500, this);
+						this.removeEventListener( "mousedown", onfirstDown ); // important!
 					}
 
 					function onClick(){
 						clearTimeout( interval );
-						interval = setTimeout(function(button){
-							callWatchers(button, "onclick", "click"); 
-							button.addEventListener( "mousedown", onfirstMouseDown );
-						}, 250, this); 
+						callWatchers(button, "onclick", "click"); 
+						button.addEventListener( "mousedown", onfirstDown );
 					}
 
 					watch( button, "onclick", update_material_value );
- 					button.addEventListener( "mousedown", onfirstMouseDown );
 					button.addEventListener( "mousedown", onMouseDown );
 					button.addEventListener( "click", onClick );
 				}
