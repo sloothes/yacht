@@ -1603,7 +1603,7 @@
 
 				var interval;
 
-				function onFileInputChange(e){
+				function onReplaceImage(e){
 
 					if ( input.files.length === 0 ) return;
 
@@ -1652,7 +1652,7 @@
 					}, 250); 
 				});
 
-				input.addEventListener( "change", onFileInputChange );
+				input.addEventListener( "change", onReplaceImage );
 
 			})(
 				null, // textureViewer,
