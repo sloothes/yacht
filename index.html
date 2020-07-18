@@ -293,7 +293,7 @@
 
 		//	material-entity-droplist.js
 
-			(function(editor,map_droplist,key_droplist,vector_droplist,color_droplist,entity_droplist,exitEditMode){
+			(function(editor,map_droplist,key_droplist,color_droplist,vector_droplist,entity_droplist,exitEditMode){
 
 				watch( entity_droplist, "onchange", function( property, event, value ){
 
@@ -303,8 +303,8 @@
 
 					callWatchers( map_droplist, "onchange", "change", map_droplist.value );
 					callWatchers( key_droplist, "onchange", "change", key_droplist.value );
-					callWatchers( vector_droplist, "onchange", "change", vector_droplist.value );
 					callWatchers( color_droplist, "onchange", "change", color_droplist.value );
+					callWatchers( vector_droplist, "onchange", "change", vector_droplist.value );
 
 				});
 
@@ -312,8 +312,8 @@
 				materialEditor, // editor,
 				TabUI.Material.tab.querySelector("select#material-map-droplist"),      // map_droplist.
 				TabUI.Material.tab.querySelector("select#material-keys-droplist"),     // key_droplist.
+				TabUI.Material.tab.querySelector("select#material-color-droplist"),    // color_droplist.
 				TabUI.Material.tab.querySelector("select#material-vector-droplist"),   // vector_droplist.
-				TabUI.Material.tab.querySelector("select#material-color-droplist"),    // vector_droplist.
 				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
 				exitEditMode   // function.
 			);
@@ -890,9 +890,9 @@
 
 			(function( editor,increase,decrease,text_input,value_input,key_droplist,entity_droplist,undo_button ){
 
-				var interval;
+				var interval, key = key_droplist.value; 
 
-				var key; watch( key_droplist, "onchange", function( prop, event, value ){ key = value; });
+				watch( key_droplist, "onchange", function( prop, event, value ){ key = value; });
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
 				function onMouseClickInputValue(button){ 
@@ -1175,9 +1175,9 @@
 
 			(function( editor,vector_x,vector_y,increase_x,increase_y,decrease_x,decrease_y,vector_droplist,entity_droplist,undo_button ){
 
-				var interval;
+				var interval, key = vector_droplist.value; 
 
-				var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
+				watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
 				function onMouseClickInputValue(button){ 
@@ -1228,9 +1228,9 @@
 
 			(function( editor,color_r,color_g,color_b,increase_r,increase_g,increase_b,decrease_r,decrease_g,decrease_b,color_droplist,entity_droplist,undo_button ){
 
-				var interval;
+				var interval, key = color_droplist.value; 
 
-				var key; watch( color_droplist, "onchange", function( prop, event, value ){ key = value; });
+				watch( color_droplist, "onchange", function( prop, event, value ){ key = value; });
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
 				function onMouseClickInputValue(button){ 
