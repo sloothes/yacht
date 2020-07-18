@@ -1603,11 +1603,7 @@
 
 				var interval;
 
-			//	Add watchers.
-
-				watch( button, "onclick", function( property, action ){
-					input.files.length = 0; input.click();
-				});
+			//	Add watcher.
 
 				watch( input, "onchange", function(property, action, files){
 
@@ -1651,6 +1647,15 @@
 
 				});
 
+			//	Call input.
+
+				button.addEventListener( "click", function(){ 
+					clearTimeout( interval );
+					interval = setTimeout(function(){
+						input.files.length = 0; input.click();
+					}, 250); 
+				});
+
 			//	Call watcher.
 
 				input.addEventListener( "change", function(){ 
@@ -1663,15 +1668,6 @@
 				TabUI.Texture.tab.querySelector("input#replace-image-button"), // button,
 				TabUI.Texture.tab.querySelector("select#textures-entities-droplist") // droplist.
 			);
-
-			//	Call input.
-
-			//	button.addEventListener( "click", function(){ 
-			//		clearTimeout( interval );
-			//		interval = setTimeout(function(){
-			//			input.files.length = 0; input.click();
-			//		}, 250); 
-			//	});
 
 		</script>
 
