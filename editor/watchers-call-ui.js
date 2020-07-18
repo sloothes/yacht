@@ -55,7 +55,7 @@
 
 //	mouse-watchers-call.js
 
-	(function(entity_droplist,vector_droplist,geometry_type,material_type,textures_droplist,material_droplist){
+	(function(entity_droplist,key_droplist,vector_droplist,geometry_type,material_type,textures_droplist,material_droplist){
 
 		function onMouseClickWatchersCall( button, droplist ){
 
@@ -81,16 +81,8 @@
 		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("div#editor-reset-button"), vector_droplist );      // vector_reset,
 		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("div#matrix-needs-update"), entity_droplist );      // needs_update,
 		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("div#rigid-remove-button"), entity_droplist );      // rigid_remove,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-value-increase"), material_droplist );   // increase,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-value-decrease"), material_droplist );   // decrease,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-increase"), entity_droplist );  // increase_x,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-increase"), entity_droplist );  // increase_y,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-increase"), entity_droplist );  // increase_z,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-increase"), entity_droplist );  // increase_w,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-decrease"), entity_droplist );  // decrease_x,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-decrease"), entity_droplist );  // decrease_y,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-decrease"), entity_droplist );  // decrease_z,
-		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-decrease"), entity_droplist );  // decrease_w,
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-value-increase"), key_droplist );        // increase,
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-value-decrease"), key_droplist );        // decrease,
 	//	geometry-tab.
 		onMouseClickWatchersCall( TabUI.Geometry.tab.querySelector("div#octree-add-button"), entity_droplist );      // octree_add,
 		onMouseClickWatchersCall( TabUI.Geometry.tab.querySelector("div#octree-remove-button"), entity_droplist );   // octree_remove,
@@ -110,15 +102,10 @@
 		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("div#clone-texture-button"), textures_droplist );     // texture_clone,
 		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("div#replace-image-button"), textures_droplist );     // image_replace,
 		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("div#remove-texture-button"), textures_droplist );    // texture_remove,
-		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-value-increase"), textures_droplist );    // increase,
-		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-value-decrease"), textures_droplist );    // decrease,
-		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-vector-x-increase"), textures_droplist ); // increase_x,
-		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-vector-y-increase"), textures_droplist ); // increase_y,
-		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-vector-x-decrease"), textures_droplist ); // decrease_x,
-		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-vector-y-decrease"), textures_droplist ); // decrease_y,
 
 	})( 
 		TabUI.Editor.tab.querySelector("select#editor-entities-droplist"),    // entity_droplist,
+		TabUI.Editor.tab.querySelector("select#editor-key-droplist"),         // key_droplist,
 		TabUI.Editor.tab.querySelector("select#editor-vector-droplist"),      // vector_droplist,
 		TabUI.Geometry.tab.querySelector("select#geometry-type-droplist"),    // geometry_type,
 		TabUI.Material.tab.querySelector("select#material-type-droplist"),    // material_type,
@@ -127,7 +114,42 @@
 	);
 
 /*
-	(function(map_droplist,key_droplist,vector_droplist,color_droplist,type_droplist,entity_droplist){
+	(function( entity_droplist ){
+
+		function onMouseClickWatchersCall( button, droplist ){
+
+			var interval;
+
+			watch( button, "onclick", function( prop, event, value ){ 
+				debugMode && console.log({item:button,property:prop,event:event,value:value}); // debug.
+			});
+
+		//	Call watchers.
+
+			button.addEventListener( "click", function(){ 
+				clearTimeout( interval );
+				interval = setTimeout(function(button){
+					callWatchers( button, "onclick", "click", droplist.value );
+				}, 250, this); 
+			});
+		}
+
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-increase"), entity_droplist );  // increase_x,
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-increase"), entity_droplist );  // increase_y,
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-increase"), entity_droplist );  // increase_z,
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-increase"), entity_droplist );  // increase_w,
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-x-decrease"), entity_droplist );  // decrease_x,
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-y-decrease"), entity_droplist );  // decrease_y,
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-z-decrease"), entity_droplist );  // decrease_z,
+		onMouseClickWatchersCall( TabUI.Editor.tab.querySelector("li#editor-vector-w-decrease"), entity_droplist );  // decrease_w,
+
+	})( 
+		TabUI.Editor.tab.querySelector("select#editor-entities-droplist")    // entity_droplist,
+	);
+*/
+
+/*
+	(function(key_droplist,vector_droplist,color_droplist){
 
 		function onMouseClickWatchersCall( button, droplist ){
 
@@ -159,12 +181,45 @@
 		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-y-increase"), vector_droplist ); // increase_y,
 		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-x-decrease"), vector_droplist ); // decrease_x,
 		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-y-decrease"), vector_droplist ); // decrease_y,
+
 	})( 
-		TabUI.Material.tab.querySelector("select#material-map-droplist"),     // map_droplist,
 		TabUI.Material.tab.querySelector("select#material-keys-droplist"),    // key_droplist,
 		TabUI.Material.tab.querySelector("select#material-vector-droplist"),  // vector_droplist,
 		TabUI.Material.tab.querySelector("select#material-color-droplist"),   // color_droplist,
-		TabUI.Material.tab.querySelector("select#material-type-droplist"),    // material_type,
-		TabUI.Material.tab.querySelector("select#material-entities-droplist") // material_droplist,
 	);
+*/
+
+/*
+	(function(key_droplist,vector_droplist){
+
+		function onMouseClickWatchersCall( button, droplist ){
+
+			var interval;
+
+			watch( button, "onclick", function( prop, event, value ){ 
+				debugMode && console.log({item:button,property:prop,event:event,value:value}); // debug.
+			});
+
+		//	Call watchers.
+
+			button.addEventListener( "click", function(){ 
+				clearTimeout( interval );
+				interval = setTimeout(function(button){
+					callWatchers( button, "onclick", "click", droplist.value );
+				}, 250, this); 
+			});
+		}
+
+		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-value-increase"), key_droplist );       // increase,
+		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-value-decrease"), key_droplist );       // decrease,
+		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-vector-x-increase"), vector_droplist ); // increase_x,
+		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-vector-y-increase"), vector_droplist ); // increase_y,
+		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-vector-x-decrease"), vector_droplist ); // decrease_x,
+		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("li#texture-vector-y-decrease"), vector_droplist ); // decrease_y,
+
+	})( 
+		TabUI.Texture.tab.querySelector("select#texture-keys-droplist"),     // key_droplist,
+		TabUI.Texture.tab.querySelector("select#texture-vector-droplist"),   // vector_droplist,
+	);
+
 */
