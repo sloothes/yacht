@@ -886,7 +886,6 @@
 
 		//	material-mouse-inputs.js
 
-
 		//	key/value.
 
 			(function( editor,increase,decrease,text_input,value_input,key_droplist,entity_droplist,undo_button ){
@@ -1184,47 +1183,24 @@
 				function onMouseClickInputValue(button){ 
 
 					function updateNormalScaleValue( button, min, max, step){
-					//	var step = 1/100, min = -100, max = 100, value = 0;
+					//	var step = 1/100, min = -100, max = 100;
 						if ( button === increase_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x+step, min, max ), 2);
 						if ( button === decrease_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x-step, min, max ), 2);
 						if ( button === increase_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y+step, min, max ), 2);
 						if ( button === decrease_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y-step, min, max ), 2);
 					}
 
-					function onfirstMouseDown(){
-						debugMode && console.log("first mouse down!");
-						this.removeEventListener( "mousedown", onfirstMouseDown ); // important!
-					}
-
-					function addFirstMouseDown( button ){
-						button.addEventListener( "mousedown", onfirstMouseDown );
-					}
-
-					watch( button, "onclick", function( prop, event ){
-					//	debugMode && console.log({item:button,property:prop,event:event,value:editor[key]});
-						switch ( key ) {
-							case "normalScale":
-								return updateNormalScaleValue(button,-100,100,1/100);
-							break;
-						}
-					});
-
 					button.addEventListener( "mousedown", function(){
 						clearTimeout( interval ); // important!
 						interval = setTimeout( function update_material( button ){
-						//	debugMode && console.log({button:button,value:editor[key]});
-							switch ( key ) {
-								case "normalScale":
-									interval = setTimeout( update_material, 20, button );
-									return updateNormalScaleValue(button,-100,100,1/100);
-								break;
-							}
+							interval = setTimeout( update_material, 20, button );
+							return updateNormalScaleValue(button,-100,100,1/100);
 						}, 500, this);
 					});
 
 					button.addEventListener( "click", function(){
 						clearTimeout( interval );
-						callWatchers(this, "onclick", "click"); 
+						updateNormalScaleValue(button,-100,100,1/100);
 					});
 
 				}
@@ -1246,6 +1222,7 @@
 				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
 				TabUI.Material.tab.querySelector("div#material-undo-button")           // undo_button,
 			);
+
 
 		//	colors.
 
@@ -1271,48 +1248,17 @@
 
 					}
 
-					watch( button, "onclick", function( prop, event ){
-					//	debugMode && console.log({item:button,property:prop,event:event,value:editor[key]});
-
-						switch ( key ) {
-							case "color":
-								return updateMaterialColorValue(button);
-							break;
-							case "emissive":
-								return updateMaterialColorValue(button);
-							break;
-							case "specular":
-								return updateMaterialColorValue(button);
-							break;
-						}
-
-					});
-
 					button.addEventListener( "mousedown", function(){
 						clearTimeout( interval ); // important!
-						interval = setTimeout( function update_material( button ){
-						//	debugMode && console.log({button:button,value:editor[key]});
-							switch ( key ) {
-								case "color":
-									interval = setTimeout( update_material, 20, button );
-									return updateMaterialColorValue(button);
-								break;
-								case "emissive":
-									interval = setTimeout( update_material, 20, button );
-									return updateMaterialColorValue(button);
-								break;
-								case "specular":
-									interval = setTimeout( update_material, 20, button );
-									return updateMaterialColorValue(button);
-								break;
-
-							}
-						}, 500, this);
+						interval = setTimeout( function update_material(button){
+							interval = setTimeout( update_material, 20, button );
+							return updateMaterialColorValue(button);
+						}, 500, this );
 					});
 
 					button.addEventListener( "click", function(){
 						clearTimeout( interval );
-						callWatchers(this, "onclick", "click"); 
+						updateMaterialColorValue(button);
 					});
 
 				}
