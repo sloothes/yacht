@@ -890,7 +890,7 @@
 
 			(function( editor,increase,decrease,text_input,value_input,key_droplist,entity_droplist,undo_button ){
 
-				var interval, key = key_droplist.value; 
+				var interval, key = key_droplist.value; debugMode && console.log( "key:", key );
 
 				watch( key_droplist, "onchange", function( prop, event, value ){ key = value; });
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
@@ -1175,7 +1175,7 @@
 
 			(function( editor,vector_x,vector_y,increase_x,increase_y,decrease_x,decrease_y,vector_droplist,entity_droplist,undo_button ){
 
-				var interval, key = vector_droplist.value; 
+				var interval, key = vector_droplist.value; debugMode && console.log( "key:", key );
 
 				watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
@@ -1183,7 +1183,7 @@
 				function onMouseClickInputValue(button){ 
 
 					function updateNormalScaleValue( button, min, max, step){
-					//	var step = 1/100, min = -100, max = 100;
+					//	var step = 1/100, min = -100, max = 100; if ( !editor[key] ) return;
 						if ( button === increase_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x+step, min, max ), 2);
 						if ( button === decrease_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x-step, min, max ), 2);
 						if ( button === increase_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y+step, min, max ), 2);
@@ -1228,7 +1228,7 @@
 
 			(function( editor,color_r,color_g,color_b,increase_r,increase_g,increase_b,decrease_r,decrease_g,decrease_b,color_droplist,entity_droplist,undo_button ){
 
-				var interval, key = color_droplist.value; 
+				var interval, key = color_droplist.value; debugMode && console.log( "key:", key );
 
 				watch( color_droplist, "onchange", function( prop, event, value ){ key = value; });
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
@@ -1237,7 +1237,7 @@
 
 					function updateMaterialColorValue(button){
 
-						var min=0, max=1, step=1/255;
+						var min=0, max=1, step=1/255; if ( !editor[key] ) return;
 
 						if ( button === increase_r ) editor[key].r = THREE.Math.clamp( editor[key].r+step, min, max );
 						if ( button === increase_g ) editor[key].g = THREE.Math.clamp( editor[key].g+step, min, max );
