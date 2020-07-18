@@ -1471,6 +1471,7 @@
 
 				function update_texture_value( key, action, value ){
 					if ( texture ) texture[key] = Boolean(value);
+					if ( texture ) texture.needsUpdate = true; // important!
 					if ( key_droplist.value === key ) value_input.value = value; // display.
 				}
 
@@ -1503,11 +1504,13 @@
 
 				function update_texture_value( key, action, value ){
 					if ( texture ) texture[key] = Number(value);
+				//	if ( texture ) texture.needsUpdate = true;
 					if ( key_droplist.value === key ) value_input.value = value.toFixed(2);
 				}
 
 				function update_texture_constant( key, action, value ){
 					if ( texture ) texture[key] = Number(value);
+				//	if ( texture ) texture.needsUpdate = true;
 					if ( key_droplist.value === key ) value_input.value = value.toFixed(0);
 				}
 
