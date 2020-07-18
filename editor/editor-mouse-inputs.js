@@ -4,7 +4,7 @@
 
 		var key; watch( key_droplist, "onchange", function( prop, event, value ){ key = value; });
 
-		watch( increase, "onclick", function( prop, event, value ){
+		watch( increase, "onclick", function( prop, event ){
 
 		//	var key = key_droplist.value;
 
@@ -27,7 +27,7 @@
 			}
 		});
 
-		watch( decrease, "onclick", function( prop, event, value ){
+		watch( decrease, "onclick", function( prop, event ){
 
 		//	var key = key_droplist.value;
 

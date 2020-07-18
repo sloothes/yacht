@@ -126,7 +126,7 @@
 		TabUI.Material.tab.querySelector("select#material-entities-droplist") // material_droplist,
 	);
 
-
+/*
 	(function(map_droplist,key_droplist,vector_droplist,color_droplist,type_droplist,entity_droplist){
 
 		function onMouseClickWatchersCall( button, droplist ){
@@ -167,3 +167,4 @@
 		TabUI.Material.tab.querySelector("select#material-type-droplist"),    // material_type,
 		TabUI.Material.tab.querySelector("select#material-entities-droplist") // material_droplist,
 	);
+*/

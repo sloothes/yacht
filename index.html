@@ -938,144 +938,152 @@
 					editor[ key ] = Number(value); // material manager updates input value.
 				}
 
-				function update_material_value(button){
+				function update_material_value( prop, event ){
+					debugMode && console.log({item:button,property:prop,event:event,value:editor[key]}); // debug.
 
-					watch( button, "onclick", function( prop, event, value ){
+					switch( key ){
 
-						switch( key ){
+					//	string types:
 
-						//	string types:
+						case "uuid": 
+							return editor[ key ] = THREE.Math.generateUUID();
+						break;
+						case "linecap":
+						case "wireframeLinecap":
+							return updateConstantStringValue(button, ["butt","round","square"]);
+						break;
+						case "linejoin":
+							return updateConstantStringValue(button, ["bevel","round","miter"]);
+						break;
+						case "precision":
+							return updateConstantStringValue(button, ["highp","mediump","lowp"]);
+						break;
 
-							case "uuid": 
-								return editor[ key ] = value; // material manager updates input value.
-							break;
-							case "linecap":
-							case "wireframeLinecap":
-								return updateConstantStringValue(button, ["butt","round","square"]);
-							break;
-							case "linejoin":
-								return updateConstantStringValue(button, ["bevel","round","miter"]);
-							break;
-							case "precision":
-								return updateConstantStringValue(button, ["highp","mediump","lowp"]);
-							break;
+					//	boolean types:
 
-						//	boolean types:
+						case "fog":
+						case "lights":
+						case "flatShading":
+						case "transparent":
+						case "depthTest":
+						case "depthWrite":
+						case "clipIntersection":
+						case "clipShadows":
+						case "colorWrite":
+						case "polygonOffset":
+						case "dithering":
+						case "premultipliedAlpha":
+						case "visible":
+						case "wireframe":
+						case "skinning":
+						case "morphTargets":
+						case "morphNormals":
+					//	case "needsUpdate":
+						case "sizeAttenuation":
+							return editor[key] = !editor[key]; // material manager updates input value.
+						break;
 
-							case "fog":
-							case "lights":
-							case "flatShading":
-							case "transparent":
-							case "depthTest":
-							case "depthWrite":
-							case "clipIntersection":
-							case "clipShadows":
-							case "colorWrite":
-							case "polygonOffset":
-							case "dithering":
-							case "premultipliedAlpha":
-							case "visible":
-							case "wireframe":
-							case "skinning":
-							case "morphTargets":
-							case "morphNormals":
-						//	case "needsUpdate":
-							case "sizeAttenuation":
-								return editor[key] = !editor[key]; // material manager updates input value.
-							break;
+					//	number types:
 
-						//	number types:
+						case "blending":
+							return updateConstantNumberValue(button, [
+								THREE.NoBlending,THREE.NormalBlending,THREE.AdditiveBlending,
+								THREE.SubtractiveBlending,THREE.MultiplyBlending,THREE.CustomBlending
+							]);
+						break;
+						case "side":
+							return updateConstantNumberValue(button, [THREE.FrontSide,THREE.BackSide,THREE.DoubleSide]);
+						break;
+						case "vertexColors":
+							return updateConstantNumberValue(button, [THREE.NoColors,THREE.FaceColors,THREE.VertexColors]);
+						break;
+						case "blendDst":
+						case "blendSrc":
+							return updateConstantNumberValue(button, [
+								THREE.ZeroFactor,THREE.OneFactor,THREE.SrcColorFactor,THREE.OneMinusSrcColorFactor,
+								THREE.SrcAlphaFactor,THREE.OneMinusSrcAlphaFactor,THREE.DstAlphaFactor,THREE.OneMinusDstAlphaFactor,
+								THREE.DstColorFactor,THREE.OneMinusDstColorFactor,THREE.SrcAlphaSaturateFactor
+							]);
+						break;
+						case "blendEquation":
+							return updateConstantNumberValue(button, [
+								THREE.AddEquation,THREE.SubtractEquation,
+								THREE.ReverseSubtractEquation,THREE.MinEquation,THREE.MaxEquation
+							]);
+						break;
+						case "depthFunc":
+							return updateConstantNumberValue(button, [
+								THREE.NeverDepth,THREE.AlwaysDepth,THREE.LessDepth,THREE.LessEqualDepth,
+								THREE.GreaterEqualDepth,THREE.GreaterDepth,THREE.NotEqualDepth
+							]);
+						break;
+						case "normalMapType":
+							return updateConstantNumberValue(button, [THREE.TangentSpaceNormalMap,THREE.ObjectSpaceNormalMap]);
+						break;
+						case "combine":
+							return updateConstantNumberValue(button, [THREE.MultiplyOperation,THREE.MixOperation,THREE.AddOperation]);
+						break;
+					//
+						case "polygonOffsetUnits":
+						case "polygonOffsetFactor":
+							return updateIntegerNumberValue(button, -100, 100);
+						break;
+						case "displacementScale":
+							return updateFloatNumberValue(button, -100, 100, 1/100);
+						break;
+						case "bumpScale":
+						case "metalness":
+						case "roughness":
+						case "displacementBias":
+							return updateFloatNumberValue(button, -10, 10, 1/100);
+						break;
+						case "refractionRatio":
+							return updateFloatNumberValue(button, -1, 1, 1/100);
+						break;
+						case "opacity":
+						case "overdraw":
+						case "alphaTest":
+						case "reflectivity":
+						case "wireframeLinewidth":
+							return updateFloatNumberValue(button, 0, 1, 1/100);
+						break;
+						case "linewidth":
+						case "aoMapIntensity":
+						case "envMapIntensity":
+						case "emissiveIntensity":
+						case "lightMapIntensity":
+							return updateFloatNumberValue(button, 0, 100, 1/100);
+						break;
+						case "depthPacking": 
+							// ???
+						break;
+						case "size":
+						case "scale":
+						case "gapSize":
+						case "dashSize":
+						case "shininess":
+							return updateFloatNumberValue(button, 0, 1000, 1/100);
+						break;
+						case "rotation":
+							return updateFloatRotationValue(button);
+						break;
 
-							case "blending":
-								return updateConstantNumberValue(button, [
-									THREE.NoBlending,THREE.NormalBlending,THREE.AdditiveBlending,
-									THREE.SubtractiveBlending,THREE.MultiplyBlending,THREE.CustomBlending
-								]);
-							break;
-							case "side":
-								return updateConstantNumberValue(button, [THREE.FrontSide,THREE.BackSide,THREE.DoubleSide]);
-							break;
-							case "vertexColors":
-								return updateConstantNumberValue(button, [THREE.NoColors,THREE.FaceColors,THREE.VertexColors]);
-							break;
-							case "blendDst":
-							case "blendSrc":
-								return updateConstantNumberValue(button, [
-									THREE.ZeroFactor,THREE.OneFactor,THREE.SrcColorFactor,THREE.OneMinusSrcColorFactor,
-									THREE.SrcAlphaFactor,THREE.OneMinusSrcAlphaFactor,THREE.DstAlphaFactor,THREE.OneMinusDstAlphaFactor,
-									THREE.DstColorFactor,THREE.OneMinusDstColorFactor,THREE.SrcAlphaSaturateFactor
-								]);
-							break;
-							case "blendEquation":
-								return updateConstantNumberValue(button, [
-									THREE.AddEquation,THREE.SubtractEquation,
-									THREE.ReverseSubtractEquation,THREE.MinEquation,THREE.MaxEquation
-								]);
-							break;
-							case "depthFunc":
-								return updateConstantNumberValue(button, [
-									THREE.NeverDepth,THREE.AlwaysDepth,THREE.LessDepth,THREE.LessEqualDepth,
-									THREE.GreaterEqualDepth,THREE.GreaterDepth,THREE.NotEqualDepth
-								]);
-							break;
-							case "normalMapType":
-								return updateConstantNumberValue(button, [THREE.TangentSpaceNormalMap,THREE.ObjectSpaceNormalMap]);
-							break;
-							case "combine":
-								return updateConstantNumberValue(button, [THREE.MultiplyOperation,THREE.MixOperation,THREE.AddOperation]);
-							break;
-						//
-							case "polygonOffsetUnits":
-							case "polygonOffsetFactor":
-								return updateIntegerNumberValue(button, -100, 100);
-							break;
-							case "displacementScale":
-								return updateFloatNumberValue(button, -100, 100, 1/100);
-							break;
-							case "bumpScale":
-							case "metalness":
-							case "roughness":
-							case "displacementBias":
-								return updateFloatNumberValue(button, -10, 10, 1/100);
-							break;
-							case "refractionRatio":
-								return updateFloatNumberValue(button, -1, 1, 1/100);
-							break;
-							case "opacity":
-							case "overdraw":
-							case "alphaTest":
-							case "reflectivity":
-							case "wireframeLinewidth":
-								return updateFloatNumberValue(button, 0, 1, 1/100);
-							break;
-							case "linewidth":
-							case "aoMapIntensity":
-							case "envMapIntensity":
-							case "emissiveIntensity":
-							case "lightMapIntensity":
-								return updateFloatNumberValue(button, 0, 100, 1/100);
-							break;
-							case "depthPacking": 
-								// ???
-							break;
-							case "size":
-							case "scale":
-							case "gapSize":
-							case "dashSize":
-							case "shininess":
-								return updateFloatNumberValue(button, 0, 1000, 1/100);
-							break;
-							case "rotation":
-								return updateFloatRotationValue(button);
-							break;
-
-						}
-					});
+					}
 
 				}
 
-				watch( increase, "onclick", update_material_value( increase ) );
-				watch( decrease, "onclick", update_material_value( decrease ) );
+				//	watch( increase, "onclick", update_material_value );
+				//	watch( decrease, "onclick", update_material_value );
+				//	increase.addEventListener( "click", function(){ callWatchers(this, "onclick", "click"); });
+				//	decrease.addEventListener( "click", function(){ callWatchers(this, "onclick", "click"); });
+
+				function onMouseInputValueClick(button){ 
+					watch( button, "onclick", update_material_value ); 
+					button.addEventListener( "click", function(){ callWatchers(this, "onclick", "click"); });
+				}
+
+				onMouseInputValueClick(increase);
+				onMouseInputValueClick(decrease);
 
 			})(
 				materialEditor, // editor,
@@ -1089,6 +1097,17 @@
 			);
 
 
+				//	var interval;
+				//	watch( button, "onclick", function( prop, event, value ){ 
+				//		debugMode && console.log({item:button,property:prop,event:event,value:value}); // debug.
+				//	});
+				//	Call watchers.
+				//	button.addEventListener( "click", function(){ 
+				//		clearTimeout( interval );
+				//		interval = setTimeout(function(button){
+				//			callWatchers( button, "onclick", "click", droplist.value );
+				//		}, 250, this); 
+				//	});
 
 		</script>
 
