@@ -103,18 +103,6 @@
 		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("div#create-material-button"), material_type );        // material_create,
 		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("div#clone-material-button"), material_droplist );     // material_clone,
 		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("div#remove-material-button"), material_droplist );    // material_remove,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-value-increase"), material_droplist );    // increase,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-value-decrease"), material_droplist );    // decrease,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-r-increase"), material_droplist );  // increase_r,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-g-increase"), material_droplist );  // increase_g,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-b-increase"), material_droplist );  // increase_b,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-r-decrease"), material_droplist );  // decrease_r,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-g-decrease"), material_droplist );  // decrease_g,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-b-decrease"), material_droplist );  // decrease_b,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-x-increase"), material_droplist ); // increase_x,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-y-increase"), material_droplist ); // increase_y,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-x-decrease"), material_droplist ); // decrease_x,
-		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-y-decrease"), material_droplist ); // decrease_y,
 	//	texture-tab.
 		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("div#texture-exit-mode"), textures_droplist );        // texture_exit,
 		onMouseClickWatchersCall( TabUI.Texture.tab.querySelector("div#texture-needs-update"), textures_droplist );     // needs_update,
@@ -135,5 +123,47 @@
 		TabUI.Geometry.tab.querySelector("select#geometry-type-droplist"),    // geometry_type,
 		TabUI.Material.tab.querySelector("select#material-type-droplist"),    // material_type,
 		TabUI.Texture.tab.querySelector("select#textures-entities-droplist"), // textures_droplist,
+		TabUI.Material.tab.querySelector("select#material-entities-droplist") // material_droplist,
+	);
+
+
+	(function(map_droplist,key_droplist,vector_droplist,color_droplist,type_droplist,entity_droplist){
+
+		function onMouseClickWatchersCall( button, droplist ){
+
+			var interval;
+
+			watch( button, "onclick", function( prop, event, value ){ 
+				debugMode && console.log({item:button,property:prop,event:event,value:value}); // debug.
+			});
+
+		//	Call watchers.
+
+			button.addEventListener( "click", function(){ 
+				clearTimeout( interval );
+				interval = setTimeout(function(button){
+					callWatchers( button, "onclick", "click", droplist.value );
+				}, 250, this); 
+			});
+		}
+
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-value-increase"), key_droplist );    // increase,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-value-decrease"), key_droplist );    // decrease,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-r-increase"), color_droplist );  // increase_r,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-g-increase"), color_droplist );  // increase_g,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-b-increase"), color_droplist );  // increase_b,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-r-decrease"), color_droplist );  // decrease_r,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-g-decrease"), color_droplist );  // decrease_g,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-color-b-decrease"), color_droplist );  // decrease_b,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-x-increase"), vector_droplist ); // increase_x,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-y-increase"), vector_droplist ); // increase_y,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-x-decrease"), vector_droplist ); // decrease_x,
+		onMouseClickWatchersCall( TabUI.Material.tab.querySelector("li#material-vector-y-decrease"), vector_droplist ); // decrease_y,
+	})( 
+		TabUI.Material.tab.querySelector("select#material-map-droplist"),     // map_droplist,
+		TabUI.Material.tab.querySelector("select#material-keys-droplist"),    // key_droplist,
+		TabUI.Material.tab.querySelector("select#material-vector-droplist"),  // vector_droplist,
+		TabUI.Material.tab.querySelector("select#material-color-droplist"),   // color_droplist,
+		TabUI.Material.tab.querySelector("select#material-type-droplist"),    // material_type,
 		TabUI.Material.tab.querySelector("select#material-entities-droplist") // material_droplist,
 	);
