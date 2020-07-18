@@ -886,11 +886,26 @@
 
 		//	material-mouse-inputs.js
 
+			//	var interval;
+			//	watch( button, "onclick", function( prop, event, value ){ 
+			//		debugMode && console.log({item:button,property:prop,event:event,value:value}); // debug.
+			//	});
+			//	Call watchers.
+			//	button.addEventListener( "click", function(){ 
+			//		clearTimeout( interval );
+			//		interval = setTimeout(function(button){
+			//			callWatchers( button, "onclick", "click", droplist.value );
+			//		}, 250, this); 
+			//	});
+
 		//	on mouse click.
 
 			(function( editor,increase,decrease,text_input,value_input,key_droplist,entity_droplist,undo_button ){
 
+				var interval;
+
 				var key; watch( key_droplist, "onchange", function( prop, event, value ){ key = value; });
+				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
 				//	watch( increase, "onclick", update_material_value );
 				//	watch( decrease, "onclick", update_material_value );
@@ -1079,8 +1094,85 @@
 
 					}
 
-					watch( button, "onclick", update_material_value ); 
-					button.addEventListener( "click", function(){ callWatchers(this, "onclick", "click"); });
+					function update_material(button){
+						debugMode && console.log({item:button,property:prop,event:event,value:editor[key]}); // debug.
+
+						switch ( key ){
+
+						//	enabled on mouse down.
+							case "polygonOffsetUnits":
+							case "polygonOffsetFactor":
+								interval = setTimeout( update_material, 20, button );
+								return updateIntegerNumberValue(button, -100, 100);
+							break;
+							case "displacementScale":
+								interval = setTimeout( update_material, 20, button );
+								return updateFloatNumberValue(button, -100, 100, 1/100);
+							break;
+							case "bumpScale":
+							case "metalness":
+							case "roughness":
+							case "displacementBias":
+								interval = setTimeout( update_material, 20, button );
+								return updateFloatNumberValue(button, -10, 10, 1/100);
+							break;
+							case "refractionRatio":
+								interval = setTimeout( update_material, 20, button );
+								return updateFloatNumberValue(button, -1, 1, 1/100);
+							break;
+							case "opacity":
+							case "overdraw":
+							case "alphaTest":
+							case "reflectivity":
+							case "wireframeLinewidth":
+								interval = setTimeout( update_material, 20, button );
+								return updateFloatNumberValue(button, 0, 1, 1/100);
+							break;
+							case "linewidth":
+							case "aoMapIntensity":
+							case "envMapIntensity":
+							case "emissiveIntensity":
+							case "lightMapIntensity":
+								interval = setTimeout( update_material, 20, button );
+								return updateFloatNumberValue(button, 0, 100, 1/100);
+							break;
+							case "size":
+							case "scale":
+							case "gapSize":
+							case "dashSize":
+							case "shininess":
+								interval = setTimeout( update_material, 20, button );
+								return updateFloatNumberValue(button, 0, 1000, 1/100);
+							break;
+							case "rotation":
+								interval = setTimeout( update_material, 20, button );
+								return updateFloatRotationValue(button);
+							break;
+						}
+
+					}
+
+					function onfirstMouseDown(){
+						this.removeEventListener( "mousedown", onfirstMouseDown ); // important!
+					}
+
+					function onMouseDown(){
+						clearTimeout( interval ); // important!
+						interval = setTimeout( update_material, 500, this);
+					}
+
+					function onClick(){
+						clearTimeout( interval );
+						interval = setTimeout(function(button){
+							callWatchers(button, "onclick", "click"); 
+							button.addEventListener( "mousedown", onfirstMouseDown );
+						}, 250, this); 
+					}
+
+					watch( button, "onclick", update_material_value );
+ 					button.addEventListener( "mousedown", onfirstMouseDown );
+					button.addEventListener( "mousedown", onMouseDown );
+					button.addEventListener( "click", onClick );
 				}
 
 				onMouseInputValueClick(increase);
@@ -1097,18 +1189,6 @@
 				TabUI.Material.tab.querySelector("div#material-undo-button") // undo_button,
 			);
 
-
-				//	var interval;
-				//	watch( button, "onclick", function( prop, event, value ){ 
-				//		debugMode && console.log({item:button,property:prop,event:event,value:value}); // debug.
-				//	});
-				//	Call watchers.
-				//	button.addEventListener( "click", function(){ 
-				//		clearTimeout( interval );
-				//		interval = setTimeout(function(button){
-				//			callWatchers( button, "onclick", "click", droplist.value );
-				//		}, 250, this); 
-				//	});
 
 		</script>
 
