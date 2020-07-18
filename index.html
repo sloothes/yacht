@@ -1183,8 +1183,8 @@
 
 				function onMouseClickInputValue(button){ 
 
-					function updateNormalScaleValue( button ){
-						var step = 1/100, min = -100, max = 100, value = 0;
+					function updateNormalScaleValue( button, min, max, step){
+					//	var step = 1/100, min = -100, max = 100, value = 0;
 					//	var value = Number(editor[key][v]); // get value from editor.
 						if ( button === increase_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x+step, min, max ), 2);
 						if ( button === decrease_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x-step, min, max ), 2);
@@ -1212,11 +1212,11 @@
 
 					button.addEventListener( "mousedown", function(){
 						clearTimeout( interval ); // important!
-						interval = setTimeout( function( button ){
+						interval = setTimeout( function update_material( button ){
 							switch ( key ) {
 								case "normalScale":
-									updateNormalScaleValue( button );
-									interval = setTimeout( updateNormalScaleValue, 20, button );
+									interval = setTimeout( update_material, 20, button );
+									return updateNormalScaleValue(button,-100,100,1/100);
 								break;
 							}
 						}, 500, this);
