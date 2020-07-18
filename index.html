@@ -1599,7 +1599,9 @@
 
 		//	replace-image.js
 
-			(function(viewer,input,droplist){
+			(function(viewer,input,button,droplist){
+
+				var interval;
 
 			//	Add watcher.
 
@@ -1645,10 +1647,26 @@
 
 				});
 
+			//	Call input.
+
+				button.addEventListener( "click", function(){ 
+					clearTimeout( interval );
+					interval = setTimeout(function(){
+						input.files.length = 0; input.click();
+					}, 250); 
+				});
+
+			//	Call watcher.
+
+				input.addEventListener( "change", function(){ 
+					callWatchers( input, "onchange", "change", input.files );
+				});
+
 			})(
 				null, // textureViewer,
-				TabUI.Texture.tab.querySelector("input#image-file-input"), // image file input.
-				TabUI.Texture.tab.querySelector("select#texture-entities-droplist") // texture entities droplist.
+				TabUI.Texture.tab.querySelector("input#image-file-input"), // input,
+				TabUI.Texture.tab.querySelector("input#replace-image-button"), // button,
+				TabUI.Texture.tab.querySelector("select#textures-entities-droplist") // droplist.
 			);
 
 		</script>
