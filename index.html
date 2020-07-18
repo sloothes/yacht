@@ -351,15 +351,15 @@
 					material = getMaterialByEntityId( value );
 				});
 
-				var vector = { x:vector_x, y:vector_y };
-
 			//	normalScale.
 
-				watch( editor.normalScale,  function( key, action, value ){
-				//	var material = getMaterialByEntityId(); // console.log(material);
-				//	debugMode && console.log({property:"color",key:key,value:value});
-					if (material && material.normalScale) material.normalScale[key] = Number(value);
-					if ( vector_droplist.value === "normalScale" ) vector[key].value = value.toFixed(2);
+				watch( editor, "normalScale",  function( key, action, value ){
+					var scale = editor.normalScale; //console.log("normalScale:", scale);
+					material && material.normalScale && material.normalScale.copy(scale);
+					if ( vector_droplist.value === "normalScale" ) {
+						vector_x.value = scale.x.toFixed(2);
+						vector_y.value = scale.y.toFixed(2);
+					}
 				});
 
 			})( 
