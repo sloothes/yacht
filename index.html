@@ -1237,14 +1237,14 @@
 
 					function updateMaterialColorValue(button){
 
-						var min = 0, max = 255;
+						var min=0, max=1, step=1/255;
 
-						if ( button === increase_r ) editor[key].r = THREE.Math.clamp( ++(255*editor[key].r), min, max )/255;
-						if ( button === increase_g ) editor[key].g = THREE.Math.clamp( ++(255*editor[key].g), min, max )/255;
-						if ( button === increase_b ) editor[key].b = THREE.Math.clamp( ++(255*editor[key].b), min, max )/255;
-						if ( button === decrease_r ) editor[key].r = THREE.Math.clamp( --(255*editor[key].r), min, max )/255;
-						if ( button === decrease_g ) editor[key].g = THREE.Math.clamp( --(255*editor[key].g), min, max )/255;
-						if ( button === decrease_b ) editor[key].b = THREE.Math.clamp( --(255*editor[key].b), min, max )/255;
+						if ( button === increase_r ) editor[key].r = THREE.Math.clamp( editor[key].r+step, min, max );
+						if ( button === increase_g ) editor[key].g = THREE.Math.clamp( editor[key].g+step, min, max );
+						if ( button === increase_b ) editor[key].b = THREE.Math.clamp( editor[key].b+step, min, max );
+						if ( button === decrease_r ) editor[key].r = THREE.Math.clamp( editor[key].r-step, min, max );
+						if ( button === decrease_g ) editor[key].g = THREE.Math.clamp( editor[key].g-step, min, max );
+						if ( button === decrease_b ) editor[key].b = THREE.Math.clamp( editor[key].b-step, min, max );
 
 					}
 
