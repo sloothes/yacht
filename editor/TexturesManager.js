@@ -63,7 +63,7 @@
 			try {
 
 			//	global const "texture_droplist" is defined in TextureTab.js;
-				var selector = "select#texture-entities-droplist";
+				var selector = "select#textures-entities-droplist";
 				var texture_droplist = document.querySelector(selector);
 
 				if ( !texture_droplist ) return; // throw selector+" droplist not found!";
@@ -134,7 +134,7 @@
 			try {
 
 			//	global const "texture_droplist" is defined in TextureTab.js;
-				var selector = "select#texture-entities-droplist";
+				var selector = "select#textures-entities-droplist";
 				var texture_droplist = document.querySelector(selector);
 
 				if ( !texture_droplist ) return; // throw selector+" droplist not found!";
