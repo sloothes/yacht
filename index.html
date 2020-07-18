@@ -945,7 +945,7 @@
 					}
 
 					function update_material_value( prop, event ){
-						debugMode && console.log({item:button,property:prop,event:event,value:editor[key]}); // debug.
+					//	debugMode && console.log({item:button,property:prop,event:event,value:editor[key]});
 
 						switch( key ){
 
@@ -1079,7 +1079,7 @@
 					}
 
 					function update_material(button){
-					//	debugMode && console.log({button:button,value:editor[key]}); // debug.
+					//	debugMode && console.log({button:button,value:editor[key]});
 
 						switch ( key ){
 
@@ -1185,12 +1185,10 @@
 
 					function updateNormalScaleValue( button, min, max, step){
 					//	var step = 1/100, min = -100, max = 100, value = 0;
-					//	var value = Number(editor[key][v]); // get value from editor.
 						if ( button === increase_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x+step, min, max ), 2);
 						if ( button === decrease_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x-step, min, max ), 2);
 						if ( button === increase_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y+step, min, max ), 2);
 						if ( button === decrease_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y-step, min, max ), 2);
-					//	editor[ key ][v] = round(value, 2); // editor manager updates input value.
 					}
 
 					function onfirstMouseDown(){
@@ -1198,14 +1196,15 @@
 						this.removeEventListener( "mousedown", onfirstMouseDown ); // important!
 					}
 
-				//	function addFirstMouseDown( button ){
-				//		button.addEventListener( "mousedown", onfirstMouseDown );
-				//	}
+					function addFirstMouseDown( button ){
+						button.addEventListener( "mousedown", onfirstMouseDown );
+					}
 
 					watch( button, "onclick", function( prop, event ){
+					//	debugMode && console.log({item:button,property:prop,event:event,value:editor[key]});
 						switch ( key ) {
 							case "normalScale":
-								updateNormalScaleValue( button );
+								return updateNormalScaleValue(button,-100,100,1/100);
 							break;
 						}
 					});
@@ -1213,6 +1212,7 @@
 					button.addEventListener( "mousedown", function(){
 						clearTimeout( interval ); // important!
 						interval = setTimeout( function update_material( button ){
+						//	debugMode && console.log({button:button,value:editor[key]});
 							switch ( key ) {
 								case "normalScale":
 									interval = setTimeout( update_material, 20, button );
