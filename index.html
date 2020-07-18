@@ -1573,6 +1573,30 @@
 				exitEditMode // function.
 			 ); 
 
+		//	reset-vectors.js
+
+			(function( editor,reset_button,vector_w,vector_droplist ){
+
+				watch( reset_button, "onclick", function( property, event, key ){
+
+					switch ( key ) {
+						case "center":
+						case "offset":
+							editor.offset.set(0,0);
+						break;
+						case "repeat":
+							editor.repeat.set(1,1);
+						break;
+					}
+
+				});
+
+			})(
+				textureEditor, // editor,
+				TabUI.Texture.tab.querySelector("div#texture-vectors-reset"), // reset_button,
+				TabUI.Texture.tab.querySelector("select#texture-vector-droplist") // vector_droplist.
+			);
+
 		</script>
 
 		<script>

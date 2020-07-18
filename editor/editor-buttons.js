@@ -52,10 +52,6 @@
 
 	})(
 		objectEditor, // editor,
-		TabUI.Editor.tab.querySelector("div#editor-reset-button"), // reset_button,
-	//	TabUI.Editor.tab.querySelector("input#editor-vector-x-input"), // vector_x,
-	//	TabUI.Editor.tab.querySelector("input#editor-vector-y-input"), // vector_y,
-	//	TabUI.Editor.tab.querySelector("input#editor-vector-z-input"), // vector_z,
-	//	TabUI.Editor.tab.querySelector("input#editor-vector-w-input"), // vector_w,
+		TabUI.Editor.tab.querySelector("div#editor-vectors-reset"), // reset_button,
 		TabUI.Editor.tab.querySelector("select#editor-vector-droplist") // vector_droplist.
 	);

@@ -290,6 +290,28 @@
 
 	})( TabUI.Texture.tab );
 
+//	reset-vectors-ui.js
+
+	(function( tab ){
+
+	//	Reset vectors button.
+	//	Resets vector mode values.
+	//	var tab = TabUI.Texture.tab;
+
+		var row = document.createElement("h3");
+		row.style.cssText = "height:40px;margin-bottom:20px;"
+
+		var button = document.createElement("div");
+		button.id = "texture-vectors-reset";
+		button.textContent = "Reset Vectors";
+		button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
+		button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
+
+		row.appendChild( button );
+		tab.appendChild( row );
+
+	})( TabUI.Texture.tab );
+
 //	needs-update-ui.js
 
 	(function( tab ){
