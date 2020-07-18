@@ -886,19 +886,8 @@
 
 		//	material-mouse-inputs.js
 
-			//	var interval;
-			//	watch( button, "onclick", function( prop, event, value ){ 
-			//		debugMode && console.log({item:button,property:prop,event:event,value:value}); // debug.
-			//	});
-			//	Call watchers.
-			//	button.addEventListener( "click", function(){ 
-			//		clearTimeout( interval );
-			//		interval = setTimeout(function(button){
-			//			callWatchers( button, "onclick", "click", droplist.value );
-			//		}, 250, this); 
-			//	});
 
-		//	on mouse click.
+		//	key/value.
 
 			(function( editor,increase,decrease,text_input,value_input,key_droplist,entity_droplist,undo_button ){
 
@@ -907,12 +896,7 @@
 				var key; watch( key_droplist, "onchange", function( prop, event, value ){ key = value; });
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
-				//	watch( increase, "onclick", update_material_value );
-				//	watch( decrease, "onclick", update_material_value );
-				//	increase.addEventListener( "click", function(){ callWatchers(this, "onclick", "click"); });
-				//	decrease.addEventListener( "click", function(){ callWatchers(this, "onclick", "click"); });
-
-				function onMouseInputValueClick(button){ 
+				function onMouseClickInputValue(button){ 
 
 					function updateFloatRotationValue(button, min, max, step){
 						var step = 0.1 * Math.PI/180; // 0.1 deg.
@@ -1173,19 +1157,103 @@
 					button.addEventListener( "click", onClick );
 				}
 
-				onMouseInputValueClick(increase);
-				onMouseInputValueClick(decrease);
+				onMouseClickInputValue(increase);
+				onMouseClickInputValue(decrease);
 
 			})(
 				materialEditor, // editor,
 				TabUI.Material.tab.querySelector("li#material-value-increase"),        // increase,
 				TabUI.Material.tab.querySelector("li#material-value-decrease"),        // decrease,
 				TabUI.Material.tab.querySelector("input#material-text-input"),         // text_input,
-				TabUI.Material.tab.querySelector("input#material-value-input"),        //value_input,
+				TabUI.Material.tab.querySelector("input#material-value-input"),        // value_input,
 				TabUI.Material.tab.querySelector("select#material-keys-droplist"),     // key_droplist
 				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
-				TabUI.Material.tab.querySelector("div#material-undo-button") // undo_button,
+				TabUI.Material.tab.querySelector("div#material-undo-button")           // undo_button,
 			);
+
+
+		//	vectors.
+
+			(function( editor,vector_x,vector_y,increase_x,increase_y,decrease_x,decrease_y,vector_droplist,entity_droplist,undo_button ){
+
+				var interval;
+
+				var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
+				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
+
+				function onMouseClickInputValue(button){ 
+
+					function updateNormalScaleValue( button ){
+						var step = 1/100, min = -100, max = 100, value = 0;
+					//	var value = Number(editor[key][v]); // get value from editor.
+						if ( button === increase_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x+step, min, max ), 2);
+						if ( button === decrease_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x-step, min, max ), 2);
+						if ( button === increase_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y+step, min, max ), 2);
+						if ( button === decrease_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y-step, min, max ), 2);
+					//	editor[ key ][v] = round(value, 2); // editor manager updates input value.
+					}
+
+					function onfirstMouseDown(){
+						debugMode && console.log("first mouse down!");
+						this.removeEventListener( "mousedown", onfirstMouseDown ); // important!
+					}
+
+				//	function addFirstMouseDown( button ){
+				//		button.addEventListener( "mousedown", onfirstMouseDown );
+				//	}
+
+					watch( button, "onclick", function( prop, event ){
+						switch ( key ) {
+							case "normalScale":
+								updateNormalScaleValue( button );
+							break;
+						}
+					});
+
+					button.addEventListener( "mousedown", function(){
+						clearTimeout( interval ); // important!
+						interval = setTimeout( function( button ){
+							switch ( key ) {
+								case "normalScale":
+									updateNormalScaleValue( button );
+									interval = setTimeout( updateNormalScaleValue, 20, button );
+								break;
+							}
+						}, 500, this);
+					});
+
+					button.addEventListener( "click", function(){
+						clearTimeout( interval );
+						callWatchers(this, "onclick", "click"); 
+					});
+
+				}
+
+				onMouseClickInputValue(increase_x);
+				onMouseClickInputValue(increase_y);
+				onMouseClickInputValue(decrease_x);
+				onMouseClickInputValue(decrease_y);
+
+			})(
+				materialEditor, // editor,
+				TabUI.Material.tab.querySelector("input#material-vector-x-input"),     // vector_x,
+				TabUI.Material.tab.querySelector("input#material-vector-y-input"),     // vector_y,
+				TabUI.Material.tab.querySelector("li#material-vector-x-increase"),     // increase_x,
+				TabUI.Material.tab.querySelector("li#material-vector-y-increase"),     // increase_y,
+				TabUI.Material.tab.querySelector("li#material-vector-x-decrease"),     // decrease_x,
+				TabUI.Material.tab.querySelector("li#material-vector-y-decrease"),     // decrease_y,
+				TabUI.Material.tab.querySelector("select#material-vector-droplist"),   // vector_droplist
+				TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist.
+				TabUI.Material.tab.querySelector("div#material-undo-button")           // undo_button,
+			);
+
+		//	colors.
+
+
+
+
+
+
 
 
 		</script>
