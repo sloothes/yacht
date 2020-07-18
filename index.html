@@ -1862,7 +1862,74 @@
 			);
 
 
+		//	vectors.
 
+			(function( editor,vector_x,vector_y,increase_x,increase_y,decrease_x,decrease_y,vector_droplist,entity_droplist,undo_button ){
+
+				var interval, key = vector_droplist.value; debugMode && console.log( "key:", key );
+
+				watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
+				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
+
+				function onMouseClickInputValue(button){ 
+
+					function updateVectorValues( button, min,max,step ){
+						if ( !editor[key] ) return;
+						if ( button === increase_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x+step, min, max ), 3);
+						if ( button === decrease_x ) editor[key].x = round( THREE.Math.clamp( editor[key].x-step, min, max ), 3);
+						if ( button === increase_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y+step, min, max ), 3);
+						if ( button === decrease_y ) editor[key].y = round( THREE.Math.clamp( editor[key].y-step, min, max ), 3);
+					}
+
+					button.addEventListener( "mousedown", function(){
+						clearTimeout( interval ); // important!
+						interval = setTimeout( function update_texture( button ){
+							switch ( key ){
+								case "center":
+									interval = setTimeout( update_texture, 20, button );
+									return updateVectorValues( button, 0, 1, 1/100 );
+								break;
+								case "offset":
+								case "repeat":
+									interval = setTimeout( update_texture, 20, button );
+									return updateVectorValues( button, -100,100,1/100 );
+								break;
+							}
+						}, 500, this);
+					});
+
+					button.addEventListener( "click", function(){
+						clearTimeout( interval );
+						switch ( key ){
+							case "center":
+								return updateVectorValues( button, 0, 1, 1/100 );
+							break;
+							case "offset":
+							case "repeat":
+								return updateVectorValues( button, -100,100,1/100 );
+							break;
+						}
+					});
+
+				}
+
+				onMouseClickInputValue(increase_x);
+				onMouseClickInputValue(increase_y);
+				onMouseClickInputValue(decrease_x);
+				onMouseClickInputValue(decrease_y);
+
+			})(
+				textureEditor, // editor,
+				TabUI.Texture.tab.querySelector("input#texture-vector-x-input"),      // vector_x,
+				TabUI.Texture.tab.querySelector("input#texture-vector-y-input"),      // vector_y,
+				TabUI.Texture.tab.querySelector("li#texture-vector-x-increase"),      // increase_x,
+				TabUI.Texture.tab.querySelector("li#texture-vector-y-increase"),      // increase_y,
+				TabUI.Texture.tab.querySelector("li#texture-vector-x-decrease"),      // decrease_x,
+				TabUI.Texture.tab.querySelector("li#texture-vector-y-decrease"),      // decrease_y,
+				TabUI.Texture.tab.querySelector("select#texture-vector-droplist"),    // vector_droplist
+				TabUI.Texture.tab.querySelector("select#textures-entities-droplist"), // entity_droplist.
+				TabUI.Texture.tab.querySelector("div#texture-undo-button")            // undo_button,
+			);
 
 		</script>
 
