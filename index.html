@@ -1389,8 +1389,8 @@
 					var offset = editor.offset; //console.log("offset:", offset);
 					texture && texture.offset && texture.offset.copy(offset);
 					if ( vector_droplist.value === "offset" ) {
-						vector_x.value = scale.x.toFixed(2);
-						vector_y.value = scale.y.toFixed(2);
+						vector_x.value = offset.x.toFixed(2);
+						vector_y.value = offset.y.toFixed(2);
 					}
 				});
 
@@ -1400,8 +1400,8 @@
 					var repeat = editor.repeat; //console.log("repeat:", repeat);
 					texture && texture.repeat && texture.repeat.copy(repeat);
 					if ( vector_droplist.value === "repeat" ) {
-						vector_x.value = scale.x.toFixed(2);
-						vector_y.value = scale.y.toFixed(2);
+						vector_x.value = repeat.x.toFixed(2);
+						vector_y.value = repeat.y.toFixed(2);
 					}
 				});
 
@@ -1411,8 +1411,8 @@
 					var center = editor.center; //console.log("center:", center);
 					texture && texture.center && texture.center.copy(center);
 					if ( vector_droplist.value === "center" ) {
-						vector_x.value = scale.x.toFixed(2);
-						vector_y.value = scale.y.toFixed(2);
+						vector_x.value = center.x.toFixed(2);
+						vector_y.value = center.y.toFixed(2);
 					}
 				});
 
