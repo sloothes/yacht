@@ -79,7 +79,7 @@
 					mesh.name = mesh.type.replace(/Geometry/g,"") + ":clone";
 
 			//	translate.
-				mesh.position.y += 1; // (m)
+			//	mesh.position.y += 1; // (m)
 
 			//	add to scene.
 				scene.add( mesh );
