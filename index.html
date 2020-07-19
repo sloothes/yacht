@@ -169,20 +169,30 @@
 
 		<script>
 
-			(function(editor,vector_droplist,vector_x,vector_y,vector_z,increase_x,increase_y,increase_z,decrease_x,decrease_y,decrease_z,entity_droplist){
+			(function(editor,vector_droplist,vector_x,vector_y,vector_z,vector_r,increase_x,increase_y,increase_z,decrease_x,decrease_y,decrease_z,entity_droplist){
 
 				var interval, key; 
-				var geometry, boundingBox, boundingSphere, vector = { x:0, y:0, z:0 }; 
+				var geometry, boundingBox, boundingSphere; 
 				const RAD2DEG = 57.29577951308232; const DEG2RAD = 0.017453292519943295;
-
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
-				watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; vector = { x:0, y:0, z:0 }; });
+
+				watch( vector_droplist, "onchange", function( prop, event, value ){ 
+					key = value;
+					vector_x.value = boundingSphere.center.x.toFixed(3);
+					vector_y.value = boundingSphere.center.y.toFixed(3);
+					vector_z.value = boundingSphere.center.z.toFixed(3);
+				});
+
 				watch( entity_droplist, "onchange", function( prop, event, value ){ 
-					vector = { x:0, y:0, z:0 }; 
+					vector.x=0; vector.y=0, vector.z=0; 
 					geometry = getObjectByEntityId( value ).geometry; 
 					geometry && !geometry.boundingBox && geometry.computeBoundingBox(); 
 					geometry && !geometry.boundingSphere && geometry.computeBoundingSphere(); 
 					boundingBox = geometry.boundingBox; boundingSphere = geometry.boundingSphere;
+					debugMode && console.log( "geometry:", geometry );
+					vector_x.value = boundingSphere.center.x.toFixed(3);
+					vector_y.value = boundingSphere.center.y.toFixed(3);
+					vector_z.value = boundingSphere.center.z.toFixed(3);
 				});
 
 			//	geometry-key-inputs.js
@@ -196,6 +206,9 @@
 					if ( button === increase_x ) geometry.translate( +step, 0, 0 );
 					if ( button === increase_y ) geometry.translate( 0, +step, 0 );
 					if ( button === increase_z ) geometry.translate( 0, 0, +step );
+					vector_x.value = boundingSphere.center.x.toFixed(3);
+					vector_y.value = boundingSphere.center.y.toFixed(3);
+					vector_z.value = boundingSphere.center.z.toFixed(3);
 				}
 
 				function rotate( button ){
@@ -207,6 +220,9 @@
 					if ( button === increase_x ) geometry.rotateX( +step );
 					if ( button === increase_y ) geometry.rotateY( +step );
 					if ( button === increase_z ) geometry.rotateZ( +step );
+					vector_x.value = boundingSphere.center.x.toFixed(3);
+					vector_y.value = boundingSphere.center.y.toFixed(3);
+					vector_z.value = boundingSphere.center.z.toFixed(3);
 				}
 
 				function scale( button ){
@@ -218,6 +234,10 @@
 					if ( button === increase_x ) geometry.scale( +step, 0, 0 );
 					if ( button === increase_y ) geometry.scale( 0, +step, 0 );
 					if ( button === increase_z ) geometry.scale( 0, 0, +step );
+					vector_r.value = boundingSphere.radius.toFixed(3);
+					vector_x.value = boundingSphere.center.x.toFixed(3);
+					vector_y.value = boundingSphere.center.y.toFixed(3);
+					vector_z.value = boundingSphere.center.z.toFixed(3);
 				}
 
 				function onChangeVectorInputValue( input, button ){
@@ -293,6 +313,7 @@
 				TabUI.Geometry.tab.querySelector("input#geometry-vector-x-input"), // vector_x,
 				TabUI.Geometry.tab.querySelector("input#geometry-vector-y-input"), // vector_y,
 				TabUI.Geometry.tab.querySelector("input#geometry-vector-z-input"), // vector_z,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-r-input"), // vector_r,
 				TabUI.Geometry.tab.querySelector("li#geometry-vector-x-increase"), // increase_x,
 				TabUI.Geometry.tab.querySelector("li#geometry-vector-y-increase"), // increase_y,
 				TabUI.Geometry.tab.querySelector("li#geometry-vector-z-increase"), // increase_z,

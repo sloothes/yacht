@@ -198,6 +198,47 @@
 
 	})( TabUI.Geometry.tab );
 
+//	vector-r-ui.js
+
+	(function( tab ){
+
+	//	vector r.
+	//	var tab = TabUI.Geometry.tab;
+
+		var row = document.createElement("h3");
+		row.textContent = "radius:";
+		row.style.cssText = "margin:10px 15px;height:40px;";
+
+		var vect = document.createElement("div");
+		vect.style.cssText = "width:170px;height:40px;float:right;";
+
+		var prev = document.createElement("li");
+		prev.id = "geometry-vector-r-decrease";
+		prev.innerHTML = "&#9668;";
+		prev.style.display = "inline";
+		prev.classList.add("btn","btn-primary","get-prev-btn","pull-left");
+
+		var next = document.createElement("li");
+		next.id = "geometry-vector-r-increase";
+		next.innerHTML = "&#9658;";
+		next.style.display = "inline";
+		next.classList.add("btn","btn-primary","get-next-btn","pull-right");
+
+		var input = document.createElement("input");
+		input.id = "geometry-vector-r-input";
+		input.setAttribute("placeholder", "z" );
+		input.classList.add("form-control","text-center");
+		input.style.cssText = "color:#000;border:none;display:inline;width:80px;"
+		+ "margin:0px 5px;text-align:center;font-size:large;font-weigth:bold;background:none;";
+
+		vect.appendChild(prev);
+		vect.appendChild(input);
+		vect.appendChild(next);
+		row.appendChild(vect);
+		tab.appendChild( row );
+
+	})( TabUI.Geometry.tab );
+
 //	create-geometry-ui.js
 
 	(function( tab ){
