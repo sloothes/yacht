@@ -179,7 +179,7 @@
 			//	var tab = TabUI.Skydome.tab;
 
 				var row = document.createElement("h3");
-				row.textContent = "Skydomes:";
+				row.textContent = "Skydome:";
 				row.style.cssText = "height:30px;"
 
 				var select = document.createElement("select");
@@ -251,10 +251,9 @@
 				input.style.cssText = "color:#000;border:none;display:inline;width:180px;"
 				+ "margin:0px 5px;text-align:center;font-size:large;font-weigth:bold;background:none;";
 
-				vect.appendChild(prev);
-				vect.appendChild(input);
-				vect.appendChild(next);
-				row.appendChild(vect);
+				row.appendChild(prev);
+				row.appendChild(input);
+				row.appendChild(next);
 				tab.appendChild( row );
 
 			})( TabUI.Texture.tab );
