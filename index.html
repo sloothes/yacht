@@ -169,28 +169,170 @@
 
 		<script>
 
+		//	geometry-key-inputs.js
+
+			(function(editor,vector_droplist,vector_x,vector_y,vector_z,increase_x,increase_y,increase_z,decrease_x,decrease_y,decrease_z,entity_droplist){
+
+				var interval, key; 
+				var geometry, boundingBox, boundingSphere, vector = { x:0, y:0, z:0 }; 
+				const RAD2DEG = 57.29577951308232; const DEG2RAD = 0.017453292519943295;
+
+				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
+				watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; vector = { x:0, y:0, z:0 }; });
+				watch( entity_droplist, "onchange", function( prop, event, value ){ 
+					vector = { x:0, y:0, z:0 }; 
+					geometry = getObjectByEntityId( value ).geometry; 
+					geometry && !geometry.boundingBox && geometry.computeBoundingBox(); 
+					geometry && !geometry.boundingSphere && geometry.computeBoundingSphere(); 
+					boundingBox = geometry.boundingBox; boundingSphere = geometry.boundingSphere;
+				});
+
+				function translate( button ){
+					var step = 0.01;
+					if ( !geometry ) return; if ( !boundingBox ) return;
+					if ( button === decrease_x ) geometry.translate( -step, 0, 0 );
+					if ( button === decrease_y ) geometry.translate( 0, -step, 0 );
+					if ( button === decrease_z ) geometry.translate( 0, 0, -step );
+					if ( button === increase_x ) geometry.translate( +step, 0, 0 );
+					if ( button === increase_y ) geometry.translate( 0, +step, 0 );
+					if ( button === increase_z ) geometry.translate( 0, 0, +step );
+				}
+
+				function rotate( button ){
+					var step = DEG2RAD;
+					if ( !geometry ) return; if ( !boundingBox ) return; 
+					if ( button === decrease_x ) geometry.rotateX( -step );
+					if ( button === decrease_y ) geometry.rotateX( -step );
+					if ( button === decrease_z ) geometry.rotateZ( -step );
+					if ( button === increase_x ) geometry.rotateX( +step );
+					if ( button === increase_y ) geometry.rotateY( +step );
+					if ( button === increase_z ) geometry.rotateZ( +step );
+				}
+
+				function scale( button ){
+					var step = 0.001;
+					if ( !geometry ) return; if ( !boundingBox ) return;
+					if ( button === decrease_x ) geometry.scale( -step, 0, 0 );
+					if ( button === decrease_y ) geometry.scale( 0, -step, 0 );
+					if ( button === decrease_z ) geometry.scale( 0, 0, -step );
+					if ( button === increase_x ) geometry.scale( +step, 0, 0 );
+					if ( button === increase_y ) geometry.scale( 0, +step, 0 );
+					if ( button === increase_z ) geometry.scale( 0, 0, +step );
+				}
+
+				function onChangeVectorInputValue( input, button ){
+					watch( input, "onchange", function( prop, event, value ){ 
+						switch ( key ){
+							case "scale":
+								scale( button );
+							break;
+							case "rotate":
+								rotate( button );
+							break;
+							case "translate":
+								translate( button );
+							break;
+						}
+					});
+				}
+
+				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-vector-x-input"), increase_x );
+				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-vector-y-input"), increase_y );
+				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-vector-z-input"), increase_z );
+
+			})(
+				objectEditor, // editor,
+				TabUI.Geometry.tab.querySelector("geometry-vector-droplist"),   // vector_droplist,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-x-input"),     // vector_x,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-y-input"),     // vector_y,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-z-input"),     // vector_z,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-x-increase"),  // increase_x,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-y-increase"),  // increase_y,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-z-increase"),  // increase_z,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-x-decrease"),  // decrease_x,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-y-decrease"),  // decrease_y,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-z-decrease"),  // decrease_z,
+				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist,
+			);
+
+		//	geometry-mouse-inputs.js
+
+			(function(editor,vector_droplist,vector_x,vector_y,vector_z,increase_x,increase_y,increase_z,decrease_x,decrease_y,decrease_z,entity_droplist){
+
+				var interval, key; 
+				var geometry, boundingBox, boundingSphere, vector = { x:0, y:0, z:0 }; 
+				const RAD2DEG = 57.29577951308232; const DEG2RAD = 0.017453292519943295;
+
+				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
+				watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; vector = { x:0, y:0, z:0 }; });
+				watch( entity_droplist, "onchange", function( prop, event, value ){ 
+					vector = { x:0, y:0, z:0 }; 
+					geometry = getObjectByEntityId( value ).geometry; 
+					geometry && !geometry.boundingBox && geometry.computeBoundingBox(); 
+					geometry && !geometry.boundingSphere && geometry.computeBoundingSphere(); 
+					boundingBox = geometry.boundingBox; boundingSphere = geometry.boundingSphere;
+				});
 
 
+				function onMouseClickInputValue( button ){ 
 
+					button.addEventListener( "mousedown", function(){
+						clearTimeout( interval ); // important!
+						interval = setTimeout( function update_geometry( button ){
+							switch ( key ){
+								case "scale":
+									interval = setTimeout( update_geometry, 20, button );
+									return scale( button );
+								break;
+								case "rotate":
+									interval = setTimeout( update_geometry, 10, button );
+									return rotate( button );
+								break;
+								case "translate":
+									interval = setTimeout( update_geometry, 10, button );
+									return translate( button );
+								break;
+							}
+						}, 500, this);
+					});
 
+					button.addEventListener( "click", function(){
+						clearTimeout( interval );
+						switch ( key ){
+							case "scale":
+								return scale( button );
+							break;
+							case "rotate":
+								return rotate( button );
+							break;
+							case "translate":
+								return translate( button );
+							break;
+						}
+					});
+				}
 
+				onMouseClickInputValue( TabUI.Geometry.tab.querySelector("input#geometry-vector-x-increase") );
+				onMouseClickInputValue( TabUI.Geometry.tab.querySelector("input#geometry-vector-y-increase") );
+				onMouseClickInputValue( TabUI.Geometry.tab.querySelector("input#geometry-vector-z-increase") );
+				onMouseClickInputValue( TabUI.Geometry.tab.querySelector("input#geometry-vector-x-decrease") );
+				onMouseClickInputValue( TabUI.Geometry.tab.querySelector("input#geometry-vector-y-decrease") );
+				onMouseClickInputValue( TabUI.Geometry.tab.querySelector("input#geometry-vector-z-decrease") );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			})(
+				objectEditor, // editor,
+				TabUI.Geometry.tab.querySelector("geometry-vector-droplist"),   // vector_droplist,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-x-input"),     // vector_x,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-y-input"),     // vector_y,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-z-input"),     // vector_z,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-x-increase"),  // increase_x,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-y-increase"),  // increase_y,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-z-increase"),  // increase_z,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-x-decrease"),  // decrease_x,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-y-decrease"),  // decrease_y,
+				TabUI.Geometry.tab.querySelector("input#geometry-vector-z-decrease"),  // decrease_z,
+				TabUI.Editor.tab.querySelector("select#editor-entities-droplist") // entity_droplist,
+			);
 
 
 		</script>
