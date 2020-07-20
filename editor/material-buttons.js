@@ -68,7 +68,9 @@
 			entities.add( material );
 
 		//	Enter edit mode.
-			callWatchers( entity_droplist, "onchange", "change", String(material.id) );
+			setTimeout(function(value){
+				callWatchers( entity_droplist, "onchange", "change", value );
+			}, null, String(material.id) );
 
 		});
 
