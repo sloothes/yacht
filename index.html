@@ -255,58 +255,57 @@
 
 			//	on mouse down.
 
-				function onMouseDown(){
+				function onMouseClickInputValue( increase,decrease,v ){
 
-					clearTimeout( interval );
+					function onMouseDown(){
 
-					interval = setTimeout( function update_object(button) {
+						clearTimeout( interval );
+
+						interval = setTimeout( function update_object(button) {
+							switch ( key ) {
+
+								case "position":
+									interval = setTimeout( update_object, 20 );
+									return updatePositionValue( button, v, 0.01 );
+								break;
+
+								case "rotation":
+									interval = setTimeout( update_object, 20 );
+									return updateRotationValue( button, v, 0.1,-180,180 );
+								break;
+
+								case "scale":
+									interval = setTimeout( update_object, 20 );
+									if ( button === increase_w || button === decrease_w ) 
+										return updateScaleValues( button, 0.001 );
+									else 
+										return updateScaleValue( button, v, 0.001 );
+								break;
+							}
+						}, 500, this);
+					}
+
+				//	on mouse click.
+
+					function onMouseClick(){
+
+						clearTimeout( interval );
+
 						switch ( key ) {
-
 							case "position":
-								interval = setTimeout( update_object, 20 );
-								return updatePositionValue( button, v, 0.01 );
+								return updatePositionValue( this, v, 0.01 );
 							break;
-
 							case "rotation":
-								interval = setTimeout( update_object, 20 );
-								return updateRotationValue( button, v, 0.1,-180,180 );
+								return updateRotationValue( this, v, 0.1,-180,180 );
 							break;
-
 							case "scale":
-								interval = setTimeout( update_object, 20 );
-								if ( button === increase_w || button === decrease_w ) 
-									return updateScaleValues( button, 0.001 );
+								if ( this === increase_w || this === decrease_w ) 
+									return updateScaleValues( this, 0.001 );
 								else 
-									return updateScaleValue( button, v, 0.001 );
+									return updateScaleValue( this, v, 0.001 );
 							break;
 						}
-					}, 500, this);
-				}
-
-			//	on mouse click.
-
-				function onMouseClick(){
-
-					clearTimeout( interval );
-
-					switch ( key ) {
-						case "position":
-							return updatePositionValue( this, v, 0.01 );
-						break;
-						case "rotation":
-							return updateRotationValue( this, v, 0.1,-180,180 );
-						break;
-						case "scale":
-							if ( this === increase_w || this === decrease_w ) 
-								return updateScaleValues( this, 0.001 );
-							else 
-								return updateScaleValue( this, v, 0.001 );
-						break;
 					}
-				}
-
-
-				function onMouseClickInputValue( increase,decrease,v ){
 
 					increase.addEventListener( "mousedown", onMouseDown );
 					decrease.addEventListener( "mousedown", onMouseDown );
