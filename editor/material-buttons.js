@@ -62,7 +62,7 @@
 			if ( material === undefined ) return;
 
 		//	Naming.
-			material.name = "new material";
+			material.name = "material";
 
 		//	Add entity.
 			entities.add( material );
@@ -94,7 +94,7 @@
 			if ( source.name ) 
 				material.name = source.name.replace(/:clone/g,"") + ":clone";
 			else
-				material.name = "material "+source.id + ":clone";
+				material.name = "material"+source.id + ":clone";
 
 		//	Add entity.
 			entity_manager.add( material );
