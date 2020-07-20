@@ -43,8 +43,7 @@
 			material_manager && material_manager.add( material );
 
 		//	Enter edit mode.
-			entity_droplist.value = String(mesh.id);
-			callWatchers(entity_droplist, "onchange", "change", entity_droplist.value );
+			callWatchers(entity_droplist, "onchange", "change", entity_droplist.value = String(mesh.id) );
 		});
 
 	})(
