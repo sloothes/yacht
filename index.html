@@ -215,11 +215,11 @@
 
 			(function( editor,increase_x,increase_y,increase_z,increase_w,decrease_x,decrease_y,decrease_z,decrease_w,vector_droplist ){
 
-				var interval; const RAD2DEG = 57.29577951308232; const DEG2RAD = 0.017453292519943295;
-				var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
-				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
-
 				function onMouseClickInputValue( increase,decrease,v ){
+
+					var interval; const RAD2DEG = 57.29577951308232; const DEG2RAD = 0.017453292519943295;
+					var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
+					window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
 					function updatePositionValue( button,v, step ){
 						var value = Number(editor[ key ][v]);
