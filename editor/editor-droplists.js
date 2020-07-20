@@ -153,11 +153,11 @@
 				if ( !object ) return exitFromEditMode();
 
 			//	camera controls offset.
-				if ( object.geometry && object.geometry.boundingSphere ) {
-					var offset = object.geometry.boundingSphere.center;
-					cameraControls.offset.copy( offset ); 
-					cameraControls.offset.y *= 0.5;
-				}
+			//	if ( object.geometry && object.geometry.boundingSphere ) {
+			//		var offset = object.geometry.boundingSphere.center;
+			//		cameraControls.offset.copy( offset ); 
+			//		cameraControls.offset.y *= 0.5;
+			//	}
 
 			//	Disable camera rigid objects.
 				disableCameraRigidObjects();

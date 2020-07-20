@@ -389,7 +389,53 @@
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist")    // entity_droplist,
 			);
 
+		</script>
+
+		<script>
+
 		/*
+
+		//	Geometry bounding sphere center helper.
+
+			const centerhelper = (function(){
+
+				var object = new THREE.Object3D(); // helper.
+				var material = new THREE.LineBasicMaterial( { color: 0xffffff } );
+
+			//	cycle.
+
+				(function(){
+					var cycleGeometry = new THREE.CircleGeometry(5,32).rotateX(-Math.PI/2);
+					var geometry = new THREE.EdgesGeometry( cycleGeometry );
+					var segments = new THREE.LineSegments( geometry, material );
+					object.add( segments );
+				})();
+
+			//	haircross.
+
+				(function(){
+					var geometry = new THREE.Geometry();
+					geometry.vertices.push(
+						new THREE.Vector3( -10, 0, 0 ),
+						new THREE.Vector3(  10, 0, 0 )
+					);
+					var segments = new THREE.LineSegments( geometry, material );
+					object.add( segments );
+				})();
+
+				(function(){
+					var geometry = new THREE.Geometry();
+					geometry.vertices.push(
+						new THREE.Vector3( 0, 0, -10 ),
+						new THREE.Vector3( 0, 0,  10 )
+					);
+					var segments = new THREE.LineSegments( geometry, material );
+					object.add( segments );
+				})();
+
+				return object;
+			})();
+
 		*/
 
 		</script>
