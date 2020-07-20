@@ -222,8 +222,6 @@
 					debugMode && console.log( "boundingSphere:", boundingSphere );
 				});
 
-			//	geometry-key-inputs.js
-
 				function translate( button, value ){
 					if ( !(button && geometry && boundingSphere) ) 
 						return displayBoundingSphereCenter();
@@ -271,32 +269,6 @@
 					return displayBoundingSphereCenter();
 				}
 
-				function onChangeVectorInputValue( input, button ){
-
-					watch( input, "onchange", function( prop, event, value ){ 
-						switch ( key ){
-							case "scale":
-								scale( button, value );
-							break;
-							case "rotate":
-								rotate( button, value );
-							break;
-							case "translate":
-								translate( button, value );
-							break;
-						}
-					});
-
-					input.addEventListener( "change", function(){
-						this.blur(); callWatchers( this, "onchange", "change", this.value );
-					});
-
-				}
-
-				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-x-input"), increase_x );
-				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-y-input"), increase_y );
-				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-z-input"), increase_z );
-
 			//	geometry-mouse-inputs.js
 
 				function onMouseClickInputValue( button ){ 
@@ -311,7 +283,7 @@
 								break;
 								case "rotate":
 									interval = setTimeout( update_bounding, 10, button );
-									return rotate( button, DEG2RAD );
+									return rotate( button, 1 );
 								break;
 								case "scale":
 									interval = setTimeout( update_bounding, 20, button );
@@ -371,6 +343,35 @@
 				TabUI.Editor.tab.querySelector("select#editor-entities-droplist")    // entity_droplist,
 			);
 
+		/*
+			//	geometry-key-inputs.js
+
+				function onChangeVectorInputValue( input, button ){
+
+					watch( input, "onchange", function( prop, event, value ){ 
+						switch ( key ){
+							case "scale":
+								scale( button, value );
+							break;
+							case "rotate":
+								rotate( button, value );
+							break;
+							case "translate":
+								translate( button, value );
+							break;
+						}
+					});
+
+					input.addEventListener( "change", function(){
+						this.blur(); callWatchers( this, "onchange", "change", this.value );
+					});
+
+				}
+
+				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-x-input"), increase_x );
+				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-y-input"), increase_y );
+				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-z-input"), increase_z );
+		*/
 
 		</script>
 
