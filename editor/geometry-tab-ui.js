@@ -44,12 +44,11 @@
 
 	})( TabUI.Geometry.tab );
 
-//	vector-droplist-ui.js
+//	sphere-droplist-ui.js
 
 	(function( tab ){
 
-	//	Vector mode droplist.
-	//	When option is selected, switches to EditMode.
+	//	Bounding Sphere droplist.
 	//	var tab = TabUI.Geometry.tab;
 
 		var row = document.createElement("h3");
@@ -57,12 +56,12 @@
 		row.style.cssText = "height:40px;"
 
 		var select = document.createElement("select");
-		select.id = "geometry-vector-droplist";
+		select.id = "geometry-sphere-droplist";
 		select.style.cssText = "width:170px;color:#000;float:right;"
 		+ "border:1px solid;border-radius:4px;padding:2px 4px 4px 4px;"
 		+ "font-size:20px;margin-left:10px;margin-right:15px;";
 
-		var modes = "translate,rotate,scale";
+		var modes = "translate,rotate,scale,radius";
 		modes.split(",").forEach(function( name ){
 			var option = document.createElement("option");
 			option.text = name;
@@ -75,11 +74,11 @@
 
 	})( TabUI.Geometry.tab );
 
-//	vector-x-ui.js
+//	center-x-ui.js
 
 	(function( tab ){
 
-	//	vector x.
+	//	center x.
 	//	var tab = TabUI.Geometry.tab;
 
 		var row = document.createElement("h3");
@@ -90,19 +89,19 @@
 		vect.style.cssText = "width:170px;height:40px;float:right;";
 
 		var prev = document.createElement("li");
-		prev.id = "geometry-vector-x-decrease";
+		prev.id = "geometry-center-x-decrease";
 		prev.innerHTML = "&#9668;";
 		prev.style.display = "inline";
 		prev.classList.add("btn","btn-primary","get-prev-btn","pull-left");
 
 		var next = document.createElement("li");
-		next.id = "geometry-vector-x-increase";
+		next.id = "geometry-center-x-increase";
 		next.innerHTML = "&#9658;";
 		next.style.display = "inline";
 		next.classList.add("btn","btn-primary","get-next-btn","pull-right");
 
 		var input = document.createElement("input");
-		input.id = "geometry-vector-x-input";
+		input.id = "geometry-center-x-input";
 		input.setAttribute("placeholder", "x" );
 		input.classList.add("form-control","text-center");
 		input.style.cssText = "color:#000;border:none;display:inline;width:80px;"
@@ -116,11 +115,11 @@
 
 	})( TabUI.Geometry.tab );
 
-//	vector-y-ui.js
+//	center-y-ui.js
 
 	(function( tab ){
 
-	//	vector y.
+	//	center y.
 	//	var tab = TabUI.Geometry.tab;
 
 		var row = document.createElement("h3");
@@ -131,19 +130,19 @@
 		vect.style.cssText = "width:170px;height:40px;float:right;";
 
 		var prev = document.createElement("li");
-		prev.id = "geometry-vector-y-decrease";
+		prev.id = "geometry-center-y-decrease";
 		prev.innerHTML = "&#9668;";
 		prev.style.display = "inline";
 		prev.classList.add("btn","btn-primary","get-prev-btn","pull-left");
 
 		var next = document.createElement("li");
-		next.id = "geometry-vector-y-increase";
+		next.id = "geometry-center-y-increase";
 		next.innerHTML = "&#9658;";
 		next.style.display = "inline";
 		next.classList.add("btn","btn-primary","get-next-btn","pull-right");
 
 		var input = document.createElement("input");
-		input.id = "geometry-vector-y-input";
+		input.id = "geometry-center-y-input";
 		input.setAttribute("placeholder", "y" );
 		input.classList.add("form-control","text-center");
 		input.style.cssText = "color:#000;border:none;display:inline;width:80px;"
@@ -157,11 +156,11 @@
 
 	})( TabUI.Geometry.tab );
 
-//	vector-z-ui.js
+//	center-z-ui.js
 
 	(function( tab ){
 
-	//	vector z.
+	//	center z.
 	//	var tab = TabUI.Geometry.tab;
 
 		var row = document.createElement("h3");
@@ -172,19 +171,19 @@
 		vect.style.cssText = "width:170px;height:40px;float:right;";
 
 		var prev = document.createElement("li");
-		prev.id = "geometry-vector-z-decrease";
+		prev.id = "geometry-center-z-decrease";
 		prev.innerHTML = "&#9668;";
 		prev.style.display = "inline";
 		prev.classList.add("btn","btn-primary","get-prev-btn","pull-left");
 
 		var next = document.createElement("li");
-		next.id = "geometry-vector-z-increase";
+		next.id = "geometry-center-z-increase";
 		next.innerHTML = "&#9658;";
 		next.style.display = "inline";
 		next.classList.add("btn","btn-primary","get-next-btn","pull-right");
 
 		var input = document.createElement("input");
-		input.id = "geometry-vector-z-input";
+		input.id = "geometry-center-z-input";
 		input.setAttribute("placeholder", "z" );
 		input.classList.add("form-control","text-center");
 		input.style.cssText = "color:#000;border:none;display:inline;width:80px;"
@@ -198,7 +197,7 @@
 
 	})( TabUI.Geometry.tab );
 
-//	vector-r-ui.js
+//	radius-ui.js
 
 	(function( tab ){
 
@@ -213,19 +212,19 @@
 		vect.style.cssText = "width:170px;height:40px;float:right;";
 
 		var prev = document.createElement("li");
-		prev.id = "geometry-vector-r-decrease";
+		prev.id = "geometry-radius-decrease";
 		prev.innerHTML = "&#9668;";
 		prev.style.display = "inline";
 		prev.classList.add("btn","btn-primary","get-prev-btn","pull-left");
 
 		var next = document.createElement("li");
-		next.id = "geometry-vector-r-increase";
+		next.id = "geometry-radius-increase";
 		next.innerHTML = "&#9658;";
 		next.style.display = "inline";
 		next.classList.add("btn","btn-primary","get-next-btn","pull-right");
 
 		var input = document.createElement("input");
-		input.id = "geometry-vector-r-input";
+		input.id = "geometry-radius-input";
 		input.setAttribute("placeholder", "r" );
 		input.classList.add("form-control","text-center");
 		input.style.cssText = "color:#000;border:none;display:inline;width:80px;"
