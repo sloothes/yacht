@@ -215,97 +215,98 @@
 
 			(function( editor,increase_x,increase_y,increase_z,increase_w,decrease_x,decrease_y,decrease_z,decrease_w,vector_droplist ){
 
-				function onMouseClickInputValue( increase,decrease,v ){
+				var interval; const RAD2DEG = 57.29577951308232; const DEG2RAD = 0.017453292519943295;
+				var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
+				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
-					var interval; const RAD2DEG = 57.29577951308232; const DEG2RAD = 0.017453292519943295;
-					var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
-					window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
+				function updatePositionValue( button,v, step ){
+					var value = Number(editor[ key ][v]);
+					if ( button === increase ) value += step;
+					if ( button === decrease ) value -= step;
+					editor[ key ][v] = round(value,6);
+				}
 
-					function updatePositionValue( button,v, step ){
-						var value = Number(editor[ key ][v]);
-						if ( button === increase ) value += step;
-						if ( button === decrease ) value -= step;
-						editor[ key ][v] = round(value,6);
+				function updateRotationValue( button,v, step,min,max ){
+					var value = RAD2DEG * Number(editor[ key ][v]);
+					if ( button === increase ) value = THREE.Math.clamp( value+step, min, max );
+					if ( button === decrease ) value = THREE.Math.clamp( value-step, min, max );
+					editor[ key ][v] = round(DEG2RAD*value,6);
+				}
+
+				function updateScaleValue( button,v, step ){
+					var value = Number(editor[ key ][v]);
+					if ( button === increase ) value += step;
+					if ( button === decrease ) value -= step;
+					editor[ key ][v] = round(value,6);
+				}
+
+				function updateScaleValues( button, step ){
+					if ( button === increase ) {
+						editor[ key ].x += step;
+						editor[ key ].y += step;
+						editor[ key ].z += step;
 					}
-
-					function updateRotationValue( button,v, step,min,max ){
-						var value = RAD2DEG * Number(editor[ key ][v]);
-						if ( button === increase ) value = THREE.Math.clamp( value+step, min, max );
-						if ( button === decrease ) value = THREE.Math.clamp( value-step, min, max );
-						editor[ key ][v] = round(DEG2RAD*value,6);
+					if ( button === decrease ) {
+						editor[ key ].x -= step;
+						editor[ key ].y -= step;
+						editor[ key ].z -= step;
 					}
+				}
 
-					function updateScaleValue( button,v, step ){
-						var value = Number(editor[ key ][v]);
-						if ( button === increase ) value += step;
-						if ( button === decrease ) value -= step;
-						editor[ key ][v] = round(value,6);
-					}
+			//	on mouse down.
 
-					function updateScaleValues( button, step ){
-						if ( button === increase ) {
-							editor[ key ].x += step;
-							editor[ key ].y += step;
-							editor[ key ].z += step;
-						}
-						if ( button === decrease ) {
-							editor[ key ].x -= step;
-							editor[ key ].y -= step;
-							editor[ key ].z -= step;
-						}
-					}
+				function onMouseDown(){
 
-				//	on mouse down.
+					clearTimeout( interval );
 
-					function onMouseDown(){
-
-						clearTimeout( interval );
-
-						interval = setTimeout( function update_object(button) {
-							switch ( key ) {
-
-								case "position":
-									interval = setTimeout( update_object, 20 );
-									return updatePositionValue( button, v, 0.01 );
-								break;
-
-								case "rotation":
-									interval = setTimeout( update_object, 20 );
-									return updateRotationValue( button, v, 0.1,-180,180 );
-								break;
-
-								case "scale":
-									interval = setTimeout( update_object, 20 );
-									if ( button === increase_w || button === decrease_w ) 
-										return updateScaleValues( button, 0.001 );
-									else 
-										return updateScaleValue( button, v, 0.001 );
-								break;
-							}
-						}, 500, this);
-					}
-
-				//	on mouse click.
-
-					function onMouseClick(){
-
-						clearTimeout( interval );
-
+					interval = setTimeout( function update_object(button) {
 						switch ( key ) {
+
 							case "position":
-								return updatePositionValue( this, v, 0.01 );
+								interval = setTimeout( update_object, 20 );
+								return updatePositionValue( button, v, 0.01 );
 							break;
+
 							case "rotation":
-								return updateRotationValue( this, v, 0.1,-180,180 );
+								interval = setTimeout( update_object, 20 );
+								return updateRotationValue( button, v, 0.1,-180,180 );
 							break;
+
 							case "scale":
-								if ( this === increase_w || this === decrease_w ) 
-									return updateScaleValues( this, 0.001 );
+								interval = setTimeout( update_object, 20 );
+								if ( button === increase_w || button === decrease_w ) 
+									return updateScaleValues( button, 0.001 );
 								else 
-									return updateScaleValue( this, v, 0.001 );
+									return updateScaleValue( button, v, 0.001 );
 							break;
 						}
+					}, 500, this);
+				}
+
+			//	on mouse click.
+
+				function onMouseClick(){
+
+					clearTimeout( interval );
+
+					switch ( key ) {
+						case "position":
+							return updatePositionValue( this, v, 0.01 );
+						break;
+						case "rotation":
+							return updateRotationValue( this, v, 0.1,-180,180 );
+						break;
+						case "scale":
+							if ( this === increase_w || this === decrease_w ) 
+								return updateScaleValues( this, 0.001 );
+							else 
+								return updateScaleValue( this, v, 0.001 );
+						break;
 					}
+				}
+
+
+				function onMouseClickInputValue( increase,decrease,v ){
 
 					increase.addEventListener( "mousedown", onMouseDown );
 					decrease.addEventListener( "mousedown", onMouseDown );
