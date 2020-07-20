@@ -169,18 +169,35 @@
 
 		<script>
 
+		//	watchers-call-ui.js
+
+			(function(vector_droplist){
+
+				watch( vector_droplist, "onchange", function( prop, event, value ){ 
+					debugMode && console.log({item:vector_droplist,event:event,value:value}); // debug.
+				});
+
+				vector_droplist.addEventListener( "change", function(){
+					this.blur(); callWatchers( this, "onchange", "change", this.value );
+				});
+
+			})( TabUI.Geometry.tab.querySelector("select#geometry-vector-droplist")  ); // vector_droplist.
+
 		//	geometry-inputs.js
 
 			(function(editor,vector_x,vector_y,vector_z,vector_r,increase_x,increase_y,increase_z,decrease_x,decrease_y,decrease_z,vector_droplist,entity_droplist){
 
-				var interval, key; 
+				var interval; 
+
 				var geometry, boundingBox, boundingSphere; 
 				const RAD2DEG = 57.29577951308232; const DEG2RAD = 0.017453292519943295;
+				var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
-				function displayBoundingSpherevValues(){
+				function displayBoundingSphereValues(){
 					if ( !boundingSphere ) return [ 
-						vector_x,vector_y,vector_z,vector_r
+						vector_x.value,vector_y.value,
+						vector_z.value,vector_r.value
 					] = ["","","",""];
 					vector_x.value = boundingSphere.center.x.toFixed(3);
 					vector_y.value = boundingSphere.center.y.toFixed(3);
@@ -188,25 +205,18 @@
 					vector_r.value = boundingSphere.radius.toFixed(3);
 				}
 
-			//	watchers-call-ui.js
-
-				watch( vector_droplist, "onchange", function( prop, event, value ){ 
-					debugMode && console.log({item:vector_droplist,event:event,value:value}); // debug.
-					key = value; displayBoundingSpherevValues()
-				});
-
-				vector_droplist.addEventListener( "change", function(){
-					this.blur(); callWatchers( this, "onchange", "change", this.value );
-				});
-
-				watch( entity_droplist, "onchange", function( prop, event, value ){ 
-					var object = getObjectByEntityId(value); 
+				function updateBoundingSphere(object){
 					geometry = object && object.geometry;
 					geometry && !geometry.boundingBox && geometry.computeBoundingBox(); 
 					geometry && !geometry.boundingSphere && geometry.computeBoundingSphere(); 
 					boundingBox = geometry && geometry.boundingBox; 
 					boundingSphere = geometry && geometry.boundingSphere;
-					displayBoundingSpherevValues();
+					displayBoundingSphereValues();
+				}
+
+				watch( entity_droplist, "onchange", function( prop, event, value ){ 
+					updateBoundingSphere(getObjectByEntityId(value));
+					callWatchers( vector_droplist, "onchange", "change", vector_droplist.value );
 					debugMode && console.log( "geometry:", geometry );
 					debugMode && console.log( "boundingBox:", boundingBox );
 					debugMode && console.log( "boundingSphere:", boundingSphere );
@@ -217,40 +227,40 @@
 				function translate( button ){
 					var step = 0.01;
 					if ( !(button && geometry && boundingBox) ) 
-						return displayBoundingSpherevValues();
+						return displayBoundingSphereValues();
 					if ( button === decrease_x ) geometry.translate( -step, 0, 0 );
 					if ( button === decrease_y ) geometry.translate( 0, -step, 0 );
 					if ( button === decrease_z ) geometry.translate( 0, 0, -step );
 					if ( button === increase_x ) geometry.translate( +step, 0, 0 );
 					if ( button === increase_y ) geometry.translate( 0, +step, 0 );
 					if ( button === increase_z ) geometry.translate( 0, 0, +step );
-					displayBoundingSpherevValues();
+					displayBoundingSphereValues();
 				}
 
 				function rotate( button ){
 					var step = DEG2RAD;
 					if ( !(button && geometry && boundingBox) ) 
-						return displayBoundingSpherevValues();
+						return displayBoundingSphereValues();
 					if ( button === decrease_x ) geometry.rotateX( -step );
 					if ( button === decrease_y ) geometry.rotateX( -step );
 					if ( button === decrease_z ) geometry.rotateZ( -step );
 					if ( button === increase_x ) geometry.rotateX( +step );
 					if ( button === increase_y ) geometry.rotateY( +step );
 					if ( button === increase_z ) geometry.rotateZ( +step );
-					displayBoundingSpherevValues();
+					displayBoundingSphereValues();
 				}
 
 				function scale( button ){
 					var step = 1.001;
 					if ( !(button && geometry && boundingBox) ) 
-						return displayBoundingSpherevValues();
+						return displayBoundingSphereValues();
 					if ( button === decrease_x ) geometry.scale( -step, 0, 0 );
 					if ( button === decrease_y ) geometry.scale( 0, -step, 0 );
 					if ( button === decrease_z ) geometry.scale( 0, 0, -step );
 					if ( button === increase_x ) geometry.scale( +step, 0, 0 );
 					if ( button === increase_y ) geometry.scale( 0, +step, 0 );
 					if ( button === increase_z ) geometry.scale( 0, 0, +step );
-					displayBoundingSpherevValues();
+					displayBoundingSphereValues();
 				}
 
 				function onChangeVectorInputValue( input, button ){
@@ -294,7 +304,7 @@
 									return translate( button );
 								break;
 							}
-							debugMode && console.log("on mousedown:",interval);
+							debugMode && console.log("on mousedown:", interval); //debug!
 						}, 500, this);
 					});
 
@@ -311,7 +321,7 @@
 								return translate( button );
 							break;
 						}
-						debugMode && console.log("on click:",interval);
+						debugMode && console.log("on click:", interval); //debug!
 					});
 				}
 
