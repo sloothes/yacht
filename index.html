@@ -222,7 +222,6 @@
 				function onMouseClickInputValue( increase,decrease,v ){
 
 					function updatePositionValue( button,v, step ){
-						var step = 0.01;
 						var value = Number(editor[ key ][v]);
 						if ( button === increase ) value += step;
 						if ( button === decrease ) value -= step;
@@ -230,7 +229,6 @@
 					}
 
 					function updateRotationValue( button,v, step,min,max ){
-						var step = 0.1, min = -180, max = 180;
 						var value = RAD2DEG * Number(editor[ key ][v]);
 						if ( button === increase ) value = THREE.Math.clamp( value+step, min, max );
 						if ( button === decrease ) value = THREE.Math.clamp( value-step, min, max );
@@ -238,7 +236,6 @@
 					}
 
 					function updateScaleValue( button,v, step ){
-						var step = 0.001;
 						var value = Number(editor[ key ][v]);
 						if ( button === increase ) value += step;
 						if ( button === decrease ) value -= step;
@@ -246,7 +243,6 @@
 					}
 
 					function updateScaleValues( button, step ){
-						var step = 0.001;
 						if ( button === increase ) {
 							editor[ key ].x += step;
 							editor[ key ].y += step;
