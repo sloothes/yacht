@@ -33,7 +33,7 @@
 			}
 
 		//	Create mesh.
-			var material = new THREE.MeshLambertMaterial({side:2});
+			var material = new THREE.MeshLambertMaterial({side:0});
 			var mesh = new THREE.Mesh(geometry, material);
 			mesh.name = type.replace("Geometry","");
 			scene.add( mesh );
