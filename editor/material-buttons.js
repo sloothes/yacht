@@ -79,6 +79,39 @@
 		material_entities // entities,
 	 ); 
 
+//	material-clone-button.js
+
+	(function(clone_button,entity_droplist,entity_manager,scene){
+
+		watch( clone_button, "onclick", function( prop, event, value ){
+
+			var source = getMaterialByEntityId(); if ( !source ) return;
+
+		//	clone.
+			var material = source.clone(); if ( !material ) return;
+
+		//	rename.
+			if ( source.name ) 
+				material.name = source.name.replace(/:clone/g,"") + ":clone";
+			else
+				material.name = "material "+source.id + ":clone";
+
+		//	Add entity.
+			entities.add( material );
+
+		//	Enter edit mode.
+			callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = String(material.id) );
+
+		});
+
+	})( 
+		TabUI.Material.tab.querySelector("div#clone-material-button"), // clone_button,
+		TabUI.Material.tab.querySelector("select#material-type-droplist"), // type_droplist,
+		TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist,
+		material_entities // entities,
+	 ); 
+
+
 //	replace-material.js
 
 	(function( replace_button ){

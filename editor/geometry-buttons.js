@@ -35,7 +35,7 @@
 		//	Create mesh.
 			var material = new THREE.MeshLambertMaterial({side:0});
 			var mesh = new THREE.Mesh(geometry, material);
-			mesh.name = type.replace("Geometry","");
+			mesh.name = type.replace(/Geometry/g,"");
 			mesh.position.y = 0.5; scene.add( mesh );
 
 		//	Add entities.
@@ -69,13 +69,13 @@
 			if ( source.isMesh && source.geometry ) {
 
 			//	clone.
-				var mesh = source.clone();
+				var mesh = source.clone(); if ( !mesh ) return;
 
 			//	rename.
 				if ( source.name ) 
 					mesh.name = source.name.replace(/:clone/g,"") + ":clone";
 				else
-					mesh.name = mesh.type.replace(/Geometry/g,"") + ":clone";
+					mesh.name = source.geometry.type.replace(/Geometry/g,"")+" "+source.id + ":clone";
 
 			//	translate.
 			//	mesh.position.y += 1; // (m)
@@ -87,8 +87,7 @@
 				entity_manager.add( mesh );
 
 			//	enter to edit mode.
-				entity_droplist.value = String(mesh.id);
-				callWatchers(entity_droplist, "onchange", "change", entity_droplist.value );
+				callWatchers(entity_droplist, "onchange", "change", entity_droplist.value = String(mesh.id) );
 			}
 
 		});
