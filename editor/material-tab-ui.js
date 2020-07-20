@@ -555,7 +555,7 @@
 
 	})( TabUI.Material.tab );
 
-//	create-material-ui.js
+//	material-create-ui.js
 
 	(function( tab ){
 
@@ -566,7 +566,7 @@
 		row.style.cssText = "height:40px;margin-bottom:20px;"
 
 		var button = document.createElement("div");
-		button.id = "create-material-button";
+		button.id = "material-create-button";
 		button.textContent = "Create Material Entity";
 		button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
 		button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
@@ -576,7 +576,7 @@
 
 	})( TabUI.Material.tab );
 
-//	clone-material-ui.js
+//	material-clone-ui.js
 
 	(function( tab ){
 
@@ -587,7 +587,7 @@
 		row.style.cssText = "height:40px;margin-bottom:20px;"
 
 		var button = document.createElement("div");
-		button.id = "clone-material-button";
+		button.id = "material-clone-button";
 		button.textContent = "Clone Material Entity";
 		button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
 		button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
@@ -597,7 +597,7 @@
 
 	})( TabUI.Material.tab );
 
-//	replace-material-ui.js
+//	material-replace-ui.js
 
 	(function( tab ){
 
@@ -608,7 +608,7 @@
 		row.style.cssText = "height:40px;margin-bottom:20px;"
 
 		var button = document.createElement("div");
-		button.id = "replace-material-button";
+		button.id = "material-replace-button";
 		button.textContent = "Replace Material";
 		button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
 		button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
@@ -618,7 +618,7 @@
 
 	})( TabUI.Material.tab );
 
-//	remove-material-ui.js
+//	material-remove-ui.js
 
 	(function( tab ){
 
@@ -629,7 +629,7 @@
 		row.style.cssText = "height:40px;margin-bottom:20px;"
 
 		var button = document.createElement("div");
-		button.id = "remove-material-button";
+		button.id = "material-remove-button";
 		button.textContent = "Remove Material Entity";
 		button.classList.add( "form-control", "btn", "btn-primary", "btn-white-outline", "gradient-btn" );
 		button.style.cssText = "width:-webkit-fill-available;float:right;height:40px;font-size:large;margin-right:15px;";
