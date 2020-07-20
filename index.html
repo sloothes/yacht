@@ -169,7 +169,7 @@
 
 		<script>
 
-			(function(editor,vector_droplist,vector_x,vector_y,vector_z,vector_r,increase_x,increase_y,increase_z,decrease_x,decrease_y,decrease_z,entity_droplist){
+			(function(editor,vector_x,vector_y,vector_z,vector_r,increase_x,increase_y,increase_z,decrease_x,decrease_y,decrease_z,vector_droplist,entity_droplist){
 
 				var interval, key; 
 				var geometry, boundingBox, boundingSphere; 
@@ -177,7 +177,8 @@
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
 				function displayBoundingSpherevValues(){
-					if ( !boundingSphere ) return [vector_x,vector_y,vector_z,vector_r] = ["","","",""];
+					if ( !boundingSphere ) 
+						return [vector_x,vector_y,vector_z,vector_r] = ["","","",""];
 					vector_x.value = boundingSphere.center.x.toFixed(3);
 					vector_y.value = boundingSphere.center.y.toFixed(3);
 					vector_z.value = boundingSphere.center.z.toFixed(3);
@@ -191,8 +192,10 @@
 					geometry && !geometry.boundingSphere && geometry.computeBoundingSphere(); 
 					boundingBox = geometry && geometry.boundingBox; 
 					boundingSphere = geometry && geometry.boundingSphere;
-					debugMode && console.log( "geometry:", geometry );
 					displayBoundingSpherevValues();
+					debugMode && console.log( "geometry:", geometry );
+					debugMode && console.log( "boundingBox:", boundingBox );
+					debugMode && console.log( "boundingSphere:", boundingSphere );
 				});
 
 				watch( vector_droplist, "onchange", function( prop, event, value ){ 
@@ -308,7 +311,6 @@
 
 			})(
 				objectEditor, // editor,
-				TabUI.Geometry.tab.querySelector("geometry-vector-droplist"), // vector_droplist,
 				TabUI.Geometry.tab.querySelector("input#geometry-vector-x-input"), // vector_x,
 				TabUI.Geometry.tab.querySelector("input#geometry-vector-y-input"), // vector_y,
 				TabUI.Geometry.tab.querySelector("input#geometry-vector-z-input"), // vector_z,
@@ -319,7 +321,8 @@
 				TabUI.Geometry.tab.querySelector("li#geometry-vector-x-decrease"), // decrease_x,
 				TabUI.Geometry.tab.querySelector("li#geometry-vector-y-decrease"), // decrease_y,
 				TabUI.Geometry.tab.querySelector("li#geometry-vector-z-decrease"), // decrease_z,
-				TabUI.Editor.tab.querySelector("select#editor-entities-droplist")  // entity_droplist,
+				TabUI.Geometry.tab.querySelector("select#geometry-vector-droplist"), // vector_droplist,
+				TabUI.Editor.tab.querySelector("select#editor-entities-droplist")    // entity_droplist,
 			);
 
 
