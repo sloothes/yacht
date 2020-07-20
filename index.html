@@ -269,7 +269,7 @@
 			//	geometry-key-inputs.js
 
 			/*
-				function onChangeVectorInputValue( input, button ){
+				function onChangeInputValue( input, button ){
 
 					watch( input, "onchange", function( prop, event, value ){ 
 						switch ( key ){
@@ -288,9 +288,9 @@
 
 				}
 			
-				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-x-input"), increase_x );
-				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-y-input"), increase_y );
-				onChangeVectorInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-z-input"), increase_z );
+				onChangeInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-x-input"), increase_x );
+				onChangeInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-y-input"), increase_y );
+				onChangeInputValue( TabUI.Geometry.tab.querySelector("input#geometry-center-z-input"), increase_z );
 			*/
 
 			//	geometry-mouse-inputs.js
@@ -413,7 +413,7 @@
 			entities.add(localPlayer.getObjectByName("playerhelper"));
 
 			cameraControls.setLatLon(5.128, 270.675);
-			localPlayer.controller.movementSpeed = 30;
+			localPlayer.controller.movementSpeed = 20;
 			localPlayer.controller.center.set(-85,2,-2);
 
 		</script>
