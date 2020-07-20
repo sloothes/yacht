@@ -241,7 +241,7 @@
 				}
 
 				function scale( button ){
-					var step = 0.001;
+					var step = 1.001;
 					if ( !(button && geometry && boundingBox) ) 
 						return displayBoundingSpherevValues();
 					if ( button === decrease_x ) geometry.scale( -step, 0, 0 );
@@ -294,6 +294,7 @@
 									return translate( button );
 								break;
 							}
+							debugMode && console.log("on mousedown:",interval);
 						}, 500, this);
 					});
 
@@ -310,6 +311,7 @@
 								return translate( button );
 							break;
 						}
+						debugMode && console.log("on click:",interval);
 					});
 				}
 
