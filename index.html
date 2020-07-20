@@ -227,7 +227,7 @@
 				function translate( button, value ){
 					if ( !(button && geometry && boundingBox) ) 
 						return displayBoundingSphereValues();
-					var step = Number(value); if ( !step || isNaN(step) ) step = 0.01;
+					var step = Number(value); if ( !step || isNaN(step) ) step = 0.001;
 					if ( button === decrease_x ) geometry.translate( -step, 0, 0 );
 					if ( button === decrease_y ) geometry.translate( 0, -step, 0 );
 					if ( button === decrease_z ) geometry.translate( 0, 0, -step );
@@ -255,7 +255,7 @@
 					if ( !(button && geometry && boundingBox) ) 
 						return displayBoundingSphereValues();
 					var step = Number(value); 
-					if ( !step || isNaN(step) ) step = 1.001;
+					if ( !step || isNaN(step) ) step = 1.005;
 					if ( button === decrease_x ) geometry.scale( -step, 1, 1 );
 					if ( button === decrease_y ) geometry.scale( 1, -step, 1 );
 					if ( button === decrease_z ) geometry.scale( 1, 1, -step );
@@ -313,11 +313,11 @@
 								break;
 								case "center":
 									interval = setTimeout( update_bounding, 10, button );
-									//	return setCenter( button, 0.01 );
+									//	return sphereCenter( button, 0.001 );
 								break;
 							}
 							debugMode && console.log("on mousedown:", interval); //debug!
-						}, 500, this);
+						}, 350, this);
 					});
 
 					button.addEventListener( "click", function(){
@@ -333,7 +333,7 @@
 								return translate( button );
 							break;
 							case "center":
-							//	return setCenter( button, 0.01 );
+							//	return sphereCenter( button, 0.001 );
 							break;
 						}
 						debugMode && console.log("on click:", interval); //debug!
