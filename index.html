@@ -226,7 +226,7 @@
 					editor[ key ][v] = round(value,6);
 				}
 
-				function updateRotationValue( button,v, step,min,max ){
+				function updateRotationValue( button,increase,decrease,v, step,min,max ){
 					var value = RAD2DEG * Number(editor[ key ][v]);
 					if ( button === increase ) value = THREE.Math.clamp( value+step, min, max );
 					if ( button === decrease ) value = THREE.Math.clamp( value-step, min, max );
@@ -266,20 +266,20 @@
 
 								case "position":
 									interval = setTimeout( update_object, 20 );
-									return updatePositionValue( button, v, 0.01 );
+									return updatePositionValue( button,increase,decrease, v, 0.01 );
 								break;
 
 								case "rotation":
 									interval = setTimeout( update_object, 20 );
-									return updateRotationValue( button, v, 0.1,-180,180 );
+									return updateRotationValue( button,increase,decrease, v, 0.1,-180,180 );
 								break;
 
 								case "scale":
 									interval = setTimeout( update_object, 20 );
 									if ( button === increase_w || button === decrease_w ) 
-										return updateScaleValues( button, 0.001 );
+										return updateScaleValues( button,increase,decrease, 0.001 );
 									else 
-										return updateScaleValue( button, v, 0.001 );
+										return updateScaleValue( button,increase,decrease, v, 0.001 );
 								break;
 							}
 						}, 500, this);
@@ -293,16 +293,16 @@
 
 						switch ( key ) {
 							case "position":
-								return updatePositionValue( this, v, 0.01 );
+								return updatePositionValue( this,increase,decrease, v, 0.01 );
 							break;
 							case "rotation":
-								return updateRotationValue( this, v, 0.1,-180,180 );
+								return updateRotationValue( this,increase,decrease, v, 0.1,-180,180 );
 							break;
 							case "scale":
 								if ( this === increase_w || this === decrease_w ) 
-									return updateScaleValues( this, 0.001 );
+									return updateScaleValues( this,increase,decrease, 0.001 );
 								else 
-									return updateScaleValue( this, v, 0.001 );
+									return updateScaleValue( this,increase,decrease, v, 0.001 );
 							break;
 						}
 					}
