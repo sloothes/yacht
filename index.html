@@ -187,9 +187,7 @@
 
 			(function(editor,radius_r,increase,decrease,center_x,center_y,center_z,increase_x,increase_y,increase_z,decrease_x,decrease_y,decrease_z,sphere_droplist,entity_droplist){
 
-				var interval; 
-
-				var geometry, boundingBox, boundingSphere; 
+				var interval, geometry, boundingBox, boundingSphere; 
 				const RAD2DEG = 57.29577951308232; const DEG2RAD = 0.017453292519943295;
 				var key; watch( sphere_droplist, "onchange", function( prop, event, value ){ key = value; });
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
@@ -310,7 +308,7 @@
 									return translate( button, 0.01 );
 								break;
 							}
-						}, 350, this);
+						}, 500, this);
 					});
 
 					button.addEventListener( "click", function(){

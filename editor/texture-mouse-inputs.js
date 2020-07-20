@@ -4,9 +4,8 @@
 
 	(function( editor,increase,decrease,text_input,value_input,key_droplist,entity_droplist,undo_button ){
 
-		var interval, key = key_droplist.value; debugMode && console.log( "key:", key );
-
-		watch( key_droplist, "onchange", function( prop, event, value ){ key = value; });
+		var interval; // key = key_droplist.value; debugMode && console.log( "key:", key );
+		var key; watch( key_droplist, "onchange", function( prop, event, value ){ key = value; });
 		window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
 		function onMouseClickInputValue(button){ 
@@ -157,9 +156,8 @@
 
 	(function( editor,vector_x,vector_y,increase_x,increase_y,decrease_x,decrease_y,vector_droplist,entity_droplist,undo_button ){
 
-		var interval, key = vector_droplist.value; debugMode && console.log( "key:", key );
-
-		watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
+		var interval; // key = vector_droplist.value; debugMode && console.log( "key:", key );
+		var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
 		window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
 		function onMouseClickInputValue(button){ 

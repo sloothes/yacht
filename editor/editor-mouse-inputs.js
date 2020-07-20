@@ -50,7 +50,6 @@
 			}
 		});
 
-
 	})( objectEditor,                                                      // editor,
 		TabUI.Editor.tab.querySelector("li#editor-value-increase"),        // increase,
 		TabUI.Editor.tab.querySelector("li#editor-value-decrease"),        // decrease,
@@ -65,23 +64,9 @@
 
 		function onVectorMouseInput( editor,v,input,increase,decrease,vector_droplist,entity_droplist,undo_button ){
 
-			var state, interval, dt = 20;
-			var meta = {geometries:{},materials:{},textures:{},images:{},shapes:{}};
-
-			const RAD2DEG = 57.29577951308232;
-			const DEG2RAD = 0.017453292519943295;
-
-		//	keep first mousedown event, ignore next events.
-
-			function onfirstMouseDown(){
-				state = {}; // reset.
-				if ( entity_droplist.value === "" ) return;
-				var key = state.key = vector_droplist.value;
-				state.value = editor[key][v];
-				state.json = editor.toJSON( meta );
-				this.removeEventListener( "mousedown", onfirstMouseDown );
-				debugMode && console.log( {state:state,meta:meta} ); // debug!
-			};
+			var interval, dt = 20; const RAD2DEG = 57.29577951308232; const DEG2RAD = 0.017453292519943295;
+			var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
+			window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
 		//	on mouse down.
 
@@ -89,13 +74,9 @@
 
 				clearTimeout( interval ); // important!
 
-				if ( entity_droplist.value === "" ) return;
-
 				var button = this;
 
 				interval = setTimeout( function update() {
-
-					var key = vector_droplist.value;
 
 					switch ( key ) {
 						case "position":
@@ -128,24 +109,13 @@
 
 			}
 
-		//	add undo.
-
-			function addtoUndo( state,key,value ){
-				if ( state.key !== key ) return; if ( state.value === value ) return;
-				if ( state.json ) { var json = JSON.parse(JSON.stringify(state.json)); undo_button.undo.unshift(json); }
-				debugMode && console.log( "undo:", undo_button.undo.length, "redo:", undo_button.redo.length ); return;
-			}
-
 		//	on mouse click.
 
 			function onMouseClick(){
 
 				clearTimeout( interval ); // important!
 
-				if ( entity_droplist.value === "" ) return;
-
 				var button = this;
-				var key = vector_droplist.value;
 
 				switch ( key ) {
 					case "position":
@@ -154,10 +124,6 @@
 						if ( button === increase ) value += step;
 						if ( button === decrease ) value -= step;
 						editor[ key ][v] = round(value,6); 
-						interval = setTimeout( function( state,key,value ){ 
-						//	try{ addtoUndo( state,key,value ); } catch(err){;}
-							button.addEventListener( "mousedown", onfirstMouseDown );
-						}, 250, state,key,value);
 					break;
 					case "rotation":
 						var p = 1, step = 1/Math.pow(10,p), min = -180, max = 180;
@@ -165,10 +131,6 @@
 						if ( button === increase ) value = THREE.Math.clamp( value+step, min, max );
 						if ( button === decrease ) value = THREE.Math.clamp( value-step, min, max );
 						editor[ key ][v] = round(DEG2RAD*value,6); 
-						interval = setTimeout( function( state,key,value ){ 
-						//	try{ addtoUndo( state,key,value ); } catch(err){;}
-							button.addEventListener( "mousedown", onfirstMouseDown );
-						}, 250, state,key,value);
 					break;
 					case "scale":
 						var p = 3, step = 1/Math.pow(10,p); // min = -100, max = 100;
@@ -176,22 +138,12 @@
 						if ( button === increase ) value += step;
 						if ( button === decrease ) value -= step;
 						editor[ key ][v] = round(value,6);
-						interval = setTimeout( function( state,key,value ){ 
-						//	try{ addtoUndo( state,key,value ); } catch(err){;}
-							button.addEventListener( "mousedown", onfirstMouseDown );
-						}, 250, state,key,value);
 					break;
 				}
-
-				debugMode && console.log( "on Mouse Click:", interval );
 			}
 
-			increase.addEventListener( "mousedown", onfirstMouseDown );
-			decrease.addEventListener( "mousedown", onfirstMouseDown );
 			increase.addEventListener( "mousedown", onMouseDown );
 			decrease.addEventListener( "mousedown", onMouseDown );
-			window.addEventListener( "mouseup", function (){ 
-				clearTimeout( interval ); }); // important!
 			increase.addEventListener( "click", onMouseClick );
 			decrease.addEventListener( "click", onMouseClick );
 
@@ -220,23 +172,10 @@
 
 	(function( editor,vector_w,increase_w,decrease_w,vector_droplist,entity_droplist,undo_button ){
 
-		var state, interval, dt = 20;
-		var meta = {geometries:{},materials:{},textures:{},images:{},shapes:{}};
+		var interval, dt = 20;
+		var key; watch( vector_droplist, "onchange", function( prop, event, value ){ key = value; });
+		window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
-		const RAD2DEG = 57.29577951308232;
-		const DEG2RAD = 0.017453292519943295;
-
-	//	keep first mousedown event, ignore next events.
-
-		function onfirstMouseDown(){
-			state = {}; // reset.
-			if ( entity_droplist.value === "" ) return;
-			var key = state.key = vector_droplist.value;
-			state.value = editor[key].w;
-			state.json = editor.toJSON( meta );
-			this.removeEventListener( "mousedown", onfirstMouseDown );
-			debugMode && console.log( {state:state,meta:meta} ); // debug!
-		};
 
 	//	on mouse down.
 
@@ -244,13 +183,9 @@
 
 			clearTimeout( interval ); // important!
 
-			if ( entity_droplist.value === "" ) return;
-
 			var button = this;
 
 			interval = setTimeout( function update() {
-
-				var key = vector_droplist.value;
 
 				switch ( key ) {
 					case "scale":
@@ -270,15 +205,6 @@
 				}
 
 			}, 500);
-
-		}
-
-	//	add undo.
-
-		function addtoUndo( state,key,value ){
-			if ( state.key !== key ) return; if ( state.value === value ) return;
-			if ( state.json ) { var json = JSON.parse(JSON.stringify(state.json)); undo_button.undo.unshift(json); }
-			debugMode && console.log( "undo:", undo_button.undo.length, "redo:", undo_button.redo.length ); return;
 		}
 
 	//	on mouse click.
@@ -287,11 +213,7 @@
 
 			clearTimeout( interval ); // important!
 
-			if ( entity_droplist.value === "" ) return;
-
 			var button = this;
-
-			var key = vector_droplist.value;
 
 			switch ( key ) {
 				case "scale":
@@ -307,23 +229,12 @@
 						editor[ key ].y -= step; // editor manager updates input value.
 						editor[ key ].z -= step; // editor manager updates input value.
 					}
-					interval = setTimeout( function( state,key,value ){ 
-					//	try{ addtoUndo( state,key,value ); } catch(err){;}
-						button.addEventListener( "mousedown", onfirstMouseDown );
-					}, 250, state,key,value);
 				break;
 			}
-
-			debugMode && console.log( "on Mouse Click:", interval );
 		}
 
-		increase_w.addEventListener( "mousedown", onfirstMouseDown );
-		decrease_w.addEventListener( "mousedown", onfirstMouseDown );
 		increase_w.addEventListener( "mousedown", onMouseDown );
 		decrease_w.addEventListener( "mousedown", onMouseDown );
-		window.addEventListener( "mouseup", function (){
-			clearTimeout( interval ); // important!
-		});
 		increase_w.addEventListener( "click", onMouseClick );
 		decrease_w.addEventListener( "click", onMouseClick );
 
