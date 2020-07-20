@@ -1,11 +1,10 @@
 
 //	geometry-create-button.js
 
-	(function(create_button,entity_droplist,material_entities,entities,scene){
+	(function(editor,create_button,entity_droplist,material_entities,entities,scene){
 
 		watch( create_button, "onclick", function( prop, event, type ){
 
-		//	Get type.
 			if ( type === "" || type === undefined ) return;
 
 		//	Create geometry.
@@ -13,30 +12,32 @@
 			if ( geometry === undefined ) return;
 
 		//	Init params based on type.
-			switch (type) {
-				case "PlaneGeometry":
-					geometry.translate(0, 0.5, 0);
-				break;
-			//	case "BoxGeometry":
-			//	case "ConeGeometry":
-			//	case "TorusGeometry":
-			//	case "SphereGeometry":
-			//	case "CylinderGeometry":
-			//	case "OctahedronGeometry":
-			//	case "DodecahedronGeometry":
-			//	case "IcosahedronGeometry":
-			//	case "TetrahedronGeometry":
-			//	case "TorusKnotGeometry":
-			//	case "CircleGeometry":
-			//	case "RingGeometry":
-			//	break;
-			}
+		//	switch (type) {
+		//		case "PlaneGeometry":
+		//			geometry.translate(0, 0.5, 0);
+		//		break;
+		//		case "BoxGeometry":
+		//		case "ConeGeometry":
+		//		case "TorusGeometry":
+		//		case "SphereGeometry":
+		//		case "CylinderGeometry":
+		//		case "OctahedronGeometry":
+		//		case "DodecahedronGeometry":
+		//		case "IcosahedronGeometry":
+		//		case "TetrahedronGeometry":
+		//		case "TorusKnotGeometry":
+		//		case "CircleGeometry":
+		//		case "RingGeometry":
+		//	}
+
+		//	Material.
+			var material = new THREE.MeshLambertMaterial({side:0});
 
 		//	Create mesh.
-			var material = new THREE.MeshLambertMaterial({side:0});
 			var mesh = new THREE.Mesh(geometry, material);
+			mesh.position.copy( editor.position ); 
 			mesh.name = type.replace(/Geometry/g,"");
-			mesh.position.y = 0.5; scene.add( mesh );
+			scene.add( mesh );
 
 		//	Add entities.
 			entities && entities.add( mesh );
@@ -47,8 +48,8 @@
 		});
 
 	})(
+		objectEditor, // editor,
 		TabUI.Geometry.tab.querySelector("div#geometry-create-button"),    // create_button,
-	//	TabUI.Geometry.tab.querySelector("select#geometry-type-droplist"), // type_droplist,
 		TabUI.Editor.tab.querySelector("select#editor-entities-droplist"), // entity_droplist,
 		material_entities, entities, scene  // material_entity_manager, entity_manager, scene.
 	);
