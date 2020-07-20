@@ -29,7 +29,7 @@
 
 //	material-create.js
 
-	(function(create_button,type_droplist,entity_droplist,entities){
+	(function(create_button,type_droplist,entity_droplist,material_entities){
 
 		watch( create_button, "onclick", function( prop, event, type ){
 
@@ -65,7 +65,7 @@
 			material.name = "material";
 
 		//	Add entity.
-			entities.add( material );
+			material_entities.add( material );
 
 		//	Enter edit mode.
 			callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = String(material.id) );
@@ -81,7 +81,7 @@
 
 //	material-clone.js
 
-	(function(entity_manager,clone_button,entity_droplist){
+	(function(clone_button,entity_droplist,material_entities){
 
 		watch( clone_button, "onclick", function( prop, event, value ){
 
@@ -97,7 +97,7 @@
 				material.name = "material"+source.id + ":clone";
 
 		//	Add entity.
-			entity_manager.add( material );
+			material_entities.add( material );
 
 		//	Enter edit mode.
 			callWatchers( entity_droplist, "onchange", "change", entity_droplist.value = String(material.id) );
@@ -105,9 +105,9 @@
 		});
 
 	})( 
-		material_entities, // entity_manager,
 		TabUI.Material.tab.querySelector("div#material-clone-button"), // clone_button,
-		TabUI.Material.tab.querySelector("select#material-entities-droplist") // entity_droplist,
+		TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist,
+		material_entities // entity_manager,
 	 ); 
 
 //	material-replace.js
@@ -126,3 +126,23 @@
 	})( TabUI.Material.tab.querySelector("div#material-replace-button") ); // replace_button
 	  
 //	material-remove.js
+
+	(function( remove_button,entity_droplist,material_entities ){
+
+		watch( remove_button, "onclick", function( prop, event, value ){
+
+			var material = getMaterialByEntityId(); if ( !material ) return;
+
+		//	Remove entity.
+			material_entities.remove( material );
+
+		//	Exit edit mode.
+			exitEditMode( entity_droplist );
+
+		});
+
+	})( 
+		TabUI.Material.tab.querySelector("div#material-remove-button"), // remove_button,
+		TabUI.Material.tab.querySelector("select#material-entities-droplist"), // entity_droplist,
+		material_entities // entity_manager,
+	 ); 

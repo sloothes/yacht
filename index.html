@@ -231,22 +231,6 @@
 					return displayBoundingSphereCenter();
 				}
 
-				function rotate( button, value ){
-					if ( !(button && geometry && boundingSphere) ) 
-						return displayBoundingSphereCenter();
-
-					var step = Math.abs(DEG2RAD*value); if ( isNaN(step) ) step = DEG2RAD/10;
-
-					if ( button === increase_x ) geometry.rotateX(  step );
-					if ( button === increase_y ) geometry.rotateY(  step );
-					if ( button === increase_z ) geometry.rotateZ(  step );
-					if ( button === decrease_x ) geometry.rotateX( -step );
-					if ( button === decrease_y ) geometry.rotateY( -step );
-					if ( button === decrease_z ) geometry.rotateZ( -step );
-
-					return displayBoundingSphereCenter();
-				}
-
 				function scale( button, value ){
 					if ( !(button && geometry && boundingSphere) ) 
 						return displayBoundingSphereCenter();
@@ -263,21 +247,6 @@
 					return displayBoundingSphereCenter();
 				}
 
-				function setCenter( button, value ){
-					if ( !(button && geometry && boundingSphere) ) 
-						return displayBoundingSphereCenter();
-
-					var step = Math.abs(value); if ( isNaN(step) ) step = 0.001;
-					if ( button === increase_x ) boundingSphere.center.x += step;
-					if ( button === increase_y ) boundingSphere.center.y += step;
-					if ( button === increase_z ) boundingSphere.center.z += step;
-					if ( button === decrease_x ) boundingSphere.center.x -= step;
-					if ( button === decrease_y ) boundingSphere.center.y -= step;
-					if ( button === decrease_z ) boundingSphere.center.z -= step;
-
-					return displayBoundingSphereCenter();
-				}
-
 				watch( entity_droplist, "onchange", function( prop, event, value ){ 
 					computeBoundingSphere(getObjectByEntityId(value));
 					callWatchers( sphere_droplist, "onchange", "change", sphere_droplist.value );
@@ -286,23 +255,30 @@
 					debugMode && console.log( "boundingSphere:", boundingSphere );
 				});
 
+				//	function rotate( button, value ){
+				//		if ( !(button && geometry && boundingSphere) ) 
+				//			return displayBoundingSphereCenter();
+				//		var step = Math.abs(DEG2RAD*value); if ( isNaN(step) ) step = DEG2RAD/10;
+				//		if ( button === increase_x ) geometry.rotateX(  step );
+				//		if ( button === increase_y ) geometry.rotateY(  step );
+				//		if ( button === increase_z ) geometry.rotateZ(  step );
+				//		if ( button === decrease_x ) geometry.rotateX( -step );
+				//		if ( button === decrease_y ) geometry.rotateY( -step );
+				//		if ( button === decrease_z ) geometry.rotateZ( -step );
+				//		return displayBoundingSphereCenter();
+				//	}
+
 			//	geometry-key-inputs.js
 
 				function onChangeVectorInputValue( input, button ){
 
 					watch( input, "onchange", function( prop, event, value ){ 
 						switch ( key ){
-						//	case "translate":
-						//		return translate( button, value );
-						//	break;
-						//	case "rotate":
-						//		return rotate( button, value );
-						//	break;
-						//	case "scale":
-						//		return scale( button, value );
-						//	break;
-							case "center":
-								return setCenter( button, value );
+							case "scale":
+								return scale( button, value );
+							break;
+							case "translate":
+								return translate( button, value );
 							break;
 						}
 					});
@@ -325,21 +301,13 @@
 						clearTimeout( interval ); // important!
 						interval = setTimeout( function update_bounding( button ){
 							switch ( key ){
-								case "translate":
-									interval = setTimeout( update_bounding, 10, button );
-									return translate( button, 0.01 );
-								break;
-								case "rotate":
-									interval = setTimeout( update_bounding, 10, button );
-									return rotate( button, 1 );
-								break;
 								case "scale":
 									interval = setTimeout( update_bounding, 20, button );
 									return scale( button, 0.01 );
 								break;
-								case "center":
+								case "translate":
 									interval = setTimeout( update_bounding, 10, button );
-									return setCenter( button, 0.01 );
+									return translate( button, 0.01 );
 								break;
 							}
 						}, 350, this);
@@ -348,17 +316,11 @@
 					button.addEventListener( "click", function(){
 						clearTimeout( interval );
 						switch ( key ){
-							case "translate":
-								return translate( button, 0.01 );
-							break;
-							case "rotate":
-								return rotate( button, 1 );
-							break;
 							case "scale":
 								return scale( button, 0.01 );
 							break;
-							case "center":
-								return setCenter( button, 0.01 );
+							case "translate":
+								return translate( button, 0.01 );
 							break;
 						}
 					});
