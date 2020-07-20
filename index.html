@@ -169,6 +169,8 @@
 
 		<script>
 
+		//	geometry-inputs.js
+
 			(function(editor,vector_x,vector_y,vector_z,vector_r,increase_x,increase_y,increase_z,decrease_x,decrease_y,decrease_z,vector_droplist,entity_droplist){
 
 				var interval, key; 
@@ -177,13 +179,25 @@
 				window.addEventListener( "mouseup", function (){ clearTimeout( interval ); }); // important!
 
 				function displayBoundingSpherevValues(){
-					if ( !boundingSphere ) 
-						return [vector_x,vector_y,vector_z,vector_r] = ["","","",""];
+					if ( !boundingSphere ) return [ 
+						vector_x,vector_y,vector_z,vector_r
+					] = ["","","",""];
 					vector_x.value = boundingSphere.center.x.toFixed(3);
 					vector_y.value = boundingSphere.center.y.toFixed(3);
 					vector_z.value = boundingSphere.center.z.toFixed(3);
 					vector_r.value = boundingSphere.radius.toFixed(3);
 				}
+
+			//	watchers-call-ui.js
+
+				watch( vector_droplist, "onchange", function( prop, event, value ){ 
+					debugMode && console.log({item:vector_droplist,event:event,value:value}); // debug.
+					key = value; displayBoundingSpherevValues(){
+				});
+
+				vector_droplist.addEventListener( "change", function(){
+					this.blur(); callWatchers( this, "onchange", "change", this.value );
+				});
 
 				watch( entity_droplist, "onchange", function( prop, event, value ){ 
 					var object = getObjectByEntityId(value); 
@@ -198,17 +212,12 @@
 					debugMode && console.log( "boundingSphere:", boundingSphere );
 				});
 
-				watch( vector_droplist, "onchange", function( prop, event, value ){ 
-					key = value; if ( !boundingSphere ) return;
-					vector_x.value = boundingSphere.center.x.toFixed(3);
-					vector_y.value = boundingSphere.center.y.toFixed(3);
-					vector_z.value = boundingSphere.center.z.toFixed(3);
-				});
 			//	geometry-key-inputs.js
 
 				function translate( button ){
 					var step = 0.01;
-					if ( !geometry ) return; if ( !boundingBox ) return;
+					if ( !(button && geometry && boundingBox) ) 
+						return displayBoundingSpherevValues();
 					if ( button === decrease_x ) geometry.translate( -step, 0, 0 );
 					if ( button === decrease_y ) geometry.translate( 0, -step, 0 );
 					if ( button === decrease_z ) geometry.translate( 0, 0, -step );
@@ -220,7 +229,8 @@
 
 				function rotate( button ){
 					var step = DEG2RAD;
-					if ( !geometry ) return; if ( !boundingBox ) return; 
+					if ( !(button && geometry && boundingBox) ) 
+						return displayBoundingSpherevValues();
 					if ( button === decrease_x ) geometry.rotateX( -step );
 					if ( button === decrease_y ) geometry.rotateX( -step );
 					if ( button === decrease_z ) geometry.rotateZ( -step );
@@ -232,7 +242,8 @@
 
 				function scale( button ){
 					var step = 0.001;
-					if ( !geometry ) return; if ( !boundingBox ) return;
+					if ( !(button && geometry && boundingBox) ) 
+						return displayBoundingSpherevValues();
 					if ( button === decrease_x ) geometry.scale( -step, 0, 0 );
 					if ( button === decrease_y ) geometry.scale( 0, -step, 0 );
 					if ( button === decrease_z ) geometry.scale( 0, 0, -step );
