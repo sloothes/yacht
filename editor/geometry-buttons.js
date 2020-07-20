@@ -36,7 +36,7 @@
 			var material = new THREE.MeshLambertMaterial({side:0});
 			var mesh = new THREE.Mesh(geometry, material);
 			mesh.name = type.replace("Geometry","");
-			scene.add( mesh );
+			mesh.position.y = 0.5; scene.add( mesh );
 
 		//	Add entities.
 			entity_manager && entity_manager.add( mesh );
