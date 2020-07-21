@@ -41,6 +41,7 @@
 		onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-vector-droplist") );       // vector_droplist,
 		onInputChangeWatchersCall( TabUI.Editor.tab.querySelector("select#editor-entities-droplist") );     // entity_droplist,
 		onInputChangeWatchersCall( TabUI.Geometry.tab.querySelector("select#geometry-type-droplist") );     // type_droplist,
+		onInputChangeWatchersCall( TabUI.Geometry.tab.querySelector("select#geometry-sphere-droplist") );   // sphere_droplist,
 		onInputChangeWatchersCall( TabUI.Material.tab.querySelector("select#material-map-droplist") );      // map_droplist,
 		onInputChangeWatchersCall( TabUI.Material.tab.querySelector("select#material-keys-droplist") );     // keys_droplist,
 		onInputChangeWatchersCall( TabUI.Material.tab.querySelector("select#material-type-droplist") );     // type_droplist,
